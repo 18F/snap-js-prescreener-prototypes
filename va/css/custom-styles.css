@@ -1,0 +1,87 @@
+.title {
+  text-align: center;
+  margin: 40px 0;
+  font-weight: normal;
+}
+
+.alert {
+  background-color: #e6e6e6;
+  padding: 8px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.alert div {
+  margin: 8px 0;
+}
+
+h1 {
+  font-size: 38px;
+  margin-bottom: 38px;
+}
+
+h2 {
+  font-weight: normal;
+  font-family: 'Merriweather';
+  font-size: 20px;
+}
+
+.calculator {
+  padding: 16px 24px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.result-headline {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.hidden {
+  display: none;
+}
+
+#show-explanation {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+  font-style: italic;
+}
+
+.why-small {
+  font-size: 12px;
+}
+
+fieldset.usa-fieldset {
+  margin-bottom: 1rem;
+}
+
+fieldset.usa-fieldset legend {
+  margin-bottom: 0.75rem;
+}
+
+.label-sub-text {
+  color: #2F4F4F;
+  font-size: 14px;
+}
+
+#main {
+  padding-bottom: 80px;
+}
+
+footer {
+  color: white;
+  background-color: #1B1349;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 8px;
+}
+
+footer a {
+  color: white;
+}
+
+footer div {
+  margin: 8px 0;
+}
