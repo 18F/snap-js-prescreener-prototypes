@@ -27,6 +27,7 @@ const FORM_CONTROLS = {
     'showMedicalExpensesForElderlyOrDisabled': DOM_MANIPULATORS['showElem']('medical_expenses_for_elderly_or_disabled_question'),
     'hideMedicalExpensesForElderlyOrDisabled': DOM_MANIPULATORS['hideElem']('medical_expenses_for_elderly_or_disabled_question'),
     'showExplanationButton': DOM_MANIPULATORS['showElem']('show-explanation'),
+    'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
     'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
 };
 
@@ -62,11 +63,6 @@ const FORM_SUBMIT_FUNCS = {
         FORM_ELEMS['results'].innerHTML = resultHTML;
         FORM_ELEMS['resultExplanation'].innerHTML = explanationHTML;
         FORM_CONTROLS['showExplanationButton']();
-
-        // Set up show explanation button
-        FORM_ELEMS['showExplanationButton'].addEventListener('click', function (event) {
-            FORM_CONTROLS['showResultExplanation']();
-        });
     },
     'responseErrorsToHTML': function (errors) {
         let html = `<h1>Error(s):</h1>`;
@@ -155,4 +151,10 @@ FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', function (event) 
 
 FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', function (event) {
     FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
+});
+
+// Set up show explanation button
+FORM_ELEMS['showExplanationButton'].addEventListener('click', function (event) {
+    FORM_CONTROLS['showResultExplanation']();
+    FORM_CONTROLS['hideExplanationButton']();
 });
