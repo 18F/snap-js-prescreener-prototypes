@@ -29,6 +29,7 @@ const FORM_CONTROLS = {
     'showExplanationButton': DOM_MANIPULATORS['showElem']('show-explanation'),
     'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
     'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
+    'hideResultExplanation': DOM_MANIPULATORS['hideElem']('result-explanation'),
 };
 
 const FORM_ELEMS = {
@@ -62,7 +63,9 @@ const FORM_SUBMIT_FUNCS = {
 
         FORM_ELEMS['results'].innerHTML = resultHTML;
         FORM_ELEMS['resultExplanation'].innerHTML = explanationHTML;
+
         FORM_CONTROLS['showExplanationButton']();
+        FORM_CONTROLS['hideResultExplanation']();
     },
     'responseErrorsToHTML': function (errors) {
         let html = `<h1>Error(s):</h1>`;
