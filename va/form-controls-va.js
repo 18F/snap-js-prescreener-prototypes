@@ -66,6 +66,9 @@ const FORM_SUBMIT_FUNCS = {
 
         FORM_CONTROLS['showExplanationButton']();
         FORM_CONTROLS['hideResultExplanation']();
+
+        // Scroll to bottom to bring the results into view:
+        window.scrollTo(0, document.body.scrollHeight);
     },
     'responseErrorsToHTML': function (errors) {
         let html = `<h1>Error(s):</h1>`;
