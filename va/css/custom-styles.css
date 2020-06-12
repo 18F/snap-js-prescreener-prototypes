@@ -1,7 +1,13 @@
 .title {
   text-align: center;
-  margin: 40px 0;
+  margin: 20px 0;
   font-weight: normal;
+}
+
+.subtitle {
+  text-align: center;
+  margin: 20px 0 40px 0;
+  font-style: italic;
 }
 
 .alert {
@@ -13,6 +19,10 @@
 
 .alert div {
   margin: 8px 0;
+}
+
+#household-size-label {
+  margin-top: 8px;
 }
 
 h1 {
