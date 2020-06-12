@@ -58,8 +58,17 @@ const FORM_SUBMIT_FUNCS = {
 
         const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
 
-        resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
-        explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
+        FORM_SUBMIT_FUNCS['responseToHTML'](response);
+    },
+    responseToHTML: function (response) {
+        if (response.status !== 'OK') {
+            const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
+            FORM_ELEMS['errors'].innerHTML = errorsHTML;
+            return;
+        }
+
+        const resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
+        const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
 
         FORM_ELEMS['results'].innerHTML = resultHTML;
         FORM_ELEMS['resultExplanation'].innerHTML = explanationHTML;
@@ -80,9 +89,6 @@ const FORM_SUBMIT_FUNCS = {
         return html;
     },
     'responseResultToHTML': function (response) {
-        if (response.status !== 'OK') {
-            return FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
-        }
 
         let html = '<h1>Results:</h1>';
 
