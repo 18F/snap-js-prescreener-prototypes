@@ -35,6 +35,7 @@ const FORM_CONTROLS = {
 const FORM_ELEMS = {
     'form': document.getElementById('prescreener-form'),
     'results': document.getElementById('results'),
+    'errors': document.getElementById('errors'),
     'allCitizenHouseholdTrue': document.getElementById('input__all_citizens_question_true'),
     'allCitizenHouseholdFalse': document.getElementById('input__all_citizens_question_false'),
     'elderlyOrDisabledTrue': document.getElementById('input__household_includes_elderly_or_disabled_true'),
