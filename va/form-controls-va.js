@@ -96,7 +96,7 @@ const FORM_SUBMIT_FUNCS = {
         let html = `<h1>Errors:</h1>`;
 
         for (const error of errors) {
-            html += (`<li style="color: red;">${error}</li>`);
+            html += (`<li>${error}</li>`);
         }
 
         return html;
