@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <title>Virginia SNAP Prescreener</title>
+  <title>Illinois SNAP Prescreener</title>
   <head>
-    <link rel="stylesheet" href="css/custom-styles.css">
-    <link rel="stylesheet" href="css/uswds-2.4.0/css/uswds.min.css">
-    <link rel="stylesheet" href="css/uswds-2.4.0/css/uswds.min.css.map">
+    <link rel="stylesheet" href="shared/css/custom-styles.css">
+    <link rel="stylesheet" href="shared/css/uswds-2.4.0/css/uswds.min.css">
+    <link rel="stylesheet" href="shared/css/uswds-2.4.0/css/uswds.min.css.map">
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex" />
   </head>
@@ -13,12 +13,15 @@
       <div><strong>This is a demonstration website only.</strong></div>
     </div>
     <div id="main" class="grid-container">
-      <h1 class="title">Virginians — Could you be eligible for help with your food budget?</h1>
+      <h1 class="title">Illinoisans — Could you be eligible for help with your food budget?</h1>
       <p class="subtitle">Answer a few questions to find out if you may be eligible for SNAP in Virginia, and how many dollars per month you may qualify for.</p>
       <div class="grid-row" >
         <div class="tablet:grid-col"></div>
         <div class="tablet:grid-col calculator">
-          <form id="prescreener-form" class="usa-form">
+          <form id="prescreener-form"
+                class="usa-form"
+                data-state="IL"
+                data-use-emergency-allotment="true">
             <label class="usa-label" for="household_size" id="household-size-label">Household size:</label>
             <select required class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
