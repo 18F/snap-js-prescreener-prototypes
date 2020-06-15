@@ -14,13 +14,13 @@
     </div>
     <div id="main" class="grid-container">
       <h1 class="title">Illinoisans — Could you be eligible for help with your food budget?</h1>
-      <p class="subtitle">Answer a few questions to find out if you may be eligible for SNAP in Virginia, and how many dollars per month you may qualify for.</p>
+      <p class="subtitle">Answer a few questions to find out if you may be eligible for SNAP in Illinois, and how many dollars per month you may qualify for.</p>
       <div class="grid-row" >
         <div class="tablet:grid-col"></div>
         <div class="tablet:grid-col calculator">
           <form id="prescreener-form"
                 class="usa-form"
-                data-state="IL"
+                data-state-or-territory="IL"
                 data-use-emergency-allotment="true">
             <label class="usa-label" for="household_size" id="household-size-label">Household size:</label>
             <select required class="usa-select" id="household_size" name="household_size">
@@ -75,7 +75,9 @@
                   Is everyone on the application a U.S. citizen?
                 </div>
                 <div class="label-sub-text">
-                  <em>Immigrants can be eligible for SNAP, depending on their immigration status. </em>
+                  <em>
+                    Immigrants can be eligible for SNAP, depending on their immigration status.
+                  </em>
                 </div>
               </legend>
 
@@ -110,7 +112,7 @@
             <div id="citizenship_info_box" class="usa-alert usa-alert--info hidden">
               <div class="usa-alert__body">
                 <h3 class="usa-alert__heading">Information for immigrant households</h3>
-                <p class="usa-alert__text">Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members. Call for more info: <em>VPLC number here?</em>.</p>
+                <p class="usa-alert__text">Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.</p>
               </div>
             </div>
 
@@ -181,9 +183,6 @@
                  name="homeowners_insurance_and_taxes"
                  class="usa-input" />
 
-            <!-- NOTE: I don't think utility allowances apply to VA, see under "Mandatory SUAs":
-              https://fns-prod.azureedge.net/sites/default/files/snap/14-State-Options.pdf
-
             <div id="utility_allowance_question">
               <label class="usa-label" for="utility_allowance">
                 Which of the following describes how you pay for utilities?:
@@ -209,16 +208,16 @@
                   I don't pay separately for any utilities, and I don't pay a phone bill.
                 </option>
               </select>
-            </div> -->
+            </div>
 
-            <div id="utility_costs_question">
+            <!-- <div id="utility_costs_question">
               <label class="usa-label" for="utility_costs">
                 Monthly utility bills:
               </label>
               <input id="utility_costs"
                    name="utility_costs"
                    class="usa-input" />
-            </div>
+            </div> -->
 
             <!-- SUBMIT BUTTON -->
             <input id="prescreener-form-submit"
@@ -238,6 +237,6 @@
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="bundled-js/api.js"></script>
-  <script type="text/javascript" src="bundled-js/form-controls-va.bundle.js"></script>
+  <script type="text/javascript" src="shared/js/api.js"></script>
+  <script type="text/javascript" src="shared/js/form-controls.bundle.js"></script>
 </html>
