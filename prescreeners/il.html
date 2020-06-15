@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>Illinois SNAP Prescreener</title>
+  <head>
+    <link rel="stylesheet" href="shared/css/custom-styles.css">
+    <link rel="stylesheet" href="shared/css/uswds-2.4.0/css/uswds.min.css">
+    <link rel="stylesheet" href="shared/css/uswds-2.4.0/css/uswds.min.css.map">
+    <meta name="viewport" content="width=device-width">
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <div class="alert">
+      <div><strong>This is a demonstration website only.</strong></div>
+    </div>
+    <div id="main" class="grid-container">
+      <h1 class="title">Illinoisans — Could you be eligible for help with your food budget?</h1>
+      <p class="subtitle">Answer a few questions to find out if you may be eligible for SNAP in Illinois, and how many dollars per month you may qualify for.</p>
+      <div class="grid-row" >
+        <div class="tablet:grid-col"></div>
+        <div class="tablet:grid-col calculator">
+          <form id="prescreener-form"
+                class="usa-form"
+                data-state-or-territory="IL"
+                data-use-emergency-allotment="true">
+            <label class="usa-label" for="household_size" id="household-size-label">Household size:</label>
+            <select required class="usa-select" id="household_size" name="household_size">
+              <option value>- Select -</option>
+              <option value="1">Just me</option>
+              <option value="2">2 people</option>
+              <option value="3">3 people</option>
+              <option value="4">4 people</option>
+              <option value="5">5 people</option>
+              <option value="6">6 people</option>
+              <option value="7">7 people</option>
+              <option value="8">8 people</option>
+              <option value="9">9 people</option>
+              <option value="10">10 people</option>
+            </select>
+
+            <br/>
+
+            <fieldset class="usa-fieldset">
+              <legend>Does your household include someone who is 60 or older, or someone who is disabled?</legend>
+              <div class="usa-radio">
+                <input class="usa-radio__input"
+                       id="input__household_includes_elderly_or_disabled_true"
+                       type="radio"
+                       name="household_includes_elderly_or_disabled"
+                       value="true"
+                       required>
+                <label id="label__household_includes_elderly_or_disabled_true"
+                       class="usa-radio__label"
+                       for="input__household_includes_elderly_or_disabled_true">
+                  Yes
+                </label>
+              </div>
+              <div class="usa-radio">
+                <input class="usa-radio__input"
+                       id="input__household_includes_elderly_or_disabled_false"
+                       type="radio"
+                       name="household_includes_elderly_or_disabled"
+                       value="false"
+                       required>
+                <label id="label__household_includes_elderly_or_disabled_false"
+                       class="usa-radio__label"
+                       for="input__household_includes_elderly_or_disabled_false">
+                  No
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="usa-fieldset">
+              <legend>
+                <div>
+                  Is everyone on the application a U.S. citizen?
+                </div>
+                <div class="label-sub-text">
+                  <em>
+                    Immigrants can be eligible for SNAP, depending on their immigration status.
+                  </em>
+                </div>
+              </legend>
+
+              <div class="usa-radio">
+                <input class="usa-radio__input"
+                       id="input__all_citizens_question_true"
+                       type="radio"
+                       name="all_citizens_question"
+                       value="true"
+                       required>
+                <label id="label__all_citizens_question_true"
+                       class="usa-radio__label"
+                       for="input__all_citizens_question_true">
+                  Yes
+                </label>
+              </div>
+              <div class="usa-radio">
+                <input class="usa-radio__input"
+                       id="input__all_citizens_question_false"
+                       type="radio"
+                       name="all_citizens_question"
+                       value="false"
+                       required>
+                <label id="label__all_citizens_question_false"
+                       class="usa-radio__label"
+                       for="input__all_citizens_question_false">
+                  No
+                </label>
+              </div>
+            </fieldset>
+
+            <div id="citizenship_info_box" class="usa-alert usa-alert--info hidden">
+              <div class="usa-alert__body">
+                <h3 class="usa-alert__heading">Information for immigrant households</h3>
+                <p class="usa-alert__text">Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.</p>
+              </div>
+            </div>
+
+            <label class="usa-label" for="monthly_job_income">
+              Monthly income from a job or from self-employment:
+            </label>
+            <input id="monthly_job_income"
+                   name="monthly_job_income"
+                   class="usa-input"
+                   required />
+
+            <label class="usa-label" for="monthly_non_job_income">
+              Monthly income from other sources:
+            </label>
+            <em class="label-sub-text">
+              These could include Social Security, disability, Child Support, Worker's Comp, Unemployment, Pension Income, or other sources of income.
+            </em>
+            <input id="monthly_non_job_income"
+                   name="monthly_non_job_income"
+                   class="usa-input"
+                   required />
+
+            <label class="usa-label" for="resources">
+              Total resources:
+            </label>
+            <em class="label-sub-text">
+              This means countable resources, like funds in bank accounts. A home is not counted as a resource.
+            </em>
+            <input id="resources"
+                   name="resources"
+                   class="usa-input"
+                   required />
+
+            <label class="usa-label" for="dependent_care_costs">
+              Dependent care costs:
+            </label>
+            <input id="dependent_care_costs"
+                   name="dependent_care_costs"
+                   class="usa-input" />
+
+            <div id="medical_expenses_for_elderly_or_disabled_question" class="hidden">
+              <label class="usa-label" for="medical_expenses_for_elderly_or_disabled">
+                Monthly out of pocket medical expenses for household members who are age 60 or older or disabled:
+              </label>
+              <input id="medical_expenses_for_elderly_or_disabled"
+                     name="medical_expenses_for_elderly_or_disabled"
+                     class="usa-input" />
+            </div>
+
+            <label class="usa-label" for="court_ordered_child_support_payments">
+              Monthly court-ordered child support payments:
+            </label>
+            <input id="court_ordered_child_support_payments"
+                   name="court_ordered_child_support_payments"
+                   class="usa-input" />
+
+            <label class="usa-label" for="rent_or_mortgage">
+              Monthly rent or mortgage amount:
+            </label>
+            <input id="rent_or_mortgage"
+                  name="rent_or_mortgage"
+                  class="usa-input" />
+
+            <label class="usa-label" for="homeowners_insurance_and_taxes">
+              Monthly homeowners insurance and taxes:
+            </label>
+            <input id="homeowners_insurance_and_taxes"
+                 name="homeowners_insurance_and_taxes"
+                 class="usa-input" />
+
+            <div id="utility_allowance_question">
+              <label class="usa-label" for="utility_allowance">
+                Which of the following describes how you pay for utilities?:
+              </label>
+              <select class="usa-select" id="utility_allowance" name="utility_allowance">
+                <option value>- Select -</option>
+                <option value="HEATING_AND_COOLING">
+                  I pay separately for heat or AC.
+                </option>
+                <option value="HEATING_AND_COOLING">
+                  I have received a LIHEAP payment of $21 to help pay for heat this year.
+                </option>
+                <option value="BASIC_LIMITED_ALLOWANCE">
+                  I pay separately for two or more of the following: electricity, cooking fuel, water, garbage, or phone.
+                </option>
+                <option value="SINGLE_UTILITY_ALLOWANCE">
+                  I pay separately for just one of the following: electricity, cooking fuel, water, garbage, or phone.
+                </option>
+                <option value="PHONE">
+                  The only utility I pay for is my phone bill.
+                </option>
+                <option value="NONE">
+                  I don't pay separately for any utilities, and I don't pay a phone bill.
+                </option>
+              </select>
+            </div>
+
+            <!-- <div id="utility_costs_question">
+              <label class="usa-label" for="utility_costs">
+                Monthly utility bills:
+              </label>
+              <input id="utility_costs"
+                   name="utility_costs"
+                   class="usa-input" />
+            </div> -->
+
+            <!-- SUBMIT BUTTON -->
+            <input id="prescreener-form-submit"
+                   class="usa-button"
+                   type="submit"
+                   value="Submit">
+          </form>
+          <div id="errors"></div>
+          <div id="results"></div>
+          <div id="show-explanation" class="hidden">
+            Why did I get this result?
+          </div>
+          <div id="result-explanation" class="hidden">
+          </div>
+        </div>
+        <div class="tablet:grid-col"></div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="shared/js/api.js"></script>
+  <script type="text/javascript" src="shared/js/form-controls.bundle.js"></script>
+</html>

@@ -2,9 +2,9 @@
 <html lang="en">
   <title>Virginia SNAP Prescreener</title>
   <head>
-    <link rel="stylesheet" href="css/custom-styles.css">
-    <link rel="stylesheet" href="css/uswds-2.4.0/css/uswds.min.css">
-    <link rel="stylesheet" href="css/uswds-2.4.0/css/uswds.min.css.map">
+    <link rel="stylesheet" href="shared/css/custom-styles.css">
+    <link rel="stylesheet" href="shared/css/uswds-2.4.0/css/uswds.min.css">
+    <link rel="stylesheet" href="shared/css/uswds-2.4.0/css/uswds.min.css.map">
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex" />
   </head>
@@ -18,7 +18,10 @@
       <div class="grid-row" >
         <div class="tablet:grid-col"></div>
         <div class="tablet:grid-col calculator">
-          <form id="prescreener-form" class="usa-form">
+          <form id="prescreener-form"
+                class="usa-form"
+                data-state-or-territory="VA"
+                data-use-emergency-allotment="true">
             <label class="usa-label" for="household_size" id="household-size-label">Household size:</label>
             <select required class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
@@ -235,6 +238,6 @@
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="bundled-js/api.js"></script>
-  <script type="text/javascript" src="bundled-js/form-controls-va.bundle.js"></script>
+  <script type="text/javascript" src="shared/js/api.js"></script>
+  <script type="text/javascript" src="shared/js/form-controls.bundle.js"></script>
 </html>

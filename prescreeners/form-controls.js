@@ -58,8 +58,9 @@ const FORM_SUBMIT_FUNCS = {
         });
 
         // Send VA and emergency allotment config to API:
-        jsonData['state_or_territory'] = 'VA';
-        jsonData['use_emergency_allotment'] = 'true';
+        const formSettings = document.getElementById('prescreener-form');
+        jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
+        jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
 
         const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
 

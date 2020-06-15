@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './va/form-controls-va.js',
+  entry: './prescreeners/form-controls.js',
   output: {
-    filename: 'form-controls-va.bundle.js',
-    path: path.resolve(__dirname, 'va/bundled-js'),
+    filename: 'form-controls.bundle.js',
+    path: path.resolve(__dirname, 'prescreeners/shared/js'),
   },
   module: {
     rules: [
