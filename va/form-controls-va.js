@@ -30,6 +30,10 @@ const FORM_CONTROLS = {
     'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
     'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
     'hideResultExplanation': DOM_MANIPULATORS['hideElem']('result-explanation'),
+    'hideErrors': DOM_MANIPULATORS['hideElem']('errors'),
+    'showErrors': DOM_MANIPULATORS['showElem']('errors'),
+    'hideResults': DOM_MANIPULATORS['hideElem']('results'),
+    'showResults': DOM_MANIPULATORS['showElem']('results'),
 };
 
 const FORM_ELEMS = {
@@ -63,8 +67,14 @@ const FORM_SUBMIT_FUNCS = {
     },
     responseToHTML: function (response) {
         if (response.status !== 'OK') {
+            FORM_CONTROLS['hideResults']();
+            FORM_CONTROLS['hideExplanationButton']();
+            FORM_CONTROLS['hideResultExplanation']();
+
             const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
             FORM_ELEMS['errors'].innerHTML = errorsHTML;
+
+            FORM_CONTROLS['showErrors']();
             return;
         }
 
@@ -74,6 +84,8 @@ const FORM_SUBMIT_FUNCS = {
         FORM_ELEMS['results'].innerHTML = resultHTML;
         FORM_ELEMS['resultExplanation'].innerHTML = explanationHTML;
 
+        FORM_CONTROLS['showResults']();
+        FORM_CONTROLS['hideErrors']();
         FORM_CONTROLS['showExplanationButton']();
         FORM_CONTROLS['hideResultExplanation']();
 
@@ -81,10 +93,10 @@ const FORM_SUBMIT_FUNCS = {
         window.scrollTo(0, document.body.scrollHeight);
     },
     'responseErrorsToHTML': function (errors) {
-        let html = `<h1>Error(s):</h1>`;
+        let html = `<h1>Errors:</h1>`;
 
         for (const error of errors) {
-            html += (`<li style="color: red;">${error}.</li>`);
+            html += (`<li style="color: red;">${error}</li>`);
         }
 
         return html;
