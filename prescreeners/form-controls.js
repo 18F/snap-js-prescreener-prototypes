@@ -18,6 +18,19 @@ const DOM_MANIPULATORS = {
                 }
             }
         }
+    },
+    'toggleErrorStateHTML': function (isValid) {
+        if (isValid) return '';
+
+        return (
+            `<div class="usa-alert usa-alert--error usa-alert--slim">
+                <div class="usa-alert__body" role="alert" aria-live="assertive">
+                    <em class="usa-alert__text">
+                        Please enter a number.
+                    </em>
+                </div>
+            </div>`
+        );
     }
 };
 
@@ -197,14 +210,5 @@ FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
 FORM_ELEMS['monthly_job_income'].addEventListener('input', (event) => {
     const optionalNumberFieldValid = FORM_CONTROLS['optionalNumberFieldValid'](event);
     const errorElem = FORM_ELEMS['monthly_job_income_error_elem'];
-
-    if (optionalNumberFieldValid) return errorElem.innerHTML = '';
-
-    return errorElem.innerHTML = `<div class="usa-alert usa-alert--error usa-alert--slim">
-        <div class="usa-alert__body" role="alert" aria-live="assertive">
-            <em class="usa-alert__text">
-                Please enter a number.
-            </em>
-        </div>
-    </div>`;
+    errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](optionalNumberFieldValid);
 });
