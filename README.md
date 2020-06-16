@@ -35,5 +35,12 @@ Build the form-controls Javascript into a minified, browser-ready bundled state:
 npm run build
 ```
 
+Run pa11y accessibility check against the HTML files (JS interactions not yet tested for accessibility):
+
+```
+npm run pa11y
+```
+
+
 See `package.json` for all developer commands.
 
