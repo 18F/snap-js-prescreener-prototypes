@@ -1,14 +1,11 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0-browsers
 jobs:
+  build:
+    docker:
+      - image: circleci/node:12-browsers
   test:
-    executor:
-      name: node/default
     steps:
       - checkout
-      - node/install:
-          node-version: 12.18.0
       - run:
           name: Print node version
           command: node --version
