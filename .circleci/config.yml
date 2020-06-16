@@ -16,6 +16,8 @@ jobs:
           name: Accessibility check
           command: npm run pa11y
 workflows:
-    test:
-      jobs:
-        - test
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
