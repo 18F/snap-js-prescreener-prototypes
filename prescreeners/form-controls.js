@@ -34,6 +34,13 @@ const FORM_CONTROLS = {
     'showErrors': DOM_MANIPULATORS['showElem']('errors'),
     'hideResults': DOM_MANIPULATORS['hideElem']('results'),
     'showResults': DOM_MANIPULATORS['showElem']('results'),
+    'optionalNumberFieldValid': (event) => {
+        const value = event.target.value;
+
+        if (value === '') return true; // Field is optional
+
+        return !isNaN(parseInt(value));;
+    }
 };
 
 const FORM_ELEMS = {
@@ -46,6 +53,7 @@ const FORM_ELEMS = {
     'elderlyOrDisabledFalse': document.getElementById('input__household_includes_elderly_or_disabled_false'),
     'showExplanationButton': document.getElementById('show-explanation'),
     'resultExplanation': document.getElementById('result-explanation'),
+    'monthly_job_income': document.getElementById('monthly_job_income'),
 };
 
 const FORM_SUBMIT_FUNCS = {
@@ -162,25 +170,30 @@ FORM_ELEMS['form'].addEventListener('submit', function (event) {
 });
 
 // Set up toggle of citizenship infobox in response to citizenship question.
-FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', function (event) {
+FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', (event) => {
     FORM_CONTROLS['hideCitizenshipInfobox']();
 });
 
-FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', function (event) {
+FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', (event) => {
     FORM_CONTROLS['showCitizenshipInfobox']();
 });
 
 // Set up toggle of medical expenses question in response to elderly or disabled question result.
-FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', function (event) {
+FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', (event) => {
     FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
 });
 
-FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', function (event) {
+FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', (event) => {
     FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
 });
 
 // Set up show explanation button
-FORM_ELEMS['showExplanationButton'].addEventListener('click', function (event) {
+FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
     FORM_CONTROLS['showResultExplanation']();
     FORM_CONTROLS['hideExplanationButton']();
+});
+
+FORM_ELEMS['monthly_job_income'].addEventListener('input', (event) => {
+    const optionalNumberFieldValid = FORM_CONTROLS['optionalNumberFieldValid'](event);
+    console.log('optionalNumberFieldValid', optionalNumberFieldValid);
 });
