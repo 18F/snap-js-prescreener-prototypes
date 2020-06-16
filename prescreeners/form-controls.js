@@ -31,6 +31,13 @@ const DOM_MANIPULATORS = {
                 </div>
             </div>`
         );
+    },
+    'numberFieldValidator': function (errorElemId) {
+        return function(event) {
+            const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
+            const errorElem = FORM_ELEMS[errorElemId];
+            errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
+        }
     }
 };
 
@@ -47,10 +54,10 @@ const FORM_CONTROLS = {
     'showErrors': DOM_MANIPULATORS['showElem']('errors'),
     'hideResults': DOM_MANIPULATORS['hideElem']('results'),
     'showResults': DOM_MANIPULATORS['showElem']('results'),
-    'optionalNumberFieldValid': (event) => {
+    'numberFieldValid': (event) => {
         const value = event.target.value;
 
-        if (value === '') return true; // Field is optional
+        if (value === '') return true; // Fields can be blank
 
         return !isNaN(parseInt(value));;
     }
@@ -68,6 +75,8 @@ const FORM_ELEMS = {
     'resultExplanation': document.getElementById('result-explanation'),
     'monthly_job_income': document.getElementById('monthly_job_income'),
     'monthly_job_income_error_elem': document.getElementById('monthly_job_income_error_elem'),
+    'monthly_non_job_income': document.getElementById('monthly_non_job_income'),
+    'monthly_non_job_income_error_elem': document.getElementById('monthly_non_job_income_error_elem'),
 };
 
 const FORM_SUBMIT_FUNCS = {
@@ -208,7 +217,9 @@ FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
 });
 
 FORM_ELEMS['monthly_job_income'].addEventListener('input', (event) => {
-    const optionalNumberFieldValid = FORM_CONTROLS['optionalNumberFieldValid'](event);
-    const errorElem = FORM_ELEMS['monthly_job_income_error_elem'];
-    errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](optionalNumberFieldValid);
+    DOM_MANIPULATORS['numberFieldValidator']('monthly_job_income_error_elem')(event);
+});
+
+FORM_ELEMS['monthly_non_job_income'].addEventListener('input', (event) => {
+    DOM_MANIPULATORS['numberFieldValidator']('monthly_non_job_income_error_elem')(event);
 });
