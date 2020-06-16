@@ -10,11 +10,13 @@
     "@babel/register": "^7.10.1",
     "babel-loader": "^8.1.0",
     "eslint": "^7.1.0",
+    "pa11y-ci": "^2.3.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "build": "npx webpack --config webpack.config.js"
+    "build": "npx webpack --config webpack.config.js",
+    "pa11y": "pa11y-ci ./prescreeners/il.html && pa11y-ci ./prescreeners/va.html"
   },
   "author": "Alex Soble for 18F",
   "license": "ISC"
