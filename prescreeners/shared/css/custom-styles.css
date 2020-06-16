@@ -82,6 +82,20 @@ fieldset.usa-fieldset legend {
   padding-bottom: 80px;
 }
 
+.currency_field_wrapper {
+  position: relative;
+}
+
+.currency_field_wrapper input {
+  padding-left: 20px;
+}
+
+.dollar_sign {
+  position: absolute;
+  top: 9px;
+  left: 8px;
+}
+
 footer {
   color: white;
   background-color: #1B1349;
