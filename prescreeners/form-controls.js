@@ -216,10 +216,15 @@ FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
     FORM_CONTROLS['hideExplanationButton']();
 });
 
-FORM_ELEMS['monthly_job_income'].addEventListener('input', (event) => {
-    DOM_MANIPULATORS['numberFieldValidator']('monthly_job_income_error_elem')(event);
-});
+// Set up validation for number fields
+const number_field_ids = [
+    'monthly_job_income',
+    'monthly_non_job_income',
+    // ...
+];
 
-FORM_ELEMS['monthly_non_job_income'].addEventListener('input', (event) => {
-    DOM_MANIPULATORS['numberFieldValidator']('monthly_non_job_income_error_elem')(event);
-});
+for (const field_id of number_field_ids) {
+    (FORM_ELEMS[field_id]).addEventListener('input', (event) => {
+        DOM_MANIPULATORS['numberFieldValidator'](`${field_id}_error_elem`)(event);
+    });
+}
