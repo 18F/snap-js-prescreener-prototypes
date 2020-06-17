@@ -18,6 +18,26 @@ const DOM_MANIPULATORS = {
                 }
             }
         }
+    },
+    'toggleErrorStateHTML': function (isValid) {
+        if (isValid) return '';
+
+        return (
+            `<div class="usa-alert usa-alert--error usa-alert--slim">
+                <div class="usa-alert__body" role="alert" aria-live="assertive">
+                    <em class="usa-alert__text">
+                        Please enter a number.
+                    </em>
+                </div>
+            </div>`
+        );
+    },
+    'numberFieldValidator': function (errorElemId) {
+        return function(event) {
+            const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
+            const errorElem = FORM_ELEMS[errorElemId];
+            errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
+        }
     }
 };
 
@@ -34,6 +54,13 @@ const FORM_CONTROLS = {
     'showErrors': DOM_MANIPULATORS['showElem']('errors'),
     'hideResults': DOM_MANIPULATORS['hideElem']('results'),
     'showResults': DOM_MANIPULATORS['showElem']('results'),
+    'numberFieldValid': (event) => {
+        const value = event.target.value;
+
+        if (value === '') return true; // Fields can be blank
+
+        return !isNaN(parseInt(value));;
+    }
 };
 
 const FORM_ELEMS = {
@@ -46,6 +73,24 @@ const FORM_ELEMS = {
     'elderlyOrDisabledFalse': document.getElementById('input__household_includes_elderly_or_disabled_false'),
     'showExplanationButton': document.getElementById('show-explanation'),
     'resultExplanation': document.getElementById('result-explanation'),
+    'monthly_job_income': document.getElementById('monthly_job_income'),
+    'monthly_job_income_error_elem': document.getElementById('monthly_job_income_error_elem'),
+    'monthly_non_job_income': document.getElementById('monthly_non_job_income'),
+    'monthly_non_job_income_error_elem': document.getElementById('monthly_non_job_income_error_elem'),
+    'resources': document.getElementById('resources'),
+    'dependent_care_costs': document.getElementById('dependent_care_costs'),
+    'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled'),
+    'rent_or_mortgage': document.getElementById('rent_or_mortgage'),
+    'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes'),
+    'utility_costs': document.getElementById('utility_costs'),
+    'resources_error_elem': document.getElementById('resources_error_elem'),
+    'dependent_care_costs_error_elem': document.getElementById('dependent_care_costs_error_elem'),
+    'medical_expenses_for_elderly_or_disabled_error_elem': document.getElementById('medical_expenses_for_elderly_or_disabled_error_elem'),
+    'rent_or_mortgage_error_elem': document.getElementById('rent_or_mortgage_error_elem'),
+    'homeowners_insurance_and_taxes_error_elem': document.getElementById('homeowners_insurance_and_taxes_error_elem'),
+    'utility_costs_error_elem': document.getElementById('utility_costs_error_elem'),
+    'court_ordered_child_support_payments': document.getElementById('court_ordered_child_support_payments'),
+    'court_ordered_child_support_payments_error_elem': document.getElementById('court_ordered_child_support_payments_error_elem'),
 };
 
 const FORM_SUBMIT_FUNCS = {
@@ -162,25 +207,48 @@ FORM_ELEMS['form'].addEventListener('submit', function (event) {
 });
 
 // Set up toggle of citizenship infobox in response to citizenship question.
-FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', function (event) {
+FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', (event) => {
     FORM_CONTROLS['hideCitizenshipInfobox']();
 });
 
-FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', function (event) {
+FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', (event) => {
     FORM_CONTROLS['showCitizenshipInfobox']();
 });
 
 // Set up toggle of medical expenses question in response to elderly or disabled question result.
-FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', function (event) {
+FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', (event) => {
     FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
 });
 
-FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', function (event) {
+FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', (event) => {
     FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
 });
 
 // Set up show explanation button
-FORM_ELEMS['showExplanationButton'].addEventListener('click', function (event) {
+FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
     FORM_CONTROLS['showResultExplanation']();
     FORM_CONTROLS['hideExplanationButton']();
 });
+
+// Set up validation for number fields
+const number_field_ids = [
+    'monthly_job_income',
+    'monthly_non_job_income',
+    'resources',
+    'dependent_care_costs',
+    'medical_expenses_for_elderly_or_disabled',
+    'court_ordered_child_support_payments',
+    'rent_or_mortgage',
+    'homeowners_insurance_and_taxes',
+    'utility_costs',
+];
+
+for (const field_id of number_field_ids) {
+    const number_elem = FORM_ELEMS[field_id];
+
+    if (number_elem) {
+        number_elem.addEventListener('input', (event) => {
+            DOM_MANIPULATORS['numberFieldValidator'](`${field_id}_error_elem`)(event);
+        });
+    }
+}
