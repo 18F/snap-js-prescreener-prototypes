@@ -77,6 +77,20 @@ const FORM_ELEMS = {
     'monthly_job_income_error_elem': document.getElementById('monthly_job_income_error_elem'),
     'monthly_non_job_income': document.getElementById('monthly_non_job_income'),
     'monthly_non_job_income_error_elem': document.getElementById('monthly_non_job_income_error_elem'),
+    'resources': document.getElementById('resources'),
+    'dependent_care_costs': document.getElementById('dependent_care_costs'),
+    'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled'),
+    'rent_or_mortgage': document.getElementById('rent_or_mortgage'),
+    'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes'),
+    'utility_costs': document.getElementById('utility_costs'),
+    'resources_error_elem': document.getElementById('resources_error_elem'),
+    'dependent_care_costs_error_elem': document.getElementById('dependent_care_costs_error_elem'),
+    'medical_expenses_for_elderly_or_disabled_error_elem': document.getElementById('medical_expenses_for_elderly_or_disabled_error_elem'),
+    'rent_or_mortgage_error_elem': document.getElementById('rent_or_mortgage_error_elem'),
+    'homeowners_insurance_and_taxes_error_elem': document.getElementById('homeowners_insurance_and_taxes_error_elem'),
+    'utility_costs_error_elem': document.getElementById('utility_costs_error_elem'),
+    'court_ordered_child_support_payments': document.getElementById('court_ordered_child_support_payments'),
+    'court_ordered_child_support_payments_error_elem': document.getElementById('court_ordered_child_support_payments_error_elem'),
 };
 
 const FORM_SUBMIT_FUNCS = {
@@ -220,11 +234,21 @@ FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
 const number_field_ids = [
     'monthly_job_income',
     'monthly_non_job_income',
-    // ...
+    'resources',
+    'dependent_care_costs',
+    'medical_expenses_for_elderly_or_disabled',
+    'court_ordered_child_support_payments',
+    'rent_or_mortgage',
+    'homeowners_insurance_and_taxes',
+    'utility_costs',
 ];
 
 for (const field_id of number_field_ids) {
-    (FORM_ELEMS[field_id]).addEventListener('input', (event) => {
-        DOM_MANIPULATORS['numberFieldValidator'](`${field_id}_error_elem`)(event);
-    });
+    const number_elem = FORM_ELEMS[field_id];
+
+    if (number_elem) {
+        number_elem.addEventListener('input', (event) => {
+            DOM_MANIPULATORS['numberFieldValidator'](`${field_id}_error_elem`)(event);
+        });
+    }
 }
