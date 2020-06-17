@@ -167,7 +167,7 @@ const FORM_SUBMIT_FUNCS = {
                 html += `<div class="result-headline">If approved, your benefit could be as much as $${estimated_benefit} per month.</div>`;
             }
 
-            html += `<div class="result-headline">Apply here: <a href="${state_website}">${state_website}</a>.</div>`;
+            html += `<div class="result-headline">Apply here: <a href="${state_website}" target="_blank" rel="noopener noreferrer">${state_website}</a>.</div>`;
         } else {
             html += '<div class="result-headline">You may not be eligible for SNAP benefits.</div>'
         }
