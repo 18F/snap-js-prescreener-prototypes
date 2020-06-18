@@ -4,22 +4,13 @@ chai.use(require('chai-string'));
 const assert = chai.assert;
 
 describe('VA SNAP prescreener', () => {
-    let page, browser;
-
-    before (async () => {
-        browser = await puppeteer.launch();
-        page = await browser.newPage();
-        const file_url = 'http://localhost:8081/prescreeners/va.html';
-        await page.goto(file_url);
-    });
-
-    // after(async () => {
-    //     page.close();
-    //     browser.close();
-    // });
-
     it('shows the correct results HTML for an eligible household', () => {
         (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            const file_url = 'http://localhost:8081/prescreeners/va.html';
+            await page.goto(file_url);
+
             await page.select('#household_size', '1');
             await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
             await page.click('label[for="input__all_citizens_question_true"]');
@@ -46,25 +37,33 @@ describe('VA SNAP prescreener', () => {
         })();
     });
 
-    // it('shows the correct results HTML for an ineligible household', () => {
-    //     (async () => {
-    //         await page.select('#household_size', '1');
-    //         await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
-    //         await page.click('label[for="input__all_citizens_question_true"]');
-    //         await page.type('#monthly_job_income', '6000');
-    //         await page.type('#monthly_non_job_income', '0');
-    //         await page.type('#resources', '0');
-    //         await page.click('#prescreener-form-submit');
+    it('shows the correct results HTML for an ineligible household', () => {
+        (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            const file_url = 'http://localhost:8081/prescreeners/va.html';
+            await page.goto(file_url);
 
-    //         await page.waitForSelector('.result-headline', {
-    //             'visible': true,
-    //             'timeout': 5000
-    //         });
+            await page.select('#household_size', '1');
+            await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
+            await page.click('label[for="input__all_citizens_question_true"]');
+            await page.type('#monthly_job_income', '6000');
+            await page.type('#monthly_non_job_income', '0');
+            await page.type('#resources', '0');
+            await page.click('#prescreener-form-submit');
 
-    //         const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-    //         const expectedInnerHTML = `<h1>Results:</h1><div class="result-headline">You may not be eligible for SNAP benefits.</div>`;
+            await page.waitForSelector('.result-headline', {
+                'visible': true,
+                'timeout': 5000
+            });
 
-    //         assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-    //     })();
-    // });
+            const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
+            const expectedInnerHTML = `<h1>Results:</h1><div class="result-headline">You may not be eligible for SNAP benefits.</div>`;
+
+            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+
+            page.close();
+            browser.close();
+        })();
+    });
 });
