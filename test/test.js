@@ -8,7 +8,7 @@ describe('VA SNAP prescreener', () => {
         (async () => {
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
-            const file_url = 'http://localhost:8081/prescreeners/va.html';
+            const file_url = 'http://localhost:8080/prescreeners/va.html';
             await page.goto(file_url);
 
             await page.select('#household_size', '1');
