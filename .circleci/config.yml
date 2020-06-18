@@ -12,14 +12,15 @@ jobs:
           name: Install dev dependencies
           command: npm install --save-dev
       - run:
+          name: Start webserver for end-to-end integration tests in background
+          command: npm run dev-server
+          background: true
+      - run:
           name: Accessibility check
           command: npm run pa11y
       - run:
           name: Scan dependencies
           command: npm audit
-      - run:
-          name: Start webserver for end-to-end integration tests
-          command: npm run dev-server &
       - run:
           name: End-to-end integration tests
           command: npm run test
