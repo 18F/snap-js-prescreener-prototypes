@@ -12,6 +12,7 @@
     "@babel/register": "^7.10.1",
     "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
+    "chai-string": "^1.5.0",
     "eslint": "^7.1.0",
     "mocha": "^7.2.0",
     "pa11y-ci": "^2.3.0",
