@@ -14,3 +14,9 @@ jobs:
       - run:
           name: Accessibility check
           command: npm run pa11y
+      - run:
+          name: Scan dependencies
+          command: npm run audit
+      - run:
+          name: End-to-end integration tests
+          command: npm run test
