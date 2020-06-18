@@ -19,7 +19,7 @@ jobs:
           command: npm audit
       - run:
           name: Start webserver for end-to-end integration tests
-          command: npm run dev-server
+          command: npm run dev-server &
       - run:
           name: End-to-end integration tests
           command: npm run test
