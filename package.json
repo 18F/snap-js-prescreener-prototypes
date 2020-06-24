@@ -23,7 +23,7 @@
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "pa11y": "pa11y-ci ./prescreeners/il.html && pa11y-ci ./prescreeners/va.html",
-    "dev-server": "webpack-dev-server",
+    "dev-server": "webpack-dev-server --port 8081",
     "test": "mocha ./test/test.js"
   },
   "author": "Alex Soble for 18F",
