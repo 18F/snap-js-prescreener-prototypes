@@ -103,7 +103,7 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 8px;
+  padding: 16px;
 }
 
 footer a {
@@ -111,7 +111,7 @@ footer a {
 }
 
 footer div {
-  margin: 8px 0;
+  margin: 16px 0;
 }
 
 .usa-alert {
