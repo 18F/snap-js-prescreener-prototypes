@@ -59,7 +59,7 @@ const FORM_CONTROLS = {
 
         if (value === '') return true; // Fields can be blank
 
-        return !isNaN(parseInt(value));;
+        return !isNaN(parseInt(value));
     }
 };
 
@@ -207,25 +207,25 @@ FORM_ELEMS['form'].addEventListener('submit', function (event) {
 });
 
 // Set up toggle of citizenship infobox in response to citizenship question.
-FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', (event) => {
+FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', () => {
     FORM_CONTROLS['hideCitizenshipInfobox']();
 });
 
-FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', (event) => {
+FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', () => {
     FORM_CONTROLS['showCitizenshipInfobox']();
 });
 
 // Set up toggle of medical expenses question in response to elderly or disabled question result.
-FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', (event) => {
+FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', () => {
     FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
 });
 
-FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', (event) => {
+FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', () => {
     FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
 });
 
 // Set up show explanation button
-FORM_ELEMS['showExplanationButton'].addEventListener('click', (event) => {
+FORM_ELEMS['showExplanationButton'].addEventListener('click', () => {
     FORM_CONTROLS['showResultExplanation']();
     FORM_CONTROLS['hideExplanationButton']();
 });
