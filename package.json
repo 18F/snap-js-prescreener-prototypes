@@ -3,20 +3,28 @@
   "version": "0.0.1",
   "description": "Prototype SNAP eligibility pre-screeners",
   "private": "true",
-  "dependencies": {},
+  "dependencies": {
+    "puppeteer": "^4.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.1",
     "@babel/preset-env": "^7.10.1",
     "@babel/register": "^7.10.1",
     "babel-loader": "^8.1.0",
+    "chai": "^4.2.0",
+    "chai-string": "^1.5.0",
     "eslint": "^7.1.0",
+    "mocha": "^7.2.0",
     "pa11y-ci": "^2.3.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
-    "pa11y": "pa11y-ci ./prescreeners/il.html && pa11y-ci ./prescreeners/va.html"
+    "pa11y": "pa11y-ci ./prescreeners/il.html && pa11y-ci ./prescreeners/va.html",
+    "dev-server": "webpack-dev-server --port 8081",
+    "test": "mocha ./test/test.js"
   },
   "author": "Alex Soble for 18F",
   "license": "ISC"
