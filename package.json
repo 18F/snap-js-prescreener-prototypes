@@ -25,7 +25,7 @@
     "pa11y": "pa11y-ci ./prescreeners/il.html && pa11y-ci ./prescreeners/va.html",
     "dev-server": "webpack-dev-server --port 8081",
     "test": "mocha ./test/test.js",
-    "lint": "eslint"
+    "lint": "npx eslint prescreeners/form-controls.js"
   },
   "author": "Alex Soble for 18F",
   "license": "ISC"

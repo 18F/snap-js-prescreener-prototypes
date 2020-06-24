@@ -16,6 +16,9 @@ jobs:
           command: npm run dev-server
           background: true
       - run:
+          name: JS linting
+          command: npm run lint
+      - run:
           name: Accessibility check
           command: npm run pa11y
       - run:
