@@ -96,9 +96,10 @@ const FORM_ELEMS = {
 const FORM_SUBMIT_FUNCS = {
     'sendData': function () {
         const formData = new FormData(FORM_ELEMS['form']);
+        const formKeys = Object.keys(formData);
         let jsonData = {};
 
-        for (const key in formData) {
+        for (const key of formKeys) {
             jsonData[key] = formData[key];
         }
 
