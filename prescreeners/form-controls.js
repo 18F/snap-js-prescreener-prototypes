@@ -98,9 +98,9 @@ const FORM_SUBMIT_FUNCS = {
         const formData = new FormData(FORM_ELEMS['form']);
         let jsonData = {};
 
-        formData.forEach(function(value, key) {
+        for (const [key, value] of formData.entries()) {
             jsonData[key] = value;
-        });
+        }
 
         // Send VA and emergency allotment config to API:
         const formSettings = document.getElementById('prescreener-form');
