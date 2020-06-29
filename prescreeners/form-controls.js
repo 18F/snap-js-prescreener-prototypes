@@ -98,8 +98,8 @@ const FORM_SUBMIT_FUNCS = {
         const formData = new FormData(FORM_ELEMS['form']);
         let jsonData = {};
 
-        for (const [key, value] of formData.entries()) {
-            jsonData[key] = value;
+        for (const key in formData) {
+            jsonData[key] = formData[key];
         }
 
         // Send VA and emergency allotment config to API:
