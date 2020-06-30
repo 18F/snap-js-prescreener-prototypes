@@ -98,7 +98,7 @@ const FORM_SUBMIT_FUNCS = {
         const formData = new FormData(FORM_ELEMS['form']);
         let jsonData = {};
 
-        for (const [key, value] of formData.entries()) {
+        for (const [key, value] of formData) {
             jsonData[key] = value;
         }
 
