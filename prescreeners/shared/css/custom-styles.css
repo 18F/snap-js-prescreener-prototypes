@@ -7,7 +7,6 @@
 .subtitle {
   text-align: center;
   margin: 20px 0 40px 0;
-  font-style: italic;
 }
 
 .alert {
@@ -32,12 +31,6 @@
 h1 {
   font-size: 38px;
   margin-bottom: 38px;
-}
-
-h2 {
-  font-weight: normal;
-  font-family: 'Merriweather';
-  font-size: 20px;
 }
 
 .calculator {
@@ -75,7 +68,6 @@ fieldset.usa-fieldset legend {
 
 .label-sub-text {
   color: #2F4F4F;
-  font-size: 14px;
 }
 
 #main {
