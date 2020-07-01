@@ -109,6 +109,7 @@ const FORM_SUBMIT_FUNCS = {
 
         try {
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
+            console.log('response', response);
         } catch (e) {
             console.log('Error', e);
         }
