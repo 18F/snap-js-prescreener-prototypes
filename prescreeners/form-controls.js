@@ -107,7 +107,11 @@ const FORM_SUBMIT_FUNCS = {
         jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
         jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
 
-        const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
+        try {
+            const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
+        } catch (e) {
+            console.log('Error', e);
+        }
 
         FORM_SUBMIT_FUNCS['responseToHTML'](response);
     },
