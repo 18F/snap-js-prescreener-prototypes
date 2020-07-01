@@ -1,3 +1,5 @@
+require('formdata-polyfill');
+
 const DOM_MANIPULATORS = {
     'showElem': function showElem(elem_id) {
         return function () {

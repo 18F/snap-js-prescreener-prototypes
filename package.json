@@ -4,6 +4,7 @@
   "description": "Prototype SNAP eligibility pre-screeners",
   "private": "true",
   "dependencies": {
+    "formdata-polyfill": "^3.0.20",
     "puppeteer": "^4.0.0"
   },
   "devDependencies": {
