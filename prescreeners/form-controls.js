@@ -95,26 +95,25 @@ const FORM_ELEMS = {
 
 const FORM_SUBMIT_FUNCS = {
     'sendData': function () {
-        const formData = new FormData(FORM_ELEMS['form']);
-        let jsonData = {};
-
-        for (const [key, value] of formData) {
-            jsonData[key] = value;
-        }
-
-        // Send VA and emergency allotment config to API:
-        const formSettings = document.getElementById('prescreener-form');
-        jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
-        jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
-
         try {
+            const formData = new FormData(FORM_ELEMS['form']);
+            let jsonData = {};
+
+            for (const [key, value] of formData) {
+                jsonData[key] = value;
+            }
+
+            // Send VA and emergency allotment config to API:
+            const formSettings = document.getElementById('prescreener-form');
+            jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
+            jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
+
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
             console.log('response', response);
+            FORM_SUBMIT_FUNCS['responseToHTML'](response);
         } catch (e) {
             console.log('Error', e);
         }
-
-        FORM_SUBMIT_FUNCS['responseToHTML'](response);
     },
     responseToHTML: function (response) {
         if (response.status !== 'OK') {
