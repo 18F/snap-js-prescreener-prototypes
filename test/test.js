@@ -4,13 +4,15 @@ chai.use(require('chai-string'));
 const assert = chai.assert;
 
 describe('VA SNAP prescreener', () => {
+    before(async () => {
+        browser = await puppeteer.launch()
+        page = await browser.newPage()
+        const file_url = 'http://localhost:8081/prescreeners/va.html';
+        await page.goto(file_url);
+    });
+
     it('shows the correct results HTML for a 1-person eligible household', () => {
         (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            const file_url = 'http://localhost:8081/prescreeners/va.html';
-            await page.goto(file_url);
-
             await page.waitForSelector('#household_size');
             await page.select('#household_size', '1');
             await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
@@ -40,11 +42,6 @@ describe('VA SNAP prescreener', () => {
 
     it('shows the correct results HTML for a 2-person eligible household', () => {
         (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            const file_url = 'http://localhost:8081/prescreeners/va.html';
-            await page.goto(file_url);
-
             await page.waitForSelector('#household_size');
             await page.select('#household_size', '2');
             await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
@@ -74,11 +71,6 @@ describe('VA SNAP prescreener', () => {
 
     it('shows the correct results HTML for an ineligible household', () => {
         (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            const file_url = 'http://localhost:8081/prescreeners/va.html';
-            await page.goto(file_url);
-
             await page.waitForSelector('#household_size');
             await page.select('#household_size', '1');
             await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
