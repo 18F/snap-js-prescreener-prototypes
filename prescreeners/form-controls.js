@@ -19,6 +19,9 @@ const DOM_MANIPULATORS = {
             }
         }
     },
+    'getElem': function (elemId) {
+        return document.getElementById(elemId);
+    },
     'toggleErrorStateHTML': function (isValid) {
         if (isValid) return '';
 
@@ -32,15 +35,12 @@ const DOM_MANIPULATORS = {
             </div>`
         );
     },
-    'numberFieldValidator': function (errorElemId) {
+    'validateNumberField': function (errorElemId) {
         return function(event) {
             const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
             const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
             errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
         }
-    },
-    'getElem': function (elemId) {
-        return document.getElementById(elemId);
     }
 };
 
@@ -234,7 +234,7 @@ for (const field_id of number_field_ids) {
 
     if (number_elem) {
         number_elem.addEventListener('input', (event) => {
-            DOM_MANIPULATORS['numberFieldValidator'](`${field_id}_error_elem`)(event);
+            DOM_MANIPULATORS['validateNumberField'](`${field_id}_error_elem`)(event);
         });
     }
 }
