@@ -68,18 +68,26 @@ const FORM_CONTROLS = {
 
 const FORM_SUBMIT_FUNCS = {
     'sendData': function () {
-        const jsonData = {
-            'household_size': document.getElementById('household_size').value,
-            'household_includes_elderly_or_disabled': document.querySelector('input[name="household_includes_elderly_or_disabled"]:checked').value,
-            'monthly_job_income': document.getElementById('monthly_job_income').value,
-            'monthly_non_job_income': document.getElementById('monthly_non_job_income').value,
-            'resources': document.getElementById('resources').value,
-            'dependent_care_costs': document.getElementById('dependent_care_costs').value,
-            'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled').value,
-            'rent_or_mortgage': document.getElementById('rent_or_mortgage').value,
-            'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes').value,
-            'utility_costs': document.getElementById('utility_costs').value,
-        };
+        const jsonData = {};
+        const formElements = DOM_MANIPULATORS.getElem('prescreener-form').elements;
+
+        for (const elem of formElements) {
+            let elemType = elem.type;
+            let elemId = elem.id;
+            let elemName = elem.name;
+
+            switch (elemType) {
+                case 'select-one':
+                    jsonData[elemId] = DOM_MANIPULATORS.getElem(elemId).value;
+                    break;
+                case 'text':
+                    jsonData[elemId] = DOM_MANIPULATORS.getElem(elemId).value;
+                    break;
+                case 'radio':
+                    let value = document.querySelector(`input[name="${elemName}"]:checked`).value;
+                    jsonData[elemName] = value;
+            }
+        }
 
         // Send VA and emergency allotment config to API:
         const formSettings = document.getElementById('prescreener-form');
