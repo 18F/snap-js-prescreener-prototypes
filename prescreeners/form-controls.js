@@ -84,8 +84,7 @@ const FORM_SUBMIT_FUNCS = {
                     jsonData[elemId] = DOM_MANIPULATORS.getElem(elemId).value;
                     break;
                 case 'radio':
-                    let value = document.querySelector(`input[name="${elemName}"]:checked`).value;
-                    jsonData[elemName] = value;
+                    jsonData[elemName] = document.querySelector(`input[name="${elemName}"]:checked`).value;
             }
         }
 
