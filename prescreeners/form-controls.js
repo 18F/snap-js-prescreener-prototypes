@@ -35,9 +35,12 @@ const DOM_MANIPULATORS = {
     'numberFieldValidator': function (errorElemId) {
         return function(event) {
             const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
-            const errorElem = FORM_ELEMS[errorElemId];
+            const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
             errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
         }
+    },
+    'getElem': function (elemId) {
+        return document.getElementById(elemId);
     }
 };
 
@@ -61,36 +64,6 @@ const FORM_CONTROLS = {
 
         return !isNaN(parseInt(value));
     }
-};
-
-const FORM_ELEMS = {
-    'form': document.getElementById('prescreener-form'),
-    'results': document.getElementById('results'),
-    'errors': document.getElementById('errors'),
-    'allCitizenHouseholdTrue': document.getElementById('input__all_citizens_question_true'),
-    'allCitizenHouseholdFalse': document.getElementById('input__all_citizens_question_false'),
-    'elderlyOrDisabledTrue': document.getElementById('input__household_includes_elderly_or_disabled_true'),
-    'elderlyOrDisabledFalse': document.getElementById('input__household_includes_elderly_or_disabled_false'),
-    'showExplanationButton': document.getElementById('show-explanation'),
-    'resultExplanation': document.getElementById('result-explanation'),
-    'monthly_job_income': document.getElementById('monthly_job_income'),
-    'monthly_job_income_error_elem': document.getElementById('monthly_job_income_error_elem'),
-    'monthly_non_job_income': document.getElementById('monthly_non_job_income'),
-    'monthly_non_job_income_error_elem': document.getElementById('monthly_non_job_income_error_elem'),
-    'resources': document.getElementById('resources'),
-    'dependent_care_costs': document.getElementById('dependent_care_costs'),
-    'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled'),
-    'rent_or_mortgage': document.getElementById('rent_or_mortgage'),
-    'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes'),
-    'utility_costs': document.getElementById('utility_costs'),
-    'resources_error_elem': document.getElementById('resources_error_elem'),
-    'dependent_care_costs_error_elem': document.getElementById('dependent_care_costs_error_elem'),
-    'medical_expenses_for_elderly_or_disabled_error_elem': document.getElementById('medical_expenses_for_elderly_or_disabled_error_elem'),
-    'rent_or_mortgage_error_elem': document.getElementById('rent_or_mortgage_error_elem'),
-    'homeowners_insurance_and_taxes_error_elem': document.getElementById('homeowners_insurance_and_taxes_error_elem'),
-    'utility_costs_error_elem': document.getElementById('utility_costs_error_elem'),
-    'court_ordered_child_support_payments': document.getElementById('court_ordered_child_support_payments'),
-    'court_ordered_child_support_payments_error_elem': document.getElementById('court_ordered_child_support_payments_error_elem'),
 };
 
 const FORM_SUBMIT_FUNCS = {
@@ -124,7 +97,7 @@ const FORM_SUBMIT_FUNCS = {
             FORM_CONTROLS['hideResultExplanation']();
 
             const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
-            FORM_ELEMS['errors'].innerHTML = errorsHTML;
+            DOM_MANIPULATORS.getElem('errors').innerHTML = errorsHTML;
 
             FORM_CONTROLS['showErrors']();
             return;
@@ -133,8 +106,8 @@ const FORM_SUBMIT_FUNCS = {
         const resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
         const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
 
-        FORM_ELEMS['results'].innerHTML = resultHTML;
-        FORM_ELEMS['resultExplanation'].innerHTML = explanationHTML;
+        DOM_MANIPULATORS.getElem('results').innerHTML = resultHTML;
+        DOM_MANIPULATORS.getElem('result-explanation').innerHTML = explanationHTML;
 
         FORM_CONTROLS['showResults']();
         FORM_CONTROLS['hideErrors']();
@@ -207,31 +180,31 @@ const FORM_SUBMIT_FUNCS = {
 };
 
 // Set up on form submit.
-FORM_ELEMS['form'].addEventListener('submit', function (event) {
+DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', function (event) {
     event.preventDefault();
     FORM_SUBMIT_FUNCS['sendData']();
 });
 
 // Set up toggle of citizenship infobox in response to citizenship question.
-FORM_ELEMS['allCitizenHouseholdTrue'].addEventListener('change', () => {
+DOM_MANIPULATORS.getElem('input__all_citizens_question_true').addEventListener('change', () => {
     FORM_CONTROLS['hideCitizenshipInfobox']();
 });
 
-FORM_ELEMS['allCitizenHouseholdFalse'].addEventListener('change', () => {
+DOM_MANIPULATORS.getElem('input__all_citizens_question_false').addEventListener('change', () => {
     FORM_CONTROLS['showCitizenshipInfobox']();
 });
 
 // Set up toggle of medical expenses question in response to elderly or disabled question result.
-FORM_ELEMS['elderlyOrDisabledTrue'].addEventListener('change', () => {
+DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_true').addEventListener('change', () => {
     FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
 });
 
-FORM_ELEMS['elderlyOrDisabledFalse'].addEventListener('change', () => {
+DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_false').addEventListener('change', () => {
     FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
 });
 
 // Set up show explanation button
-FORM_ELEMS['showExplanationButton'].addEventListener('click', () => {
+DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', () => {
     FORM_CONTROLS['showResultExplanation']();
     FORM_CONTROLS['hideExplanationButton']();
 });
@@ -250,7 +223,7 @@ const number_field_ids = [
 ];
 
 for (const field_id of number_field_ids) {
-    const number_elem = FORM_ELEMS[field_id];
+    const number_elem = DOM_MANIPULATORS.getElem(field_id);
 
     if (number_elem) {
         number_elem.addEventListener('input', (event) => {
