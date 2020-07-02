@@ -3,14 +3,14 @@ const chai = require('chai');
 chai.use(require('chai-string'));
 const assert = chai.assert;
 
-describe('VA SNAP prescreener', () => {
-    before(async () => {
-        browser = await puppeteer.launch()
-        page = await browser.newPage()
-        const file_url = 'http://localhost:8081/prescreeners/va.html';
-        await page.goto(file_url);
-    });
+before(async () => {
+    browser = await puppeteer.launch()
+    page = await browser.newPage()
+    const file_url = 'http://localhost:8081/prescreeners/va.html';
+    await page.goto(file_url);
+});
 
+describe('VA SNAP prescreener', () => {
     it('shows the correct results HTML for a 1-person eligible household', () => {
         (async () => {
             await page.waitForSelector('#household_size');
@@ -95,3 +95,7 @@ describe('VA SNAP prescreener', () => {
         })();
     });
 });
+
+after(async () => {
+  await browser.close()
+})
