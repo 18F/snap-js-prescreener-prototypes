@@ -95,12 +95,18 @@ const FORM_ELEMS = {
 
 const FORM_SUBMIT_FUNCS = {
     'sendData': function () {
-        const formData = new FormData(FORM_ELEMS['form']);
-        let jsonData = {};
-
-        for (const [key, value] of formData) {
-            jsonData[key] = value;
-        }
+        const jsonData = {
+            'household_size': document.getElementById('household_size').value,
+            'household_includes_elderly_or_disabled': document.querySelector('input[name="household_includes_elderly_or_disabled"]:checked').value,
+            'monthly_job_income': document.getElementById('monthly_job_income').value,
+            'monthly_non_job_income': document.getElementById('monthly_non_job_income').value,
+            'resources': document.getElementById('resources').value,
+            'dependent_care_costs': document.getElementById('dependent_care_costs').value,
+            'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled').value,
+            'rent_or_mortgage': document.getElementById('rent_or_mortgage').value,
+            'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes').value,
+            'utility_costs': document.getElementById('utility_costs').value,
+        };
 
         // Send VA and emergency allotment config to API:
         const formSettings = document.getElementById('prescreener-form');

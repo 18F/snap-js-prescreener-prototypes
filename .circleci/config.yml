@@ -23,7 +23,7 @@ jobs:
           command: npm run pa11y
       - run:
           name: Scan dependencies
-          command: npm audit
+          command: npm audit --audit-level=moderate
       - run:
           name: End-to-end integration tests
           command: npm run test

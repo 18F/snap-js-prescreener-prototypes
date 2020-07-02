@@ -41,6 +41,8 @@ Run pa11y accessibility check against the HTML files (JS interactions not yet te
 npm run pa11y
 ```
 
-
 See `package.json` for all developer commands.
 
+### Browser targeting
+
+This prescreener targets Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11.
