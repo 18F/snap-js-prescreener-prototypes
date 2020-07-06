@@ -30,10 +30,13 @@ describe('VA SNAP prescreener', () => {
             <div class="result-headline">If approved, your benefit could be as much as $200 per month.</div>
             <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-
-        await page.close();
-        await browser.close();
+        try {
+            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        }
+        finally {
+            await page.close();
+            await browser.close();
+        }
     });
 
     it('shows the correct results HTML for a 2-person eligible household', async () => {
