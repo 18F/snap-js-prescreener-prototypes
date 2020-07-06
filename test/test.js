@@ -65,10 +65,13 @@ describe('VA SNAP prescreener', () => {
             <div class="result-headline">If approved, your benefit could be as much as $355 per month.</div>
             <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-
-        await page.close();
-        await browser.close();
+        try {
+            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        }
+        finally {
+            await page.close();
+            await browser.close();
+        }
     });
 
     it('shows the correct results HTML for an ineligible household', async () => {
@@ -94,9 +97,12 @@ describe('VA SNAP prescreener', () => {
         const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
         const expectedInnerHTML = `<h1>Results:</h1><div class="result-headline">You may not be eligible for SNAP benefits.</div>`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-
-        await page.close();
-        await browser.close();
+        try {
+            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        }
+        finally {
+            await page.close();
+            await browser.close();
+        }
     });
 });
