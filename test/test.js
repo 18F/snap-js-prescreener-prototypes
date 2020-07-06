@@ -4,13 +4,23 @@ chai.use(require('chai-string'));
 const assert = chai.assert;
 
 describe('VA SNAP prescreener', () => {
-    it('shows the correct results HTML for a 1-person eligible household', async () => {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
+    before(async () => {
+        browser = await puppeteer.launch();
+        page = await browser.newPage();
+    });
+
+    beforeEach(async () => {
         const file_url = 'http://localhost:8081/prescreeners/va.html';
         await page.goto(file_url);
-
         await page.waitForSelector('#household_size');
+    });
+
+    after(async () => {
+        await page.close();
+        await browser.close();
+    })
+
+    it('shows the correct results HTML for a 1-person eligible household', async () => {
         await page.select('#household_size', '1');
         await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
         await page.click('label[for="input__all_citizens_question_true"]');
@@ -30,22 +40,10 @@ describe('VA SNAP prescreener', () => {
             <div class="result-headline">If approved, your benefit could be as much as $194 per month.</div>
             <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
 
-        try {
-            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-        }
-        finally {
-            await page.close();
-            await browser.close();
-        }
+        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
     });
 
     it('shows the correct results HTML for a 2-person eligible household', async () => {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        const file_url = 'http://localhost:8081/prescreeners/va.html';
-        await page.goto(file_url);
-
-        await page.waitForSelector('#household_size');
         await page.select('#household_size', '2');
         await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
         await page.click('label[for="input__all_citizens_question_true"]');
@@ -65,22 +63,10 @@ describe('VA SNAP prescreener', () => {
             <div class="result-headline">If approved, your benefit could be as much as $355 per month.</div>
             <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
 
-        try {
-            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-        }
-        finally {
-            await page.close();
-            await browser.close();
-        }
+        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
     });
 
     it('shows the correct results HTML for an ineligible household', async () => {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        const file_url = 'http://localhost:8081/prescreeners/va.html';
-        await page.goto(file_url);
-
-        await page.waitForSelector('#household_size');
         await page.select('#household_size', '1');
         await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
         await page.click('label[for="input__all_citizens_question_true"]');
@@ -97,12 +83,6 @@ describe('VA SNAP prescreener', () => {
         const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
         const expectedInnerHTML = `<h1>Results:</h1><div class="result-headline">You may not be eligible for SNAP benefits.</div>`;
 
-        try {
-            assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
-        }
-        finally {
-            await page.close();
-            await browser.close();
-        }
+        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
     });
 });
