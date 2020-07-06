@@ -3,7 +3,7 @@ const chai = require('chai');
 chai.use(require('chai-string'));
 const assert = chai.assert;
 
-before(async () => {
+beforeEach(async () => {
     browser = await puppeteer.launch()
     page = await browser.newPage()
     const file_url = 'http://localhost:8081/prescreeners/va.html';
@@ -96,6 +96,6 @@ describe('VA SNAP prescreener', () => {
     });
 });
 
-after(async () => {
+afterEach(async () => {
   await browser.close()
 })
