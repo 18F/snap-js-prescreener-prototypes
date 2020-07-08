@@ -150,7 +150,7 @@ const FORM_SUBMIT_FUNCS = {
             const additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
 
             html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
-            html += `Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)`;
+            html += `<div class="result-headline">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`;
         // If no emergency allotments, or EA is the same as regular benefit amount:
         } else {
             html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
