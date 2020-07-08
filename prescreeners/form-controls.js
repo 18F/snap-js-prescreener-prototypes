@@ -130,26 +130,33 @@ const FORM_SUBMIT_FUNCS = {
 
         let html = '<h1>Results:</h1>';
 
-        const estimated_benefit = response.estimated_benefit;
-        const estimated_benefit_start_of_month = response.estimated_benefit_start_of_month;
-        const estimated_eligibility = response.estimated_eligibility;
+        const is_eligible = response.estimated_eligibility;
+        const estimated_monthly_benefit = response.estimated_monthly_benefit;
+        const emergency_allotment_estimated_benefit = response.emergency_allotment_estimated_benefit;
         const state_website = response.state_website;
 
-        if (estimated_eligibility) {
-            html += '<div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>';
+        // SNAP JS API estimates household is ineligible:
+        if (!is_eligible) {
+            html += '<div class="result-headline">You may not be eligible for SNAP benefits.</div>';
 
-            // Estimated benefit amount
-            if (estimated_benefit_start_of_month && estimated_benefit > estimated_benefit_start_of_month) {
-                html += `<div class="result-headline">If approved, your benefit could be as much as $${estimated_benefit} per month, with $${estimated_benefit_start_of_month} arriving at the beginning of the month and the rest arriving later in the month.</div>`;
-
-            } else {
-                html += `<div class="result-headline">If approved, your benefit could be as much as $${estimated_benefit} per month.</div>`;
-            }
-
-            html += `<div class="result-headline">Apply here: <a href="${state_website}" target="_blank" rel="noopener noreferrer">${state_website}</a>.</div>`;
-        } else {
-            html += '<div class="result-headline">You may not be eligible for SNAP benefits.</div>'
+            return html;
         }
+
+        // SNAP JS API estimates household is eligible:
+        html += '<div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>';
+
+        // If emergency allotments are active, and estimated benefit is less than EA amount:
+        if (emergency_allotment_estimated_benefit && estimated_monthly_benefit !== emergency_allotment_estimated_benefit) {
+            const additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
+
+            html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+            html += `Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)`;
+        // If no emergency allotments, or EA is the same as regular benefit amount:
+        } else {
+            html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+        }
+
+        html += `<div class="result-headline">Apply here: <a href="${state_website}" target="_blank" rel="noopener noreferrer">${state_website}</a>.</div>`;
 
         return html;
     },
