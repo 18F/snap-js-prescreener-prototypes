@@ -18,16 +18,39 @@ describe('VA SNAP prescreener', () => {
     after(async () => {
         await page.close();
         await browser.close();
-    })
+    });
+
+    const fillOutForm = async (steps) => {
+        await page.select('#household_size', steps['household_size']);
+
+        if (steps['household_includes_elderly_or_disabled']) {
+            await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
+        } else {
+            await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
+        }
+
+        if (steps['all_citizens']) {
+            await page.click('label[for="input__all_citizens_question_true"]');
+        } else {
+            await page.click('label[for="input__all_citizens_question_false"]');
+
+        }
+        await page.type('#monthly_job_income', steps['monthly_job_income']);
+        await page.type('#monthly_non_job_income', steps['monthly_non_job_income']);
+        await page.type('#resources', steps['monthly_job_income']);
+
+        await page.click('#prescreener-form-submit');
+    }
 
     it('shows the correct results HTML for a 1-person eligible household', async () => {
-        await page.select('#household_size', '1');
-        await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
-        await page.click('label[for="input__all_citizens_question_true"]');
-        await page.type('#monthly_job_income', '0');
-        await page.type('#monthly_non_job_income', '0');
-        await page.type('#resources', '0');
-        await page.click('#prescreener-form-submit');
+        fillOutForm({
+            'household_size': '1',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '0',
+            'monthly_non_job_income': '0',
+            'resources': '0',
+        });
 
         await page.waitForSelector('.result-headline', {
             'visible': true,
