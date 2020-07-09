@@ -68,6 +68,7 @@ const FORM_CONTROLS = {
 
 const FORM_SUBMIT_FUNCS = {
     'sendData': function () {
+        // Form fields that are present for all states
         const jsonData = {
             'household_size': document.getElementById('household_size').value,
             'household_includes_elderly_or_disabled': document.querySelector('input[name="household_includes_elderly_or_disabled"]:checked').value,
@@ -78,10 +79,17 @@ const FORM_SUBMIT_FUNCS = {
             'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled').value,
             'rent_or_mortgage': document.getElementById('rent_or_mortgage').value,
             'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes').value,
-            'utility_costs': document.getElementById('utility_costs').value,
         };
 
-        // Send VA and emergency allotment config to API:
+        // Form fields that are present for some states
+        if (document.getElementById('utility_costs')) {
+            jsonData['utility_costs'] = document.getElementById('utility_costs').value;
+        }
+        if (document.getElementById('utility_allowance_question')) {
+            jsonData['utility_allowance_question'] = document.getElementById('utility_allowance_question').value;
+        }
+
+        // Send state_or_territory and emergency allotment config to API:
         const formSettings = document.getElementById('prescreener-form');
         jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
         jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
