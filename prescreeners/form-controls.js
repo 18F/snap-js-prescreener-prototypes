@@ -85,8 +85,8 @@ const FORM_SUBMIT_FUNCS = {
         if (document.getElementById('utility_costs')) {
             jsonData['utility_costs'] = document.getElementById('utility_costs').value;
         }
-        if (document.getElementById('utility_allowance_question')) {
-            jsonData['utility_allowance_question'] = document.getElementById('utility_allowance_question').value;
+        if (document.getElementById('utility_allowance')) {
+            jsonData['utility_allowance'] = document.getElementById('utility_allowance').value;
         }
 
         // Send state_or_territory and emergency allotment config to API:
