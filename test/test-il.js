@@ -37,7 +37,7 @@ describe('IL SNAP prescreener', () => {
         const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
         const expectedInnerHTML = `<h1>Results:</h1>
             <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit could be as much as $194 per month.</div>
+            <div class="result-headline">If approved, your benefit may be $194 per month.</div>
             <div class="result-headline">Apply here: <a href="https://abe.illinois.gov/abe/access/" target="_blank" rel="noopener noreferrer">https://abe.illinois.gov/abe/access/</a>.</div>`;
 
         assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
@@ -60,7 +60,7 @@ describe('IL SNAP prescreener', () => {
         const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
         const expectedInnerHTML = `<h1>Results:</h1>
             <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit could be as much as $355 per month.</div>
+            <div class="result-headline">If approved, your benefit may be $355 per month.</div>
             <div class="result-headline">Apply here: <a href="https://abe.illinois.gov/abe/access/" target="_blank" rel="noopener noreferrer">https://abe.illinois.gov/abe/access/</a>.</div>`;
 
         assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
