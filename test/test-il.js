@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const chai = require('chai');
 chai.use(require('chai-string'));
 const assert = chai.assert;
+const fillOutForm = require('./helpers').fillOutForm;
 
 describe('IL SNAP prescreener', () => {
     before(async () => {
@@ -21,13 +22,14 @@ describe('IL SNAP prescreener', () => {
     })
 
     it('shows the correct results HTML for a 1-person eligible household', async () => {
-        await page.select('#household_size', '1');
-        await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
-        await page.click('label[for="input__all_citizens_question_true"]');
-        await page.type('#monthly_job_income', '0');
-        await page.type('#monthly_non_job_income', '0');
-        await page.type('#resources', '0');
-        await page.click('#prescreener-form-submit');
+        fillOutForm({
+            'household_size': '1',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '0',
+            'monthly_non_job_income': '0',
+            'resources': '0',
+        });
 
         await page.waitForSelector('.result-headline', {
             'visible': true,
@@ -44,13 +46,14 @@ describe('IL SNAP prescreener', () => {
     });
 
     it('shows the correct results HTML for a 2-person eligible household', async () => {
-        await page.select('#household_size', '2');
-        await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
-        await page.click('label[for="input__all_citizens_question_true"]');
-        await page.type('#monthly_job_income', '0');
-        await page.type('#monthly_non_job_income', '0');
-        await page.type('#resources', '0');
-        await page.click('#prescreener-form-submit');
+        fillOutForm({
+            'household_size': '2',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '0',
+            'monthly_non_job_income': '0',
+            'resources': '0',
+        });
 
         await page.waitForSelector('.result-headline', {
             'visible': true,
@@ -67,13 +70,14 @@ describe('IL SNAP prescreener', () => {
     });
 
     it('shows the correct results HTML for an ineligible household', async () => {
-        await page.select('#household_size', '1');
-        await page.click('label[for="input__household_includes_elderly_or_disabled_false"]');
-        await page.click('label[for="input__all_citizens_question_true"]');
-        await page.type('#monthly_job_income', '6000');
-        await page.type('#monthly_non_job_income', '0');
-        await page.type('#resources', '0');
-        await page.click('#prescreener-form-submit');
+        fillOutForm({
+            'household_size': '1',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '0',
+            'monthly_non_job_income': '6,000',
+            'resources': '0',
+        });
 
         await page.waitForSelector('.result-headline', {
             'visible': true,
