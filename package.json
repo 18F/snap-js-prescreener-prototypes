@@ -24,7 +24,7 @@
     "build": "npx webpack --config webpack.config.js",
     "pa11y": "pa11y-ci ./prescreeners/il.html && pa11y-ci ./prescreeners/va.html",
     "dev-server": "webpack-dev-server --port 8081",
-    "test": "mocha ./test/test.js --timeout 8000",
+    "test": "mocha ./test/ --timeout 8000",
     "lint": "npx eslint prescreeners/form-controls.js"
   },
   "author": "Alex Soble for 18F",
