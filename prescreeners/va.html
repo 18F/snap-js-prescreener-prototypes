@@ -226,49 +226,35 @@
                      class="usa-input" />
             </div>
 
-            <!-- NOTE: I don't think utility allowances apply to VA, see under "Mandatory SUAs":
-              https://fns-prod.azureedge.net/sites/default/files/snap/14-State-Options.pdf
-
-            <div id="utility_allowance_question">
-              <label class="usa-label" for="utility_allowance">
-                Which of the following describes how you pay for utilities?:
-              </label>
-              <select class="usa-select" id="utility_allowance" name="utility_allowance">
-                <option value>- Select -</option>
-                <option value="HEATING_AND_COOLING">
-                  I pay separately for heat or AC.
-                </option>
-                <option value="HEATING_AND_COOLING">
-                  I have received a LIHEAP payment of $21 to help pay for heat this year.
-                </option>
-                <option value="BASIC_LIMITED_ALLOWANCE">
-                  I pay separately for two or more of the following: electricity, cooking fuel, water, garbage, or phone.
-                </option>
-                <option value="SINGLE_UTILITY_ALLOWANCE">
-                  I pay separately for just one of the following: electricity, cooking fuel, water, garbage, or phone.
-                </option>
-                <option value="PHONE">
-                  The only utility I pay for is my phone bill.
-                </option>
-                <option value="NONE">
-                  I don't pay separately for any utilities, and I don't pay a phone bill.
-                </option>
-              </select>
-            </div> -->
-
-            <div id="utility_costs_question">
-              <label class="usa-label" for="utility_costs">
-                Monthly utility bills
-              </label>
-
-              <div id="utility_costs_error_elem"></div>
-              <div class="currency_field_wrapper">
-                <div class="dollar_sign">$</div>
-                <input id="utility_costs"
-                     name="utility_costs"
-                     class="usa-input" />
+            <fieldset class="usa-fieldset">
+              <legend>Do you pay separately for air conditioning or heating?</legend>
+              <div class="usa-radio">
+                <input class="usa-radio__input"
+                       id="heating_cooling_true"
+                       type="radio"
+                       name="utility_allowance"
+                       value="HEATING_AND_COOLING"
+                       required>
+                <label id="label__heating_cooling_true"
+                       class="usa-radio__label"
+                       for="heating_cooling_true">
+                  Yes
+                </label>
               </div>
-            </div>
+              <div class="usa-radio">
+                <input class="usa-radio__input"
+                       id="heating_cooling_false"
+                       type="radio"
+                       name="utility_allowance"
+                       value="NONE"
+                       required>
+                <label id="label__heating_cooling_false"
+                       class="usa-radio__label"
+                       for="heating_cooling_false">
+                  No
+                </label>
+              </div>
+            </fieldset>
 
             <!-- SUBMIT BUTTON -->
             <input id="prescreener-form-submit"
