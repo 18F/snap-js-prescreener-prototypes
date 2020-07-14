@@ -88,6 +88,9 @@ const FORM_SUBMIT_FUNCS = {
         if (document.getElementById('utility_allowance')) {
             jsonData['utility_allowance'] = document.getElementById('utility_allowance').value;
         }
+        if (document.querySelector('input[name="utility_allowance"]')) {
+            jsonData['utility_allowance'] = document.querySelector('input[name="utility_allowance"]:checked').value;
+        }
 
         // Send state_or_territory and emergency allotment config to API:
         const formSettings = document.getElementById('prescreener-form');
