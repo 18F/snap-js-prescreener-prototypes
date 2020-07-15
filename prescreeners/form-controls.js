@@ -81,15 +81,16 @@ const FORM_SUBMIT_FUNCS = {
             'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes').value,
         };
 
-        // Form fields that are present for some states
-        if (document.getElementById('utility_costs')) {
-            jsonData['utility_costs'] = document.getElementById('utility_costs').value;
+        // Form fields that are present for some states but not all...
+
+        // Utility allowance radio button (VA)
+        if (document.querySelector('input[name="utility_allowance"]:checked')) {
+            jsonData['utility_allowance'] = document.querySelector('input[name="utility_allowance"]:checked').value;
         }
+
+        // Utility allowance select box (IL)
         if (document.getElementById('utility_allowance')) {
             jsonData['utility_allowance'] = document.getElementById('utility_allowance').value;
-        }
-        if (document.querySelector('input[name="utility_allowance"]')) {
-            jsonData['utility_allowance'] = document.querySelector('input[name="utility_allowance"]:checked').value;
         }
 
         // Send state_or_territory and emergency allotment config to API:
