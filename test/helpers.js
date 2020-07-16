@@ -22,11 +22,11 @@ const fillOutForm = async (steps) => {
     }
 
     if (steps['va_utility_allowance_true']) {
-        await page.click('label[for="heating_cooling_true"]')
+        await page.click('label[for="heating_cooling_true"]');
     }
 
     if (steps['va_utility_allowance_false']) {
-        await page.click('label[for="heating_cooling_false"]')
+        await page.click('label[for="heating_cooling_false"]');
     }
 
     await page.click('#prescreener-form-submit');
