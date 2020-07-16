@@ -54,8 +54,8 @@ h1 {
   font-style: italic;
 }
 
-fieldset.usa-fieldset {
-  margin: 0.75rem 0;
+fieldset.usa-fieldset:not(:first-child) {
+  margin-top: 1.5rem;
 }
 
 fieldset.usa-fieldset legend {
