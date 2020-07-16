@@ -55,11 +55,11 @@ h1 {
 }
 
 fieldset.usa-fieldset {
-  margin-bottom: 1rem;
+  margin: 0.75rem 0;
 }
 
 fieldset.usa-fieldset legend {
-  margin-bottom: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .label-sub-text {
