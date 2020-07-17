@@ -54,12 +54,12 @@ h1 {
   font-style: italic;
 }
 
-fieldset.usa-fieldset {
-  margin-bottom: 1rem;
+fieldset.usa-fieldset:not(:first-child) {
+  margin-top: 1.5rem;
 }
 
 fieldset.usa-fieldset legend {
-  margin-bottom: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .label-sub-text {
