@@ -70,6 +70,20 @@
                     'description': 'Feeding America',
                 }
             ]
+        },
+        'IL': {
+            'apply': [
+                {
+                    'url': 'https://abe.illinois.gov/abe/access/',
+                    'description': 'Apply online using ABE.',
+                }
+            ],
+            'other_resources': [
+                {
+                    'url': 'https://www.dhs.state.il.us/page.aspx?item=31245',
+                    'description': 'Food Connections',
+                }
+            ]
         }
     };
 
@@ -190,7 +204,6 @@
             const is_eligible = response.estimated_eligibility;
             const estimated_monthly_benefit = response.estimated_monthly_benefit;
             const emergency_allotment_estimated_benefit = response.emergency_allotment_estimated_benefit;
-            const state_website = response.state_website;
 
             const formSettings = document.getElementById('prescreener-form');
             const stateAbbr = formSettings.dataset.stateOrTerritory;
