@@ -150,7 +150,25 @@
 
             // SNAP JS API estimates household is ineligible:
             if (!is_eligible) {
-                html += '<div class="result-headline">You may not be eligible for SNAP benefits.</div>';
+                html += (
+                    `<div class="result-headline">You may not be eligible for SNAP benefits.</div>
+                    <div class="result-headline">You can still apply for SNAP benefits: this result is only an estimate based on your inputs, not an official application or decision.</div>
+                    <div class="result-headline">
+                        You can also find food pantries in your area for food assistance:
+                        <ul>
+                            <li>
+                                <a href="https://www.foodpantries.org/st/virginia">
+                                    Foodpantries.org
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.feedingamerica.org/find-your-local-foodbank">
+                                    Feeding America
+                                </a>
+                            </li>
+                        </ul>
+                    </div>`
+                );
 
                 return html;
             }
