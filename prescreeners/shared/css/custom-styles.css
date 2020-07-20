@@ -55,7 +55,6 @@ h1 {
   text-decoration: underline;
   cursor: pointer;
   color: blue;
-  font-style: italic;
 }
 
 fieldset.usa-fieldset:not(:first-child) {
