@@ -139,6 +139,9 @@
 
             return html;
         },
+        'likelyIneligibleResponse': function (response) {
+
+        },
         'responseResultToHTML': function (response) {
 
             let html = '<h1>Results:</h1>';
@@ -187,7 +190,23 @@
                 html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
             }
 
-            html += `<div class="result-headline">Apply here: <a href="${state_website}" target="_blank" rel="noopener noreferrer">${state_website}</a>.</div>`;
+            html += (
+                `<div class="result-headline">
+                    Ways to apply:
+                    <ul>
+                        <li>
+                            <a href="https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml">
+                                Apply online using CommonHelp. (You may have to create an account to apply.)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.dss.virginia.gov/localagency/index.cgi">
+                                Apply at a local Social Services department near you.
+                            </a>
+                        </li>
+                    </ul>
+                </div>`
+            );
 
             return html;
         },
