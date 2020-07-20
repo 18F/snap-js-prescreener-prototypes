@@ -45,6 +45,34 @@
         }
     };
 
+    const STATE_OPTIONS = {
+        // For each state, an array of Object-shaped options.
+        // `apply` options include URLs and descriptions of how a household can apply.
+        // `other_resources` options include URLs and descriptions of non-SNAP food resources.
+        'VA': {
+            'apply': [
+                {
+                    'url': 'https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml',
+                    'description': 'Apply online using CommonHelp. (You may have to create an account to apply.)'
+                },
+                {
+                    'url': 'https://www.dss.virginia.gov/localagency/index.cgi',
+                    'description': 'Apply at a local Social Services office near you.',
+                }
+            ],
+            'other_resources': [
+                {
+                    'url': 'https://www.foodpantries.org/st/virginia',
+                    'description': 'Foodpantries.org',
+                },
+                {
+                    'url': 'https://www.feedingamerica.org/find-your-local-foodbank',
+                    'description': 'Feeding America',
+                }
+            ]
+        }
+    };
+
     const FORM_CONTROLS = {
         'showCitizenshipInfobox': DOM_MANIPULATORS['showElem']('citizenship_info_box'),
         'hideCitizenshipInfobox': DOM_MANIPULATORS['hideElem']('citizenship_info_box'),
@@ -139,8 +167,24 @@
 
             return html;
         },
-        'responseResultToHTML': function (response) {
+        'optionsHTML': function (options_array, options_title) {
+            let html = `<div class="result-big">${options_title}
+                            <ul>`;
 
+            for (const option of options_array) {
+                html += (
+                    `<li>
+                        <a href="${option.url}" rel="noopener noreferrer">
+                            ${option.description}
+                        </a>
+                    </li>`
+                );
+            }
+
+            html += `</ul></div>`;
+            return html;
+        },
+        'responseResultToHTML': function (response) {
             let html = '<h1>Results:</h1>';
 
             const is_eligible = response.estimated_eligibility;
@@ -148,64 +192,40 @@
             const emergency_allotment_estimated_benefit = response.emergency_allotment_estimated_benefit;
             const state_website = response.state_website;
 
+            const formSettings = document.getElementById('prescreener-form');
+            const stateAbbr = formSettings.dataset.stateOrTerritory;
+            const nextStepOptions = STATE_OPTIONS[stateAbbr];
+
             // SNAP JS API estimates household is ineligible:
             if (!is_eligible) {
                 html += (
-                    `<div class="result-headline">You may not be eligible for SNAP benefits.</div>
-                    <div class="result-headline">You can still apply for SNAP benefits: this result is only an estimate based on your inputs, not an official application or decision.</div>
-                    <div class="result-headline">
-                        Other resources for food assistance:
-                        <ul>
-                            <li>
-                                <a href="https://www.foodpantries.org/st/virginia" target="_blank" rel="noopener noreferrer">
-                                    Foodpantries.org
-                                </a>
-                            </li>
-                            <br/>
-                            <li>
-                                <a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" rel="noopener noreferrer">
-                                    Feeding America
-                                </a>
-                            </li>
-                        </ul>
-                    </div>`
+                    `<div class="result-big">You <strong>might not</strong> be eligible for SNAP benefits.</div>
+                    <div class="result-big">This result is only an estimate based on your inputs, <strong>not an official application or decision</strong>.</div>
+                    <div class="result-big">You can still apply for SNAP benefits.</div>`
                 );
+
+                html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
+
+                html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['other_resources'], 'Other resources for food assistance:');
 
                 return html;
             }
 
             // SNAP JS API estimates household is eligible:
-            html += '<div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>';
+            html += '<div class="result-big">You may be <b>eligible</b> for SNAP benefits.</div>';
 
             // If emergency allotments are active, and estimated benefit is less than EA amount:
             if (emergency_allotment_estimated_benefit && estimated_monthly_benefit !== emergency_allotment_estimated_benefit) {
                 const additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
 
-                html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
-                html += `<div class="result-headline">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`;
+                html += `<div class="result-big">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+                html += `<div class="result-big">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`;
             // If no emergency allotments, or EA is the same as regular benefit amount:
             } else {
-                html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+                html += `<div class="result-big">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
             }
 
-            html += (
-                `<div class="result-headline">
-                    Ways to apply:
-                    <ul>
-                        <li>
-                            <a href="https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml" target="_blank" rel="noopener noreferrer">
-                                Apply online using CommonHelp. (You may have to create an account to apply.)
-                            </a>
-                        </li>
-                        <br/>
-                        <li>
-                            <a href="https://www.dss.virginia.gov/localagency/index.cgi" target="_blank" rel="noopener noreferrer">
-                                Apply at a local Social Services department near you.
-                            </a>
-                        </li>
-                    </ul>
-                </div>`
-            );
+            html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
 
             return html;
         },
