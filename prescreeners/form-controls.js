@@ -139,9 +139,6 @@
 
             return html;
         },
-        'likelyIneligibleResponse': function (response) {
-
-        },
         'responseResultToHTML': function (response) {
 
             let html = '<h1>Results:</h1>';
@@ -160,12 +157,13 @@
                         Other resources for food assistance:
                         <ul>
                             <li>
-                                <a href="https://www.foodpantries.org/st/virginia">
+                                <a href="https://www.foodpantries.org/st/virginia" target="_blank" rel="noopener noreferrer">
                                     Foodpantries.org
                                 </a>
                             </li>
+                            <br/>
                             <li>
-                                <a href="https://www.feedingamerica.org/find-your-local-foodbank">
+                                <a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" rel="noopener noreferrer">
                                     Feeding America
                                 </a>
                             </li>
@@ -195,12 +193,13 @@
                     Ways to apply:
                     <ul>
                         <li>
-                            <a href="https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml">
+                            <a href="https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml" target="_blank" rel="noopener noreferrer">
                                 Apply online using CommonHelp. (You may have to create an account to apply.)
                             </a>
                         </li>
+                        <br/>
                         <li>
-                            <a href="https://www.dss.virginia.gov/localagency/index.cgi">
+                            <a href="https://www.dss.virginia.gov/localagency/index.cgi" target="_blank" rel="noopener noreferrer">
                                 Apply at a local Social Services department near you.
                             </a>
                         </li>
