@@ -31,7 +31,7 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -55,7 +55,7 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -79,7 +79,7 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -106,7 +106,7 @@ describe('VA SNAP prescreener', () => {
             'va_utility_allowance_true': true,
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -132,7 +132,7 @@ describe('VA SNAP prescreener', () => {
             'va_utility_allowance_false': true,
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -157,7 +157,7 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });

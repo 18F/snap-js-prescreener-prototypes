@@ -31,7 +31,7 @@ describe('IL SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -55,7 +55,7 @@ describe('IL SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
@@ -79,7 +79,7 @@ describe('IL SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });

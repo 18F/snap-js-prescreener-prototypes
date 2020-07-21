@@ -199,7 +199,7 @@
             return html;
         },
         'responseResultToHTML': function (response) {
-            let html = '<h1>Results:</h1>';
+            let html = '<h1 id="results-section-title">Results:</h1>';
 
             const is_eligible = response.estimated_eligibility;
             const estimated_monthly_benefit = response.estimated_monthly_benefit;
