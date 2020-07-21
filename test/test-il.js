@@ -21,7 +21,7 @@ describe('IL SNAP prescreener', () => {
         await browser.close();
     })
 
-    it('shows the correct results HTML for a 1-person eligible household', async () => {
+    it('a 1-person eligible household', async () => {
         fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
@@ -40,14 +40,14 @@ describe('IL SNAP prescreener', () => {
         const expectedInnerText = `
             Results:
             You may be eligible for SNAP benefits.
-            If approved, your benefit may be $194 per month.
+            If you apply and are approved, your benefit may be $194 per month.
             Ways to apply:
             Apply online using ABE.`;
 
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for a 2-person eligible household', async () => {
+    it('a 2-person eligible household', async () => {
         fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
@@ -65,14 +65,14 @@ describe('IL SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If approved, your benefit may be $355 per month.
+            If you apply and are approved, your benefit may be $355 per month.
             Ways to apply:
             Apply online using ABE.`;
 
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for an ineligible household', async () => {
+    it('an ineligible household', async () => {
         fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,

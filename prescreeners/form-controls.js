@@ -231,11 +231,12 @@
             if (emergency_allotment_estimated_benefit && estimated_monthly_benefit !== emergency_allotment_estimated_benefit) {
                 const additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
 
-                html += `<div class="result-big">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
-                html += `<div class="result-big">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`;
+                html += (
+                    `<div class="result-big">If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</div><div class="result-big">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`
+                );
             // If no emergency allotments, or EA is the same as regular benefit amount:
             } else {
-                html += `<div class="result-big">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+                html += `<div class="result-big">If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
             }
 
             html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
