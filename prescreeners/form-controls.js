@@ -213,8 +213,7 @@
             if (!is_eligible) {
                 html += (
                     `<div class="result-big">You <strong>might not</strong> be eligible for SNAP benefits.</div>
-                    <div class="result-big">This result is only an estimate based on your inputs, <strong>not an official application or decision</strong>.</div>
-                    <div class="result-big">You can still apply for SNAP benefits.</div>`
+                    <div class="result-big">This result is only an estimate based on your inputs, not an official application or decision. <strong>You can still apply for SNAP benefits</strong>.</div>`
                 );
 
                 html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
