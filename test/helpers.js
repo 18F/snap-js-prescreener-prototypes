@@ -33,8 +33,18 @@ const fillOutForm = async (steps) => {
 
     await page.waitForSelector('#results-section-title', {
         'visible': true,
-        'timeout': 5000
+        'timeout': 4000
     });
 }
 
+const clickForExplanation = async () => {
+    await page.click('#show-explanation');
+
+    await page.waitForSelector('#result-explanation', {
+        'visible': true,
+        'timeout': 4000
+    });
+}
+
+exports.clickForExplanation = clickForExplanation;
 exports.fillOutForm = fillOutForm;

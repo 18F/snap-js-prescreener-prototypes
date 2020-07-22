@@ -2,7 +2,11 @@ const puppeteer = require('puppeteer');
 const chai = require('chai');
 chai.use(require('chai-string'));
 const assert = chai.assert;
-const fillOutForm = require('./helpers').fillOutForm;
+
+// Shared helpers to simplify repeated form interactions:
+const helpers = require('./helpers');
+const fillOutForm = helpers.fillOutForm;
+const clickForExplanation = helpers.clickForExplanation;
 
 describe('IL SNAP prescreener', () => {
     before(async () => {
@@ -38,8 +42,13 @@ describe('IL SNAP prescreener', () => {
             If you apply and are approved, your benefit may be $194 per month.
             Ways to apply:
             Apply online using ABE.`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
     });
 
     it('a 2-person eligible household', async () => {
@@ -58,8 +67,13 @@ describe('IL SNAP prescreener', () => {
             If you apply and are approved, your benefit may be $355 per month.
             Ways to apply:
             Apply online using ABE.`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
     });
 
     it('an ineligible household', async () => {
@@ -81,7 +95,12 @@ describe('IL SNAP prescreener', () => {
             Apply online using ABE.
             Other resources for food assistance:
             Food Connections`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Fail');
+        assert.include(explanationText, 'Net Income Test: Fail');
+        assert.include(explanationText, 'Asset Test: Pass');
     });
 });
