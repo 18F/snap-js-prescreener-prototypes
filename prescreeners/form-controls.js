@@ -249,19 +249,27 @@
                 return a.sort_order - b.sort_order;
             });
 
-            for (const eligibility_factor of eligibility_factors) {
-                const name = eligibility_factor.name;
-                html += `<h3>${name}:</h3>`
+            const eligibility_tests = eligibility_factors.filter((factor) => {
+                return factor.type === 'test';
+            });
 
-                html += '<div>';
+            html += (
+                `<div class="result-big">
+                    Why did I get this result?
+                </div>
+                <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
+            );
 
-                const eligibility_explanation = eligibility_factor.explanation;
+            for (const eligibility_test of eligibility_tests) {
+                const name = eligibility_test.name;
+                const result_in_words = (eligibility_test.result)
+                    ? 'Pass'
+                    : 'Fail';
+                const result_span_class = (eligibility_test.result)
+                    ? 'pass-green'
+                    : 'fail-red';
 
-                for (const explanation_graph of eligibility_explanation) {
-                    html += `<p>${explanation_graph}</p>`;
-                }
-
-                html += '</div>';
+                html += `<h3>${name}: <span class="${result_span_class}">${result_in_words}</span></h3>`
             }
 
             return html;

@@ -108,3 +108,11 @@ footer div {
 .usa-alert {
   margin: 8px 0;
 }
+
+.pass-green {
+  color: #00a91c;
+}
+
+.fail-red {
+  color: #d54309;
+}
