@@ -142,6 +142,7 @@
             jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
 
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
+            console.log('response', response);
 
             FORM_SUBMIT_FUNCS['responseToHTML'](response);
         },
@@ -255,7 +256,7 @@
 
             html += (
                 `<div class="result-big">
-                    Why did I get this result?
+                    <u>Why did I get this result?</u>
                 </div>
                 <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
             );
@@ -269,7 +270,21 @@
                     ? 'pass-green'
                     : 'fail-red';
 
-                html += `<h3>${name}: <span class="${result_span_class}">${result_in_words}</span></h3>`
+                html += `<h3>${name}: <span class="${result_span_class}">${result_in_words}</span></h3>`;
+
+                for (const explanation_graph of eligibility_test.explanation) {
+                    html += `<p>${explanation_graph}</p>`;
+                }
+            }
+
+            const eligibility_amount = eligibility_factors.filter((factor) => {
+                return factor.type === 'amount';
+            })[0];
+
+            html += `<h3>${eligibility_amount.name}</h3>`;
+
+            for (const explanation_graph of eligibility_amount.explanation) {
+                html += `<p>${explanation_graph}</p>`;
             }
 
             return html;
