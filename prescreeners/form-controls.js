@@ -1,3 +1,16 @@
+// This is the JS that powers the benefit calculator.
+// Its responsibilities includes:
+//     * Front-end validation for the calculator form
+//     * Sending user input to the SnapAPI library
+//     * Rendering results, including explanations
+
+// The JS is organized into four main objects:
+//     * DOM_MANIPULATORS: Functions for maniuplating the DOM: show/hide, error states
+//     * STATE_OPTIONS: Data on next steps for applying for SNAP or seeking food assistance, which vary by state
+//     * FORM_CONTROLS: A layer of abstraction over DOM_MANIPULATORS; DOM manipulation funcs + specific form elements
+//     * FORM_SUBMIT_FUNCS: Functions for handling form submission, results and error state rendering
+
+// This file is written in ES6 and compiled down to more universally browser-compatible JS with `npm run build`.
 (() => {
     const DOM_MANIPULATORS = {
         'showElem': function showElem(elem_id) {
