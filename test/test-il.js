@@ -22,18 +22,13 @@ describe('IL SNAP prescreener', () => {
     })
 
     it('a 1-person eligible household', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '0',
             'monthly_non_job_income': '0',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -48,18 +43,13 @@ describe('IL SNAP prescreener', () => {
     });
 
     it('a 2-person eligible household', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '0',
             'monthly_non_job_income': '0',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -73,18 +63,13 @@ describe('IL SNAP prescreener', () => {
     });
 
     it('an ineligible household', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '0',
             'monthly_non_job_income': '6,000',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);

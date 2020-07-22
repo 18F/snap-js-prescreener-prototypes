@@ -22,18 +22,13 @@ describe('VA SNAP prescreener', () => {
     });
 
     it('a 1-person eligible household', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '0',
             'monthly_non_job_income': '0',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -48,18 +43,13 @@ describe('VA SNAP prescreener', () => {
     });
 
     it('a 2-person eligible household', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '0',
             'monthly_non_job_income': '0',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -74,18 +64,13 @@ describe('VA SNAP prescreener', () => {
     });
 
     it('a 2-person eligible household with EA', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '1000',
             'monthly_non_job_income': '0',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -101,7 +86,7 @@ describe('VA SNAP prescreener', () => {
     });
 
     it('a household with elderly or disabled members and a utility deduction', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': true,
             'all_citizens': true,
@@ -110,11 +95,6 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
             'rent_or_mortgage': '1900',
             'va_utility_allowance_true': true,
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -129,7 +109,7 @@ describe('VA SNAP prescreener', () => {
     });
 
     it('a household with elderly or disabled members and no utility deduction', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': true,
             'all_citizens': true,
@@ -138,11 +118,6 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
             'rent_or_mortgage': '1900',
             'va_utility_allowance_false': true,
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -158,18 +133,13 @@ describe('VA SNAP prescreener', () => {
     });
 
     it('an ineligible household', async () => {
-        fillOutForm({
+        await fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
             'all_citizens': true,
             'monthly_job_income': '6000',
             'monthly_non_job_income': '0',
             'resources': '0',
-        });
-
-        await page.waitForSelector('#results-section-title', {
-            'visible': true,
-            'timeout': 5000
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);

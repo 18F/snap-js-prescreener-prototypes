@@ -30,6 +30,11 @@ const fillOutForm = async (steps) => {
     }
 
     await page.click('#prescreener-form-submit');
+
+    await page.waitForSelector('#results-section-title', {
+        'visible': true,
+        'timeout': 5000
+    });
 }
 
 exports.fillOutForm = fillOutForm;
