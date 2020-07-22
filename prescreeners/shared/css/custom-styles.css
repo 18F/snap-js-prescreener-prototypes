@@ -38,9 +38,13 @@ h1 {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
-.result-headline {
+.result-big {
   font-size: 20px;
   margin: 10px 0;
+}
+
+.result-big li {
+  margin-bottom: 20px;
 }
 
 .hidden {
@@ -51,7 +55,6 @@ h1 {
   text-decoration: underline;
   cursor: pointer;
   color: blue;
-  font-style: italic;
 }
 
 fieldset.usa-fieldset:not(:first-child) {

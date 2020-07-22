@@ -21,7 +21,7 @@ describe('VA SNAP prescreener', () => {
         await browser.close();
     });
 
-    it('shows the correct results HTML for a 1-person eligible household', async () => {
+    it('a 1-person eligible household', async () => {
         fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
@@ -31,21 +31,23 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $194 per month.</div>
-            <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $194 per month.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for a 2-person eligible household', async () => {
+    it('a 2-person eligible household', async () => {
         fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
@@ -55,21 +57,23 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $355 per month.</div>
-            <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $355 per month.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for a 2-person eligible household with EA', async () => {
+    it('a 2-person eligible household with EA', async () => {
         fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
@@ -79,22 +83,24 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $165 per month.</div>
-            <div class="result-headline">Due to the current pandemic, you could receive an additional $190 per month. (This additional amount is temporary.)</div>
-            <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $165 per month.
+            Due to the current pandemic, you could receive an additional $190 per month. (This additional amount is temporary.)
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results for a household with elderly or disabled members and a utility deduction', async () => {
+    it('a household with elderly or disabled members and a utility deduction', async () => {
         fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': true,
@@ -106,21 +112,23 @@ describe('VA SNAP prescreener', () => {
             'va_utility_allowance_true': true,
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $355 per month.</div>
-            <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $355 per month.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results for a household with elderly or disabled members and no utility deduction', async () => {
+    it('a household with elderly or disabled members and no utility deduction', async () => {
         fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': true,
@@ -132,22 +140,24 @@ describe('VA SNAP prescreener', () => {
             'va_utility_allowance_false': true,
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $280 per month.</div>
-            <div class="result-headline">Due to the current pandemic, you could receive an additional $75 per month. (This additional amount is temporary.)</div>
-            <div class="result-headline">Apply here: <a href="https://commonhelp.virginia.gov/" target="_blank" rel="noopener noreferrer">https://commonhelp.virginia.gov/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $280 per month.
+            Due to the current pandemic, you could receive an additional $75 per month. (This additional amount is temporary.)
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for an ineligible household', async () => {
+    it('an ineligible household', async () => {
         fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
@@ -157,14 +167,23 @@ describe('VA SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1><div class="result-headline">You may not be eligible for SNAP benefits.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You might not be eligible for SNAP benefits.
+            This result is only an estimate based on your inputs, not an official application or decision.
+            You can still apply for SNAP benefits.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.
+            Other resources for food assistance:
+            Foodpantries.org
+            Feeding America`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 });

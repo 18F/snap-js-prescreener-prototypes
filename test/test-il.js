@@ -21,7 +21,7 @@ describe('IL SNAP prescreener', () => {
         await browser.close();
     })
 
-    it('shows the correct results HTML for a 1-person eligible household', async () => {
+    it('a 1-person eligible household', async () => {
         fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
@@ -31,21 +31,23 @@ describe('IL SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $194 per month.</div>
-            <div class="result-headline">Apply here: <a href="https://abe.illinois.gov/abe/access/" target="_blank" rel="noopener noreferrer">https://abe.illinois.gov/abe/access/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `
+            Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $194 per month.
+            Ways to apply:
+            Apply online using ABE.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for a 2-person eligible household', async () => {
+    it('a 2-person eligible household', async () => {
         fillOutForm({
             'household_size': '2',
             'household_includes_elderly_or_disabled': false,
@@ -55,21 +57,22 @@ describe('IL SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1>
-            <div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>
-            <div class="result-headline">If approved, your benefit may be $355 per month.</div>
-            <div class="result-headline">Apply here: <a href="https://abe.illinois.gov/abe/access/" target="_blank" rel="noopener noreferrer">https://abe.illinois.gov/abe/access/</a>.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $355 per month.
+            Ways to apply:
+            Apply online using ABE.`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('shows the correct results HTML for an ineligible household', async () => {
+    it('an ineligible household', async () => {
         fillOutForm({
             'household_size': '1',
             'household_includes_elderly_or_disabled': false,
@@ -79,14 +82,21 @@ describe('IL SNAP prescreener', () => {
             'resources': '0',
         });
 
-        await page.waitForSelector('.result-headline', {
+        await page.waitForSelector('#results-section-title', {
             'visible': true,
             'timeout': 5000
         });
 
-        const innerHTML = await page.evaluate(() => document.querySelector('#results').innerHTML);
-        const expectedInnerHTML = `<h1>Results:</h1><div class="result-headline">You may not be eligible for SNAP benefits.</div>`;
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You might not be eligible for SNAP benefits.
+            This result is only an estimate based on your inputs, not an official application or decision.
+            You can still apply for SNAP benefits.
+            Ways to apply:
+            Apply online using ABE.
+            Other resources for food assistance:
+            Food Connections`;
 
-        assert.equalIgnoreSpaces(innerHTML, expectedInnerHTML);
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 });

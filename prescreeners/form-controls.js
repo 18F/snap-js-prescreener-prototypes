@@ -45,6 +45,48 @@
         }
     };
 
+    const STATE_OPTIONS = {
+        // For each state, an array of Object-shaped options.
+        // `apply` options include URLs and descriptions of how a household can apply.
+        // `other_resources` options include URLs and descriptions of non-SNAP food resources.
+        'VA': {
+            'apply': [
+                {
+                    'url': 'https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml',
+                    'description': 'Apply online using CommonHelp. (You may have to create an account to apply.)'
+                },
+                {
+                    'url': 'https://www.dss.virginia.gov/localagency/index.cgi',
+                    'description': 'Apply at a local Social Services office near you.',
+                }
+            ],
+            'other_resources': [
+                {
+                    'url': 'https://www.foodpantries.org/st/virginia',
+                    'description': 'Foodpantries.org',
+                },
+                {
+                    'url': 'https://www.feedingamerica.org/find-your-local-foodbank',
+                    'description': 'Feeding America',
+                }
+            ]
+        },
+        'IL': {
+            'apply': [
+                {
+                    'url': 'https://abe.illinois.gov/abe/access/',
+                    'description': 'Apply online using ABE.',
+                }
+            ],
+            'other_resources': [
+                {
+                    'url': 'https://www.dhs.state.il.us/page.aspx?item=31245',
+                    'description': 'Food Connections',
+                }
+            ]
+        }
+    };
+
     const FORM_CONTROLS = {
         'showCitizenshipInfobox': DOM_MANIPULATORS['showElem']('citizenship_info_box'),
         'hideCitizenshipInfobox': DOM_MANIPULATORS['hideElem']('citizenship_info_box'),
@@ -139,37 +181,64 @@
 
             return html;
         },
-        'responseResultToHTML': function (response) {
+        'optionsHTML': function (options_array, options_title) {
+            let html = `<div class="result-big">${options_title}
+                            <ul>`;
 
-            let html = '<h1>Results:</h1>';
+            for (const option of options_array) {
+                html += (
+                    `<li>
+                        <a href="${option.url}" rel="noopener noreferrer">
+                            ${option.description}
+                        </a>
+                    </li>`
+                );
+            }
+
+            html += `</ul></div>`;
+            return html;
+        },
+        'responseResultToHTML': function (response) {
+            let html = '<h1 id="results-section-title">Results:</h1>';
 
             const is_eligible = response.estimated_eligibility;
             const estimated_monthly_benefit = response.estimated_monthly_benefit;
             const emergency_allotment_estimated_benefit = response.emergency_allotment_estimated_benefit;
-            const state_website = response.state_website;
+
+            const formSettings = document.getElementById('prescreener-form');
+            const stateAbbr = formSettings.dataset.stateOrTerritory;
+            const nextStepOptions = STATE_OPTIONS[stateAbbr];
 
             // SNAP JS API estimates household is ineligible:
             if (!is_eligible) {
-                html += '<div class="result-headline">You may not be eligible for SNAP benefits.</div>';
+                html += (
+                    `<div class="result-big">You <strong>might not</strong> be eligible for SNAP benefits.</div>
+                    <div class="result-big">This result is only an estimate based on your inputs, not an official application or decision. <strong>You can still apply for SNAP benefits</strong>.</div>`
+                );
+
+                html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
+
+                html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['other_resources'], 'Other resources for food assistance:');
 
                 return html;
             }
 
             // SNAP JS API estimates household is eligible:
-            html += '<div class="result-headline">You may be <b>eligible</b> for SNAP benefits.</div>';
+            html += '<div class="result-big">You may be <b>eligible</b> for SNAP benefits.</div>';
 
             // If emergency allotments are active, and estimated benefit is less than EA amount:
             if (emergency_allotment_estimated_benefit && estimated_monthly_benefit !== emergency_allotment_estimated_benefit) {
                 const additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
 
-                html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
-                html += `<div class="result-headline">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`;
+                html += (
+                    `<div class="result-big">If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</div><div class="result-big">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`
+                );
             // If no emergency allotments, or EA is the same as regular benefit amount:
             } else {
-                html += `<div class="result-headline">If approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+                html += `<div class="result-big">If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
             }
 
-            html += `<div class="result-headline">Apply here: <a href="${state_website}" target="_blank" rel="noopener noreferrer">${state_website}</a>.</div>`;
+            html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
 
             return html;
         },
