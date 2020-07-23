@@ -12,6 +12,7 @@
 
 // This file is written in ES6 and compiled down to more universally browser-compatible JS with `npm run build`.
 (() => {
+    // Shortcuts for manipulating the DOM. A micromicro framework, if you will.
     const DOM_MANIPULATORS = {
         'showElem': (elem_id) => {
             return () => {
@@ -100,6 +101,7 @@
         }
     };
 
+    // Shortcuts for showing/hiding specific elements on the page.
     const FORM_CONTROLS = {
         'showCitizenshipInfobox': DOM_MANIPULATORS['showElem']('citizenship_info_box'),
         'hideCitizenshipInfobox': DOM_MANIPULATORS['hideElem']('citizenship_info_box'),
@@ -126,9 +128,10 @@
         }
     };
 
+    // Handles form submission and rendering results.
     const FORM_SUBMIT_FUNCS = {
         'sendData': () => {
-            // Form fields that are present for all states
+            // Form fields that are present for all states:
             const jsonData = {
                 'household_size': document.getElementById('household_size').value,
                 'household_includes_elderly_or_disabled': document.querySelector('input[name="household_includes_elderly_or_disabled"]:checked').value,
@@ -143,12 +146,12 @@
 
             // Form fields that are present for some states but not all...
 
-            // Utility allowance radio button (VA)
+            // Utility allowance radio button (VA):
             if (document.querySelector('input[name="utility_allowance"]:checked')) {
                 jsonData['utility_allowance'] = document.querySelector('input[name="utility_allowance"]:checked').value;
             }
 
-            // Utility allowance select box (IL)
+            // Utility allowance select box (IL):
             if (document.getElementById('utility_allowance')) {
                 jsonData['utility_allowance'] = document.getElementById('utility_allowance').value;
             }
@@ -335,7 +338,7 @@
         }
     };
 
-    // Set up on form submit.
+    // Set up form submit function.
     DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', (event) => {
         event.preventDefault();
         FORM_SUBMIT_FUNCS['sendData']();
@@ -359,20 +362,20 @@
         FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
     });
 
-    // Set up show explanation button
+    // Set up show explanation button.
     DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showResultExplanation']();
         FORM_CONTROLS['hideExplanationButton']();
         FORM_CONTROLS['showIncomeExplanationButton']();
     });
 
-    // Set up show income explanation button
+    // Set up show income explanation button.
     DOM_MANIPULATORS.getElem('show-income-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showIncomeExplanation']();
         FORM_CONTROLS['hideIncomeExplanationButton']();
     });
 
-    // Set up validation for number fields
+    // Set up validation for number fields.
     const number_field_ids = [
         'monthly_job_income',
         'monthly_non_job_income',
