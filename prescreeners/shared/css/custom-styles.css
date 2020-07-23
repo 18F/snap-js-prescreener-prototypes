@@ -1,13 +1,4 @@
-.title {
-  text-align: center;
-  margin: 20px 0;
-  font-weight: normal;
-}
-
-.subtitle {
-  text-align: center;
-  margin: 20px 0 40px 0;
-}
+/* Styles for page area above calculator */
 
 .alert {
   background-color: #e6e6e6;
@@ -20,41 +11,31 @@
   margin: 8px 0;
 }
 
-#errors {
-  color: red;
-}
-
-#household-size-label {
-  margin-top: 8px;
-}
-
-h1 {
+.title {
+  text-align: center;
+  margin: 20px 0 40px 0;
+  font-weight: normal;
   font-size: 38px;
-  margin-bottom: 38px;
 }
+
+.subtitle {
+  text-align: center;
+  margin: 20px 0 40px 0;
+}
+
+/* Calculator-specific styles */
 
 .calculator {
   padding: 16px 24px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
 }
 
-.result-big {
-  font-size: 20px;
-  margin: 10px 0;
+#errors {
+  color: red;
 }
 
-.result-big li {
-  margin-bottom: 20px;
-}
-
-.hidden {
-  display: none;
-}
-
-.explanation-link {
-  text-decoration: underline;
-  cursor: pointer;
-  color: blue;
+#household-size-label {
+  margin-top: 8px;
 }
 
 fieldset.usa-fieldset:not(:first-child) {
@@ -67,10 +48,6 @@ fieldset.usa-fieldset legend {
 
 .label-sub-text {
   color: #2F4F4F;
-}
-
-#main {
-  padding-bottom: 80px;
 }
 
 .currency_field_wrapper {
@@ -86,6 +63,43 @@ fieldset.usa-fieldset legend {
   top: 9px;
   left: 8px;
 }
+
+/* Calculator results styles */
+
+.result-big {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.result-big li {
+  margin-bottom: 20px;
+}
+
+.pass-green {
+  color: #00a91c;
+}
+
+.fail-red {
+  color: #d54309;
+}
+
+.explanation-link {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
+
+/* Utility classes */
+
+.hidden {
+  display: none;
+}
+
+#main {
+  padding-bottom: 80px;
+}
+
+/* Footer styles */
 
 footer {
   color: white;
@@ -103,16 +117,4 @@ footer a {
 
 footer div {
   margin: 8px 0;
-}
-
-.usa-alert {
-  margin: 8px 0;
-}
-
-.pass-green {
-  color: #00a91c;
-}
-
-.fail-red {
-  color: #d54309;
 }
