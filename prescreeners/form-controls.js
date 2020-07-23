@@ -278,9 +278,9 @@
             });
 
             html += (
-                `<div class="result-big">
-                    <u>Why did I get this result?</u>
-                </div>
+                `<a class="result-big explanation-link clicked">
+                    Why did I get this result?
+                </a>
                 <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
             );
 
@@ -313,7 +313,7 @@
             return html;
         },
         'responseIncomeExplanationToHTML': (eligibility_factors) => {
-            let html = '';
+            let html = `<a class="explanation-link clicked">How are gross and net income calculated?</a>`;
 
             eligibility_factors.sort((a, b) => {
                 return a.sort_order - b.sort_order;

@@ -89,6 +89,11 @@ fieldset.usa-fieldset legend {
   color: blue;
 }
 
+.explanation-link.clicked {
+  color: #1b1b1b;
+  font-style: italic;
+}
+
 /* Utility classes */
 
 .hidden {
