@@ -35,7 +35,7 @@ h1 {
 
 .calculator {
   padding: 16px 24px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
 }
 
 .result-big {
@@ -51,7 +51,7 @@ h1 {
   display: none;
 }
 
-#show-explanation {
+.explanation-link {
   text-decoration: underline;
   cursor: pointer;
   color: blue;

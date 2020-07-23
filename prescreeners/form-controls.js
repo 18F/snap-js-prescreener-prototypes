@@ -109,6 +109,10 @@
         'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
         'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
         'hideResultExplanation': DOM_MANIPULATORS['hideElem']('result-explanation'),
+        'showIncomeExplanationButton': DOM_MANIPULATORS['showElem']('show-income-explanation'),
+        'hideIncomeExplanationButton': DOM_MANIPULATORS['hideElem']('show-income-explanation'),
+        'showIncomeExplanation': DOM_MANIPULATORS['showElem']('income-explanation'),
+        'hideIncomeExplanation': DOM_MANIPULATORS['hideElem']('income-explanation'),
         'hideErrors': DOM_MANIPULATORS['hideElem']('errors'),
         'showErrors': DOM_MANIPULATORS['showElem']('errors'),
         'hideResults': DOM_MANIPULATORS['hideElem']('results'),
@@ -155,7 +159,6 @@
             jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
 
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
-            console.log('response', response);
 
             FORM_SUBMIT_FUNCS['responseToHTML'](response);
         },
@@ -174,14 +177,18 @@
 
             const resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
             const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
+            const incomeExplanationHTML = FORM_SUBMIT_FUNCS['responseIncomeExplanationToHTML'](response.eligibility_factors);
 
             DOM_MANIPULATORS.getElem('results').innerHTML = resultHTML;
             DOM_MANIPULATORS.getElem('result-explanation').innerHTML = explanationHTML;
+            DOM_MANIPULATORS.getElem('income-explanation').innerHTML = incomeExplanationHTML;
 
             FORM_CONTROLS['showResults']();
             FORM_CONTROLS['hideErrors']();
             FORM_CONTROLS['showExplanationButton']();
             FORM_CONTROLS['hideResultExplanation']();
+            FORM_CONTROLS['hideIncomeExplanationButton']();
+            FORM_CONTROLS['hideIncomeExplanation']();
 
             // Scroll to bottom to bring the results into view:
             window.scrollTo(0, document.body.scrollHeight);
@@ -256,7 +263,7 @@
 
             return html;
         },
-        'responseExplanationToHTML': function (eligibility_factors) {
+        'responseExplanationToHTML': (eligibility_factors) => {
             let html = '';
 
             eligibility_factors.sort((a, b) => {
@@ -301,6 +308,30 @@
             }
 
             return html;
+        },
+        'responseIncomeExplanationToHTML': (eligibility_factors) => {
+            let html = '';
+
+            eligibility_factors.sort((a, b) => {
+                return a.sort_order - b.sort_order;
+            });
+
+            const income_factors = eligibility_factors.filter((factor) => {
+                return factor.type === 'income';
+            });
+
+            for (const income_factor of income_factors) {
+                const name = income_factor.name;
+                const explanation_graphs = income_factor.explanation;
+
+                html += `<h3>${name}</h3>`;
+
+                for (const explanation_graph of explanation_graphs) {
+                    html += `<p>${explanation_graph}</p>`;
+                }
+            }
+
+            return html;
         }
     };
 
@@ -332,6 +363,13 @@
     DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showResultExplanation']();
         FORM_CONTROLS['hideExplanationButton']();
+        FORM_CONTROLS['showIncomeExplanationButton']();
+    });
+
+    // Set up show income explanation button
+    DOM_MANIPULATORS.getElem('show-income-explanation').addEventListener('click', () => {
+        FORM_CONTROLS['showIncomeExplanation']();
+        FORM_CONTROLS['hideIncomeExplanationButton']();
     });
 
     // Set up validation for number fields
