@@ -13,8 +13,8 @@
 // This file is written in ES6 and compiled down to more universally browser-compatible JS with `npm run build`.
 (() => {
     const DOM_MANIPULATORS = {
-        'showElem': function showElem(elem_id) {
-            return function () {
+        'showElem': (elem_id) => {
+            return () => {
                 const elem = document.getElementById(elem_id);
                 if (elem) {
                     if (elem.classList.contains('hidden')) {
@@ -23,8 +23,8 @@
                 }
             }
         },
-        'hideElem': function hideElem(elem_id) {
-            return function () {
+        'hideElem': (elem_id) => {
+            return () => {
                 const elem = document.getElementById(elem_id);
                 if (elem) {
                     if (!elem.classList.contains('hidden')) {
@@ -33,10 +33,10 @@
                 }
             }
         },
-        'getElem': function (elemId) {
+        'getElem': (elemId) => {
             return document.getElementById(elemId);
         },
-        'toggleErrorStateHTML': function (isValid) {
+        'toggleErrorStateHTML': (isValid) => {
             if (isValid) return '';
 
             return (
@@ -49,8 +49,8 @@
                 </div>`
             );
         },
-        'validateNumberField': function (errorElemId) {
-            return function(event) {
+        'validateNumberField': (errorElemId) => {
+            return (event) => {
                 const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
                 const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
                 errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
@@ -127,7 +127,7 @@
     };
 
     const FORM_SUBMIT_FUNCS = {
-        'sendData': function () {
+        'sendData': () => {
             // Form fields that are present for all states
             const jsonData = {
                 'household_size': document.getElementById('household_size').value,
@@ -162,7 +162,7 @@
 
             FORM_SUBMIT_FUNCS['responseToHTML'](response);
         },
-        responseToHTML: function (response) {
+        responseToHTML: (response) => {
             if (response.status !== 'OK') {
                 FORM_CONTROLS['hideResults']();
                 FORM_CONTROLS['hideExplanationButton']();
@@ -193,7 +193,7 @@
             // Scroll to bottom to bring the results into view:
             window.scrollTo(0, document.body.scrollHeight);
         },
-        'responseErrorsToHTML': function (errors) {
+        'responseErrorsToHTML': (errors) => {
             let html = `<h1>Errors:</h1>`;
 
             for (const error of errors) {
@@ -202,7 +202,7 @@
 
             return html;
         },
-        'optionsHTML': function (options_array, options_title) {
+        'optionsHTML': (options_array, options_title) => {
             let html = `<div class="result-big">${options_title}
                             <ul>`;
 
@@ -219,7 +219,7 @@
             html += `</ul></div>`;
             return html;
         },
-        'responseResultToHTML': function (response) {
+        'responseResultToHTML': (response) => {
             let html = '<h1 id="results-section-title">Results:</h1>';
 
             const is_eligible = response.estimated_eligibility;
@@ -336,7 +336,7 @@
     };
 
     // Set up on form submit.
-    DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', function (event) {
+    DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', (event) => {
         event.preventDefault();
         FORM_SUBMIT_FUNCS['sendData']();
     });
