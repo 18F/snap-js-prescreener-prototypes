@@ -2,7 +2,12 @@ const puppeteer = require('puppeteer');
 const chai = require('chai');
 chai.use(require('chai-string'));
 const assert = chai.assert;
-const fillOutForm = require('./helpers').fillOutForm;
+
+// Shared helpers to simplify repeated form interactions:
+const helpers = require('./helpers');
+const fillOutForm = helpers.fillOutForm;
+const clickForExplanation = helpers.clickForExplanation;
+const clickForIncomeExplanation = helpers.clickForIncomeExplanation;
 
 describe('VA SNAP prescreener', () => {
     before(async () => {
@@ -40,6 +45,18 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
 
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('a 2-person eligible household', async () => {
@@ -59,8 +76,19 @@ describe('VA SNAP prescreener', () => {
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
             Apply at a local Social Services office near you.`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('a 2-person eligible household with EA', async () => {
@@ -81,8 +109,19 @@ describe('VA SNAP prescreener', () => {
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
             Apply at a local Social Services office near you.`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('a household with elderly or disabled members and a utility deduction', async () => {
@@ -104,8 +143,19 @@ describe('VA SNAP prescreener', () => {
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
             Apply at a local Social Services office near you.`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('a household with elderly or disabled members and no utility deduction', async () => {
@@ -128,8 +178,19 @@ describe('VA SNAP prescreener', () => {
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
             Apply at a local Social Services office near you.`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('an ineligible household', async () => {
@@ -153,7 +214,18 @@ describe('VA SNAP prescreener', () => {
             Other resources for food assistance:
             Foodpantries.org
             Feeding America`;
-
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Fail');
+        assert.include(explanationText, 'Net Income Test: Fail');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 });

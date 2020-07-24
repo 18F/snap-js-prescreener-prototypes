@@ -7,6 +7,7 @@ const assert = chai.assert;
 const helpers = require('./helpers');
 const fillOutForm = helpers.fillOutForm;
 const clickForExplanation = helpers.clickForExplanation;
+const clickForIncomeExplanation = helpers.clickForIncomeExplanation;
 
 describe('IL SNAP prescreener', () => {
     before(async () => {
@@ -49,6 +50,12 @@ describe('IL SNAP prescreener', () => {
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('a 2-person eligible household', async () => {
@@ -74,6 +81,13 @@ describe('IL SNAP prescreener', () => {
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
+
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 
     it('an ineligible household', async () => {
@@ -102,5 +116,11 @@ describe('IL SNAP prescreener', () => {
         assert.include(explanationText, 'Gross Income Test: Fail');
         assert.include(explanationText, 'Net Income Test: Fail');
         assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
     });
 });

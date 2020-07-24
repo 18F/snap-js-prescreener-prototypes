@@ -15,7 +15,7 @@ const fillOutForm = async (steps) => {
 
     await page.type('#monthly_job_income', steps['monthly_job_income']);
     await page.type('#monthly_non_job_income', steps['monthly_non_job_income']);
-    await page.type('#resources', steps['monthly_job_income']);
+    await page.type('#resources', steps['resources']);
 
     if (steps['rent_or_mortgage']) {
         await page.type('#rent_or_mortgage', steps['rent_or_mortgage']);
@@ -46,5 +46,15 @@ const clickForExplanation = async () => {
     });
 }
 
+const clickForIncomeExplanation = async () => {
+    await page.click('#show-income-explanation');
+
+    await page.waitForSelector('#income-explanation', {
+        'visible': true,
+        'timeout': 4000
+    });
+}
+
+exports.clickForIncomeExplanation = clickForIncomeExplanation;
 exports.clickForExplanation = clickForExplanation;
 exports.fillOutForm = fillOutForm;
