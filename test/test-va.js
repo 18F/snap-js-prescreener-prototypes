@@ -264,4 +264,40 @@ describe('VA SNAP prescreener', () => {
         assert.include(incomeExplanationText, 'Gross Income');
         assert.include(incomeExplanationText, 'Net Income');
     });
+
+    it('a household ineligible because of both assets and income', async () => {
+        await fillOutForm({
+            'household_size': '1',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '6000',
+            'monthly_non_job_income': '6000',
+            'resources': '6000',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You might not be eligible for SNAP benefits.
+            This result is only an estimate based on your inputs, not an official application or decision.
+            You can still apply for SNAP benefits.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.
+            Other resources for food assistance:
+            Foodpantries.org
+            Feeding America`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Fail');
+        assert.include(explanationText, 'Net Income Test: Fail');
+        assert.include(explanationText, 'Asset Test: Fail');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
+    });
 });
