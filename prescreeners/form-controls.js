@@ -1,7 +1,21 @@
+// This is the JS that powers the benefit calculator.
+// Its responsibilities includes:
+//     * Front-end validation for the calculator form
+//     * Sending user input to the SnapAPI library
+//     * Rendering results, including explanations
+
+// The JS is organized into four main objects:
+//     * DOM_MANIPULATORS: Functions for maniuplating the DOM: show/hide, error states
+//     * STATE_OPTIONS: Data on next steps for applying for SNAP or seeking food assistance, which vary by state
+//     * FORM_CONTROLS: A layer of abstraction over DOM_MANIPULATORS; DOM manipulation funcs + specific form elements
+//     * FORM_SUBMIT_FUNCS: Functions for handling form submission, results and error state rendering
+
+// This file is written in ES6 and compiled down to more universally browser-compatible JS with `npm run build`.
 (() => {
+    // Shortcuts for manipulating the DOM. A micromicro framework, if you will.
     const DOM_MANIPULATORS = {
-        'showElem': function showElem(elem_id) {
-            return function () {
+        'showElem': (elem_id) => {
+            return () => {
                 const elem = document.getElementById(elem_id);
                 if (elem) {
                     if (elem.classList.contains('hidden')) {
@@ -10,8 +24,8 @@
                 }
             }
         },
-        'hideElem': function hideElem(elem_id) {
-            return function () {
+        'hideElem': (elem_id) => {
+            return () => {
                 const elem = document.getElementById(elem_id);
                 if (elem) {
                     if (!elem.classList.contains('hidden')) {
@@ -20,10 +34,10 @@
                 }
             }
         },
-        'getElem': function (elemId) {
+        'getElem': (elemId) => {
             return document.getElementById(elemId);
         },
-        'toggleErrorStateHTML': function (isValid) {
+        'toggleErrorStateHTML': (isValid) => {
             if (isValid) return '';
 
             return (
@@ -36,8 +50,8 @@
                 </div>`
             );
         },
-        'validateNumberField': function (errorElemId) {
-            return function(event) {
+        'validateNumberField': (errorElemId) => {
+            return (event) => {
                 const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
                 const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
                 errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
@@ -87,6 +101,7 @@
         }
     };
 
+    // Shortcuts for showing/hiding specific elements on the page.
     const FORM_CONTROLS = {
         'showCitizenshipInfobox': DOM_MANIPULATORS['showElem']('citizenship_info_box'),
         'hideCitizenshipInfobox': DOM_MANIPULATORS['hideElem']('citizenship_info_box'),
@@ -96,6 +111,10 @@
         'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
         'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
         'hideResultExplanation': DOM_MANIPULATORS['hideElem']('result-explanation'),
+        'showIncomeExplanationButton': DOM_MANIPULATORS['showElem']('show-income-explanation'),
+        'hideIncomeExplanationButton': DOM_MANIPULATORS['hideElem']('show-income-explanation'),
+        'showIncomeExplanation': DOM_MANIPULATORS['showElem']('income-explanation'),
+        'hideIncomeExplanation': DOM_MANIPULATORS['hideElem']('income-explanation'),
         'hideErrors': DOM_MANIPULATORS['hideElem']('errors'),
         'showErrors': DOM_MANIPULATORS['showElem']('errors'),
         'hideResults': DOM_MANIPULATORS['hideElem']('results'),
@@ -109,9 +128,10 @@
         }
     };
 
+    // Handles form submission and rendering results.
     const FORM_SUBMIT_FUNCS = {
-        'sendData': function () {
-            // Form fields that are present for all states
+        'sendData': () => {
+            // Form fields that are present for all states:
             const jsonData = {
                 'household_size': document.getElementById('household_size').value,
                 'household_includes_elderly_or_disabled': document.querySelector('input[name="household_includes_elderly_or_disabled"]:checked').value,
@@ -126,12 +146,12 @@
 
             // Form fields that are present for some states but not all...
 
-            // Utility allowance radio button (VA)
+            // Utility allowance radio button (VA):
             if (document.querySelector('input[name="utility_allowance"]:checked')) {
                 jsonData['utility_allowance'] = document.querySelector('input[name="utility_allowance"]:checked').value;
             }
 
-            // Utility allowance select box (IL)
+            // Utility allowance select box (IL):
             if (document.getElementById('utility_allowance')) {
                 jsonData['utility_allowance'] = document.getElementById('utility_allowance').value;
             }
@@ -145,7 +165,7 @@
 
             FORM_SUBMIT_FUNCS['responseToHTML'](response);
         },
-        responseToHTML: function (response) {
+        responseToHTML: (response) => {
             if (response.status !== 'OK') {
                 FORM_CONTROLS['hideResults']();
                 FORM_CONTROLS['hideExplanationButton']();
@@ -160,19 +180,23 @@
 
             const resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
             const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
+            const incomeExplanationHTML = FORM_SUBMIT_FUNCS['responseIncomeExplanationToHTML'](response.eligibility_factors);
 
             DOM_MANIPULATORS.getElem('results').innerHTML = resultHTML;
             DOM_MANIPULATORS.getElem('result-explanation').innerHTML = explanationHTML;
+            DOM_MANIPULATORS.getElem('income-explanation').innerHTML = incomeExplanationHTML;
 
             FORM_CONTROLS['showResults']();
             FORM_CONTROLS['hideErrors']();
             FORM_CONTROLS['showExplanationButton']();
             FORM_CONTROLS['hideResultExplanation']();
+            FORM_CONTROLS['hideIncomeExplanationButton']();
+            FORM_CONTROLS['hideIncomeExplanation']();
 
             // Scroll to bottom to bring the results into view:
             window.scrollTo(0, document.body.scrollHeight);
         },
-        'responseErrorsToHTML': function (errors) {
+        'responseErrorsToHTML': (errors) => {
             let html = `<h1>Errors:</h1>`;
 
             for (const error of errors) {
@@ -181,7 +205,7 @@
 
             return html;
         },
-        'optionsHTML': function (options_array, options_title) {
+        'optionsHTML': (options_array, options_title) => {
             let html = `<div class="result-big">${options_title}
                             <ul>`;
 
@@ -198,7 +222,7 @@
             html += `</ul></div>`;
             return html;
         },
-        'responseResultToHTML': function (response) {
+        'responseResultToHTML': (response) => {
             let html = '<h1 id="results-section-title">Results:</h1>';
 
             const is_eligible = response.estimated_eligibility;
@@ -242,34 +266,81 @@
 
             return html;
         },
-        'responseExplanationToHTML': function (eligibility_factors) {
+        'responseExplanationToHTML': (eligibility_factors) => {
             let html = '';
 
             eligibility_factors.sort((a, b) => {
                 return a.sort_order - b.sort_order;
             });
 
-            for (const eligibility_factor of eligibility_factors) {
-                const name = eligibility_factor.name;
-                html += `<h3>${name}:</h3>`
+            const eligibility_tests = eligibility_factors.filter((factor) => {
+                return factor.type === 'test';
+            });
 
-                html += '<div>';
+            html += (
+                `<a class="result-big explanation-link clicked">
+                    Why did I get this result?
+                </a>
+                <h2>SNAP requirements</h2>
+                <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
+            );
 
-                const eligibility_explanation = eligibility_factor.explanation;
+            for (const eligibility_test of eligibility_tests) {
+                const name = eligibility_test.name;
+                const result_in_words = (eligibility_test.result)
+                    ? 'Pass'
+                    : 'Fail';
+                const result_span_class = (eligibility_test.result)
+                    ? 'pass-green'
+                    : 'fail-red';
 
-                for (const explanation_graph of eligibility_explanation) {
+                html += `<h3>${name}: <span class="${result_span_class}">${result_in_words}</span></h3>`;
+
+                for (const explanation_graph of eligibility_test.explanation) {
                     html += `<p>${explanation_graph}</p>`;
                 }
+            }
 
-                html += '</div>';
+            const eligibility_amount = eligibility_factors.filter((factor) => {
+                return factor.type === 'amount';
+            })[0];
+
+            html += `<h2>${eligibility_amount.name}</h2>`;
+
+            for (const explanation_graph of eligibility_amount.explanation) {
+                html += `<p>${explanation_graph}</p>`;
+            }
+
+            return html;
+        },
+        'responseIncomeExplanationToHTML': (eligibility_factors) => {
+            let html = `<a class="explanation-link clicked">How are gross and net income calculated?</a>`;
+
+            eligibility_factors.sort((a, b) => {
+                return a.sort_order - b.sort_order;
+            });
+
+            const income_factors = eligibility_factors.filter((factor) => {
+                return factor.type === 'income';
+            });
+
+            for (const income_factor of income_factors) {
+                const name = income_factor.name;
+                const explanation_graphs = income_factor.explanation;
+
+                html += `<h3>${name}</h3>`;
+
+                for (const explanation_graph of explanation_graphs) {
+                    html += `<p>${explanation_graph}</p>`;
+                }
             }
 
             return html;
         }
     };
 
-    // Set up on form submit.
-    DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', function (event) {
+    // Set up form submit function.
+    DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', (event) => {
         event.preventDefault();
         FORM_SUBMIT_FUNCS['sendData']();
     });
@@ -292,13 +363,20 @@
         FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
     });
 
-    // Set up show explanation button
+    // Set up show explanation button.
     DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showResultExplanation']();
         FORM_CONTROLS['hideExplanationButton']();
+        FORM_CONTROLS['showIncomeExplanationButton']();
     });
 
-    // Set up validation for number fields
+    // Set up show income explanation button.
+    DOM_MANIPULATORS.getElem('show-income-explanation').addEventListener('click', () => {
+        FORM_CONTROLS['showIncomeExplanation']();
+        FORM_CONTROLS['hideIncomeExplanationButton']();
+    });
+
+    // Set up validation for number fields.
     const number_field_ids = [
         'monthly_job_income',
         'monthly_non_job_income',
