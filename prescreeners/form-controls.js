@@ -281,6 +281,7 @@
                 `<a class="result-big explanation-link clicked">
                     Why did I get this result?
                 </a>
+                <h2>SNAP requirements</h2>
                 <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
             );
 
@@ -304,7 +305,7 @@
                 return factor.type === 'amount';
             })[0];
 
-            html += `<h3>${eligibility_amount.name}</h3>`;
+            html += `<h2>${eligibility_amount.name}</h2>`;
 
             for (const explanation_graph of eligibility_amount.explanation) {
                 html += `<p>${explanation_graph}</p>`;
