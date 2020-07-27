@@ -148,9 +148,7 @@
                         jsonData[elem.id] = elem.value;
                         break;
                 }
-            };
-
-            console.log('jsonData', jsonData);
+            }
 
             // Send state_or_territory and emergency allotment config to API:
             const formSettings = document.getElementById('prescreener-form');
