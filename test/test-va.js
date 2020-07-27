@@ -300,4 +300,37 @@ describe('VA SNAP prescreener', () => {
         assert.include(incomeExplanationText, 'Gross Income');
         assert.include(incomeExplanationText, 'Net Income');
     });
+
+    it('a household eligible because of the gross income exclusion for child support payments', async () => {
+        await fillOutForm({
+            'household_size': '1',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '1400',
+            'monthly_non_job_income': '0',
+            'court_ordered_child_support_payments': '500',
+            'resources': '1000',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $355 per month.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
+    });
 });
