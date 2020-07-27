@@ -142,7 +142,10 @@
                         jsonData[elem.id] = elem.value;
                         break;
                     case 'radio':
-                        jsonData[elem.name] = document.querySelector(`input[name="${elem.name}"]:checked`).value;
+                        let checked = document.querySelector(`input[name="${elem.name}"]:checked`);
+                        (checked)
+                            ? jsonData[elem.name] = checked.value
+                            : null;
                         break;
                     case 'text':
                         jsonData[elem.id] = elem.value;
