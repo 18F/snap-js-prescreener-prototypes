@@ -132,29 +132,25 @@
     const FORM_SUBMIT_FUNCS = {
         'sendData': () => {
             // Form fields that are present for all states:
-            const jsonData = {
-                'household_size': document.getElementById('household_size').value,
-                'household_includes_elderly_or_disabled': document.querySelector('input[name="household_includes_elderly_or_disabled"]:checked').value,
-                'monthly_job_income': document.getElementById('monthly_job_income').value,
-                'monthly_non_job_income': document.getElementById('monthly_non_job_income').value,
-                'resources': document.getElementById('resources').value,
-                'dependent_care_costs': document.getElementById('dependent_care_costs').value,
-                'medical_expenses_for_elderly_or_disabled': document.getElementById('medical_expenses_for_elderly_or_disabled').value,
-                'rent_or_mortgage': document.getElementById('rent_or_mortgage').value,
-                'homeowners_insurance_and_taxes': document.getElementById('homeowners_insurance_and_taxes').value,
+            const form = DOM_MANIPULATORS.getElem('prescreener-form');
+            const elements = form.elements;
+            const jsonData = {};
+
+            for (const elem of elements) {
+                switch(elem.type) {
+                    case 'select-one':
+                        jsonData[elem.id] = elem.value;
+                        break;
+                    case 'radio':
+                        jsonData[elem.name] = document.querySelector(`input[name="${elem.name}"]:checked`).value;
+                        break;
+                    case 'text':
+                        jsonData[elem.id] = elem.value;
+                        break;
+                }
             };
 
-            // Form fields that are present for some states but not all...
-
-            // Utility allowance radio button (VA):
-            if (document.querySelector('input[name="utility_allowance"]:checked')) {
-                jsonData['utility_allowance'] = document.querySelector('input[name="utility_allowance"]:checked').value;
-            }
-
-            // Utility allowance select box (IL):
-            if (document.getElementById('utility_allowance')) {
-                jsonData['utility_allowance'] = document.getElementById('utility_allowance').value;
-            }
+            console.log('jsonData', jsonData);
 
             // Send state_or_territory and emergency allotment config to API:
             const formSettings = document.getElementById('prescreener-form');
