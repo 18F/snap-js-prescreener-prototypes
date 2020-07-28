@@ -133,7 +133,7 @@ describe('VA SNAP prescreener', () => {
             'monthly_non_job_income': '0',
             'resources': '0',
             'rent_or_mortgage': '1900',
-            'va_utility_allowance_true': true,
+            'utility_allowance': 'HEATING_AND_COOLING',
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -167,7 +167,7 @@ describe('VA SNAP prescreener', () => {
             'monthly_non_job_income': '0',
             'resources': '0',
             'rent_or_mortgage': '1900',
-            'va_utility_allowance_false': true,
+            'utility_allowance': 'NONE',
         });
 
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
@@ -299,5 +299,153 @@ describe('VA SNAP prescreener', () => {
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
         assert.include(incomeExplanationText, 'Net Income');
+    });
+
+    it('a household eligible because of the gross income exclusion for child support payments', async () => {
+        await fillOutForm({
+            'household_size': '1',
+            'household_includes_elderly_or_disabled': false,
+            'all_citizens': true,
+            'monthly_job_income': '1400',
+            'monthly_non_job_income': '0',
+            'court_ordered_child_support_payments': '500',
+            'resources': '1000',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $58 per month.
+            Due to the current pandemic, you could receive an additional $136 per month. (This additional amount is temporary.)
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
+    });
+
+    it('an eligible household that uses all deductions', async () => {
+        await fillOutForm({
+            'household_size': '2',
+            'household_includes_elderly_or_disabled': true,
+            'all_citizens': true,
+            'monthly_job_income': '1500',
+            'monthly_non_job_income': '250',
+            'resources': '1000',
+            'dependent_care_costs': '300',
+            'medical_expenses_for_elderly_or_disabled': '50',
+            'court_ordered_child_support_payments': '200',
+            'rent_or_mortgage': '600',
+            'homeowners_insurance_and_taxes': '15',
+            'utility_allowance': 'HEATING_AND_COOLING',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $355 per month.
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you. `;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await clickForExplanation({});
+        const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
+        assert.include(explanationText, 'Gross Income Test: Pass');
+        assert.include(explanationText, 'Net Income Test: Pass');
+        assert.include(explanationText, 'Asset Test: Pass');
+
+        await clickForIncomeExplanation({});
+        const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
+        assert.include(incomeExplanationText, 'How are gross and net income calculated?');
+        assert.include(incomeExplanationText, 'Gross Income');
+        assert.include(incomeExplanationText, 'Net Income');
+    });
+
+    it('an eligible household that uses all deductions except child support payments', async () => {
+        await fillOutForm({
+            'household_size': '2',
+            'household_includes_elderly_or_disabled': true,
+            'all_citizens': true,
+            'monthly_job_income': '1500',
+            'monthly_non_job_income': '250',
+            'resources': '1000',
+            'dependent_care_costs': '300',
+            'medical_expenses_for_elderly_or_disabled': '50',
+            'court_ordered_child_support_payments': '0',
+            'rent_or_mortgage': '600',
+            'homeowners_insurance_and_taxes': '15',
+            'utility_allowance': 'HEATING_AND_COOLING',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $278 per month.
+            Due to the current pandemic, you could receive an additional $77 per month. (This additional amount is temporary.)
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+    });
+
+    it('an eligible household that uses all deductions except child support payments and utility costs', async () => {
+        await fillOutForm({
+            'household_size': '2',
+            'household_includes_elderly_or_disabled': true,
+            'all_citizens': true,
+            'monthly_job_income': '1500',
+            'monthly_non_job_income': '250',
+            'resources': '1000',
+            'dependent_care_costs': '300',
+            'medical_expenses_for_elderly_or_disabled': '50',
+            'rent_or_mortgage': '600',
+            'homeowners_insurance_and_taxes': '15',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $187 per month.
+            Due to the current pandemic, you could receive an additional $168 per month. (This additional amount is temporary.)
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+    });
+
+    it('an eligible household that uses all deductions except child support payments, utility costs, and medical expenses deduction', async () => {
+        await fillOutForm({
+            'household_size': '2',
+            'household_includes_elderly_or_disabled': true,
+            'all_citizens': true,
+            'monthly_job_income': '1500',
+            'monthly_non_job_income': '250',
+            'resources': '1000',
+            'dependent_care_costs': '300',
+            'rent_or_mortgage': '600',
+            'homeowners_insurance_and_taxes': '15',
+        });
+
+        const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
+        const expectedInnerText = `Results:
+            You may be eligible for SNAP benefits.
+            If you apply and are approved, your benefit may be $97 per month.
+            Due to the current pandemic, you could receive an additional $258 per month. (This additional amount is temporary.)
+            Ways to apply:
+            Apply online using CommonHelp. (You may have to create an account to apply.)
+            Apply at a local Social Services office near you.`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 });
