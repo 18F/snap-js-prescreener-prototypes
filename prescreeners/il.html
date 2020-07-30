@@ -5,15 +5,18 @@
     <link rel="stylesheet" type="text/css" href="shared/css/custom-styles.css">
     <link rel="stylesheet" type="text/css" href="shared/css/uswds-2.4.0/css/uswds.min.css">
     <meta name="viewport" content="width=device-width">
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noindex" /><!-- FOR A PROD SITE: Remove the 'noindex' tag so search engines can crawl the site. -->
   </head>
   <body>
     <div class="alert">
-      <div><strong>This is a demonstration website only.</strong></div>
+      <div><strong>This is a demonstration website only.</strong></div><!-- FOR A PROD SITE: Remove the 'demonstration website only' language. -->
+      <div>This site is a tool to help navigate SNAP.</div>
+      <div>Decisions about SNAP benefits in Illinois are made by the Illinois Department of Human Services.</div>
+      <div>This site does not store any personal information.</div>
     </div>
     <div id="main" class="grid-container">
       <h1 class="title">Illinoisans, could you be eligible for help with your food budget?</h1>
-      <p class="subtitle">Answer a few questions to find out if you may be eligible for SNAP in Illinois, and how many dollars per month you may qualify for.</p>
+      <p class="subtitle">Find out if you may be eligible for SNAP and an estimated amount of benefits you could receive.</p>
       <div class="grid-row" >
         <div class="tablet:grid-col"></div>
         <div class="tablet:grid-col calculator">
@@ -111,7 +114,10 @@
             <div id="citizenship_info_box" class="usa-alert usa-alert--info hidden">
               <div class="usa-alert__body">
                 <h3 class="usa-alert__heading">Information for immigrant households</h3>
-                <p class="usa-alert__text">Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.</p>
+                <p class="usa-alert__text">
+                  Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.
+                  Call for more info: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.</p><!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
+                </p>
               </div>
             </div>
 
@@ -249,15 +255,6 @@
               </select>
             </div>
 
-            <!-- <div id="utility_costs_question">
-              <label class="usa-label" for="utility_costs">
-                Monthly utility bills:
-              </label>
-              <input id="utility_costs"
-                   name="utility_costs"
-                   class="usa-input" />
-            </div> -->
-
             <!-- SUBMIT BUTTON -->
             <input id="prescreener-form-submit"
                    class="usa-button"
@@ -278,6 +275,9 @@
         <div class="tablet:grid-col"></div>
       </div>
     </div>
+    <footer>
+      Questions about your result? Confused about anything on this form? Reach out: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.<!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
+    </footer>
   </body>
   <script type="text/javascript" src="shared/js/api.js"></script>
   <script type="text/javascript" src="shared/js/form-controls.bundle.js"></script>
