@@ -12,15 +12,20 @@ This repo holds prototype prescreeners for SNAP benefits. A prescreener can help
 
 Right now the repo holds a prototype for one state, Virginia.
 
+### What problems does this aim to solve?
+
+* As a person who might be eligible for SNAP, I want to find out if I am likely eligible and what my monthly benefit amount might be.
+* As an oragnization that assists clients who may be eligible for SNAP, I want to offer a resource that can give them an estimate of their SNAP eligibility.
+
 ### Try it locally
 
 Open `va/va.html` in the browser of your choice.
 
 # Development
 
-### Notes
+### Guides and more documentation
 
-+ This prescreener prototype is serverless and uses front-end Javascript only. It does not collect any PII.
+See the [project wiki](https://github.com/18F/snap-js-prescreener-prototypes/wiki) for guides and project documentation.
 
 ### JS structure
 
@@ -46,3 +51,7 @@ See `package.json` for all developer commands.
 ### Browser targeting
 
 This prescreener targets Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11.
+
+### Developer notes
+
++ This prescreener prototype is serverless and uses front-end Javascript only. It does not collect any PII.
