@@ -27,10 +27,6 @@ Open `va/va.html` in the browser of your choice.
 
 See the [project wiki](https://github.com/18F/snap-js-prescreener-prototypes/wiki) for guides and project documentation.
 
-### Developer notes
-
-+ This prescreener prototype is serverless and uses front-end Javascript only. It does not collect any PII.
-
 ### JS structure
 
 + `api.js`: A JS library that accepts estimates SNAP eligibility and benefits given inputs about household income and expenses. This is the bundled form of [18F/snap-js-api-prototype](https://github.com/18F/snap-js-api-prototype).
@@ -55,3 +51,7 @@ See `package.json` for all developer commands.
 ### Browser targeting
 
 This prescreener targets Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11.
+
+### Developer notes
+
++ This prescreener prototype is serverless and uses front-end Javascript only. It does not collect any PII.
