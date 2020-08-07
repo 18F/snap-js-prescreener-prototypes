@@ -110,8 +110,6 @@ footer {
   color: white;
   background-color: #1B1349;
   text-align: center;
-  position: fixed;
-  bottom: 0;
   width: 100%;
   padding: 16px;
 }
