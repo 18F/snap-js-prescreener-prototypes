@@ -46,13 +46,13 @@ describe('VA SNAP prescreener', () => {
 
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -78,13 +78,13 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -143,13 +143,13 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -177,13 +177,13 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -212,13 +212,13 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -248,13 +248,13 @@ describe('VA SNAP prescreener', () => {
             Feeding America`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Fail');
         assert.include(explanationText, 'Net Income Test: Fail');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -284,13 +284,13 @@ describe('VA SNAP prescreener', () => {
             Feeding America`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Fail');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -320,13 +320,13 @@ describe('VA SNAP prescreener', () => {
             Feeding America`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Fail');
         assert.include(explanationText, 'Net Income Test: Fail');
         assert.include(explanationText, 'Asset Test: Fail');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -354,13 +354,13 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');
@@ -392,13 +392,13 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you. `;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
-        await clickForExplanation({});
+        await clickForExplanation();
         const explanationText = await page.evaluate(() => document.querySelector('#result-explanation').innerText);
         assert.include(explanationText, 'Gross Income Test: Pass');
         assert.include(explanationText, 'Net Income Test: Pass');
         assert.include(explanationText, 'Asset Test: Pass');
 
-        await clickForIncomeExplanation({});
+        await clickForIncomeExplanation();
         const incomeExplanationText = await page.evaluate(() => document.querySelector('#income-explanation').innerText);
         assert.include(incomeExplanationText, 'How are gross and net income calculated?');
         assert.include(incomeExplanationText, 'Gross Income');

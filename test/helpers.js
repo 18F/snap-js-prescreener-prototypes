@@ -69,6 +69,8 @@ const fillOutForm = async (steps) => {
         'visible': true,
         'timeout': 4000
     });
+
+    await page.evaluate(() => window.scrollTo(0,0));
 }
 
 const clickForExplanation = async () => {

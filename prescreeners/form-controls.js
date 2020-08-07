@@ -191,8 +191,8 @@
             FORM_CONTROLS['hideIncomeExplanationButton']();
             FORM_CONTROLS['hideIncomeExplanation']();
 
-            // Scroll to bottom to bring the results into view:
-            window.scrollTo(0, document.body.scrollHeight);
+            // Scroll to bring the results into view:
+            DOM_MANIPULATORS.getElem('results').scrollIntoView();
         },
         'responseErrorsToHTML': (errors) => {
             let html = `<h1>Errors:</h1>`;
