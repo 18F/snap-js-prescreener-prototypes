@@ -205,12 +205,12 @@
         },
         'optionsHTML': (options_array, options_title) => {
             let html = `<p>${options_title}
-                            <ul>`;
+                            <ul class="usa-link">`;
 
             for (const option of options_array) {
                 html += (
                     `<li>
-                        <a href="${option.url}" rel="noopener noreferrer">
+                        <a class="usa-link" href="${option.url}" rel="noopener noreferrer">
                             ${option.description}
                         </a>
                     </li>`
