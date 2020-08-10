@@ -204,7 +204,7 @@
             return html;
         },
         'optionsHTML': (options_array, options_title) => {
-            let html = `<div class="result-big">${options_title}
+            let html = `<p>${options_title}
                             <ul>`;
 
             for (const option of options_array) {
@@ -217,11 +217,11 @@
                 );
             }
 
-            html += `</ul></div>`;
+            html += `</ul></p>`;
             return html;
         },
         'responseResultToHTML': (response) => {
-            let html = '<h1 id="results-section-title">Results:</h1>';
+            let html = '<h2 id="results-section-title">Results:</h2>';
 
             const is_eligible = response.estimated_eligibility;
             const estimated_monthly_benefit = response.estimated_monthly_benefit;
@@ -234,8 +234,8 @@
             // SNAP JS API estimates household is ineligible:
             if (!is_eligible) {
                 html += (
-                    `<div class="result-big">You <strong>might not</strong> be eligible for SNAP benefits.</div>
-                    <div class="result-big">This result is only an estimate based on your inputs, not an official application or decision. <strong>You can still apply for SNAP benefits</strong>.</div>`
+                    `<p>You <strong>might not</strong> be eligible for SNAP benefits.</p>
+                    <p>This result is only an estimate based on your inputs, not an official application or decision. <strong>You can still apply for SNAP benefits</strong>.</p>`
                 );
 
                 html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
@@ -246,18 +246,18 @@
             }
 
             // SNAP JS API estimates household is eligible:
-            html += '<div class="result-big">You may be <b>eligible</b> for SNAP benefits.</div>';
+            html += '<p>You may be <b>eligible</b> for SNAP benefits.</p>';
 
             // If emergency allotments are active, and estimated benefit is less than EA amount:
             if (emergency_allotment_estimated_benefit && estimated_monthly_benefit !== emergency_allotment_estimated_benefit) {
                 const additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
 
                 html += (
-                    `<div class="result-big">If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</div><div class="result-big">Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</div>`
+                    `<p>If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</p><p>Due to the current pandemic, you could receive an additional $${additional_amount} per month. (This additional amount is temporary.)</p>`
                 );
             // If no emergency allotments, or EA is the same as regular benefit amount:
             } else {
-                html += `<div class="result-big">If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</div>`;
+                html += `<p>If you apply and are approved, your benefit may be $${estimated_monthly_benefit} per month.</p>`;
             }
 
             html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
@@ -276,7 +276,7 @@
             });
 
             html += (
-                `<a class="result-big explanation-link clicked">
+                `<a class="usa-link explanation-link clicked">
                     Why did I get this result?
                 </a>
                 <h2>SNAP requirements</h2>
@@ -312,7 +312,7 @@
             return html;
         },
         'responseIncomeExplanationToHTML': (eligibility_factors) => {
-            let html = `<a class="explanation-link clicked">How are gross and net income calculated?</a>`;
+            let html = `<a class="usa-link explanation-link clicked">How are gross and net income calculated?</a>`;
 
             eligibility_factors.sort((a, b) => {
                 return a.sort_order - b.sort_order;
