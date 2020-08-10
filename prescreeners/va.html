@@ -24,9 +24,14 @@
                 class="usa-form"
                 data-state-or-territory="VA"
                 data-use-emergency-allotment="true">
-            <label class="usa-label" for="household_size" id="household-size-label">Household size</label>
+            <label class="usa-label" for="household_size" id="household-size-label">
+              Household size
+              <span class="field-required">
+                *required
+              </span>
+            </label>
             <div class="label-sub-text">
-              <em>Your household is the people you live with and buy food with. Include children 21 or younger, parents, and spouses if they live with you.</em>
+              Your household is the people you live with and buy food with. Include children 21 or younger, parents, and spouses if they live with you.
             </div>
             <select required class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
@@ -48,7 +53,12 @@
             </select>
 
             <fieldset class="usa-fieldset">
-              <legend>Does your household include someone who is 60 or older, or someone who is disabled?</legend>
+              <legend>
+                Does your household include someone who is 60 or older, or someone who is disabled?
+                <span class="field-required">
+                  *required
+                </span>
+              </legend>
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__household_includes_elderly_or_disabled_true"
@@ -79,13 +89,15 @@
 
             <fieldset class="usa-fieldset">
               <legend>
-                <div>
-                  Is everyone on the application a U.S. citizen?
-                </div>
-                <div class="label-sub-text">
-                  <em>Immigrants can be eligible for SNAP, depending on their immigration status. </em>
-                </div>
+                Is everyone on the application a U.S. citizen?
+                <span class="field-required">
+                  *required
+                </span>
               </legend>
+
+              <div class="label-sub-text">
+                Immigrants <strong>can</strong> be eligible for SNAP, depending on their immigration status.
+              </div>
 
               <div class="usa-radio">
                 <input class="usa-radio__input"
@@ -126,6 +138,9 @@
 
             <label class="usa-label" for="monthly_job_income">
               <strong>Monthly</strong> household pre-tax income from jobs or self-employment
+              <span class="field-required">
+                *required
+              </span>
             </label>
 
             <div id="monthly_job_income_error_elem"></div>
@@ -139,10 +154,13 @@
 
             <label class="usa-label" for="monthly_non_job_income">
               <strong>Monthly</strong> household income from other sources
+              <span class="field-required">
+                *required
+              </span>
             </label>
-            <em class="label-sub-text">
+            <div class="label-sub-text">
               This includes Social Security, disability, Child Support, Worker's Comp, Unemployment, Pension Income, or other sources of income.
-            </em>
+            </div>
 
             <div id="monthly_non_job_income_error_elem"></div>
             <div class="currency_field_wrapper">
@@ -155,10 +173,13 @@
 
             <label class="usa-label" for="resources">
               Total resources
+              <span class="field-required">
+                *required
+              </span>
             </label>
-            <em class="label-sub-text">
+            <div class="label-sub-text">
               This means countable resources, like funds in bank accounts. A home is not counted as a resource.
-            </em>
+            </div>
 
             <div id="resources_error_elem"></div>
             <div class="currency_field_wrapper">
@@ -172,9 +193,9 @@
             <label class="usa-label" for="dependent_care_costs">
               Dependent care costs
             </label>
-            <em class="label-sub-text">
+            <div class="label-sub-text">
               This includes the costs of daycare, babysitters, or other child care; fees for before-school and after-school care; costs for special needs care.
-            </em>
+            </div>
             <div id="dependent_care_costs_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
