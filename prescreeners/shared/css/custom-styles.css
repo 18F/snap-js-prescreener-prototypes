@@ -43,7 +43,15 @@ fieldset.usa-fieldset:not(:first-child) {
 }
 
 fieldset.usa-fieldset legend {
-  margin: 0.75rem 0;
+  font-weight: bold;
+}
+
+.usa-label {
+  font-weight: bold;
+}
+
+.usa-radio {
+  margin-top: 8px;
 }
 
 .label-sub-text {
@@ -69,13 +77,6 @@ fieldset.usa-fieldset legend {
   line-height: 1.625;
   font-weight: 400;
   font-style: italic;
-  color: #757575;
-}
-
-.field-required:before {
-  content: "*";
-  font-weight: 700;
-  margin-left: .3rem;
   color: #b50909;
 }
 

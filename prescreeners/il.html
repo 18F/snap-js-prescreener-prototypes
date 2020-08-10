@@ -24,7 +24,15 @@
                 class="usa-form"
                 data-state-or-territory="IL"
                 data-use-emergency-allotment="true">
-            <label class="usa-label" for="household_size" id="household-size-label">Household size:</label>
+            <label class="usa-label" for="household_size" id="household-size-label">
+              Household size
+              <span class="field-required">
+                *required
+              </span>
+            </label>
+            <div class="label-sub-text">
+              Your household is the people you live with and buy food with. Include children 21 or younger, parents, and spouses if they live with you.
+            </div>
             <select required class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
               <option value="1">Just me</option>
@@ -44,10 +52,13 @@
               <option value="15">15 people</option>
             </select>
 
-            <br/>
-
             <fieldset class="usa-fieldset">
-              <legend>Does your household include someone who is 60 or older, or someone who is disabled?</legend>
+              <legend>
+                Does your household include someone who is 60 or older, or someone who is disabled?
+                <span class="field-required">
+                  *required
+                </span>
+              </legend>
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__household_includes_elderly_or_disabled_true"
@@ -78,15 +89,15 @@
 
             <fieldset class="usa-fieldset">
               <legend>
-                <div>
-                  Is everyone on the application a U.S. citizen?
-                </div>
-                <div class="label-sub-text">
-                  <em>
-                    Immigrants can be eligible for SNAP, depending on their immigration status.
-                  </em>
-                </div>
+                Is everyone on the application a U.S. citizen?
+                <span class="field-required">
+                  *required
+                </span>
               </legend>
+
+              <div class="label-sub-text">
+                Immigrants <strong>can</strong> be eligible for SNAP, depending on their immigration status.
+              </div>
 
               <div class="usa-radio">
                 <input class="usa-radio__input"
@@ -122,12 +133,14 @@
                 <p class="usa-alert__text">
                   Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.
                   Call for more info: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.</p><!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
-                </p>
               </div>
             </div>
 
             <label class="usa-label" for="monthly_job_income">
-              Monthly income from a job or from self-employment:
+              <strong>Monthly</strong> household pre-tax income from jobs or self-employment
+              <span class="field-required">
+                *required
+              </span>
             </label>
 
             <div id="monthly_job_income_error_elem"></div>
@@ -140,11 +153,14 @@
             </div>
 
             <label class="usa-label" for="monthly_non_job_income">
-              Monthly income from other sources:
+              <strong>Monthly</strong> household income from other sources
+              <span class="field-required">
+                *required
+              </span>
             </label>
-            <em class="label-sub-text">
-              These could include Social Security, disability, Child Support, Worker's Comp, Unemployment, Pension Income, or other sources of income.
-            </em>
+            <div class="label-sub-text">
+              This includes Social Security, disability, Child Support, Worker's Comp, Unemployment, Pension Income, or other sources of income.
+            </div>
 
             <div id="monthly_non_job_income_error_elem"></div>
             <div class="currency_field_wrapper">
@@ -156,11 +172,14 @@
             </div>
 
             <label class="usa-label" for="resources">
-              Total resources:
+              Total resources
+              <span class="field-required">
+                *required
+              </span>
             </label>
-            <em class="label-sub-text">
+            <div class="label-sub-text">
               This means countable resources, like funds in bank accounts. A home is not counted as a resource.
-            </em>
+            </div>
 
             <div id="resources_error_elem"></div>
             <div class="currency_field_wrapper">
@@ -172,9 +191,11 @@
             </div>
 
             <label class="usa-label" for="dependent_care_costs">
-              Dependent care costs:
+              Dependent care costs
             </label>
-
+            <div class="label-sub-text">
+              This includes the costs of daycare, babysitters, or other child care; fees for before-school and after-school care; costs for special needs care.
+            </div>
             <div id="dependent_care_costs_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
@@ -185,7 +206,7 @@
 
             <div id="medical_expenses_for_elderly_or_disabled_question" class="hidden">
               <label class="usa-label" for="medical_expenses_for_elderly_or_disabled">
-                Monthly out of pocket medical expenses for household members who are age 60 or older or disabled:
+                Monthly out of pocket medical expenses for household members who are age 60 or older or disabled
               </label>
 
               <div id="medical_expenses_for_elderly_or_disabled_error_elem"></div>
@@ -198,7 +219,7 @@
             </div>
 
             <label class="usa-label" for="court_ordered_child_support_payments">
-              Monthly court-ordered child support payments:
+              Monthly court-ordered child support payments
             </label>
 
             <div id="court_ordered_child_support_payments_error_elem"></div>
@@ -210,19 +231,19 @@
             </div>
 
             <label class="usa-label" for="rent_or_mortgage">
-              Monthly rent or mortgage amount:
+              Monthly rent or mortgage amount
             </label>
 
             <div id="rent_or_mortgage_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="rent_or_mortgage"
-                     name="rent_or_mortgage"
-                     class="usa-input" />
+                    name="rent_or_mortgage"
+                    class="usa-input" />
             </div>
 
             <label class="usa-label" for="homeowners_insurance_and_taxes">
-              Monthly homeowners insurance and taxes:
+              Monthly homeowners insurance and taxes
             </label>
 
             <div id="homeowners_insurance_and_taxes_error_elem"></div>
@@ -232,6 +253,7 @@
                      name="homeowners_insurance_and_taxes"
                      class="usa-input" />
             </div>
+
 
             <div id="utility_allowance_question">
               <label class="usa-label" for="utility_allowance">
