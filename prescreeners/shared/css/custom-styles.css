@@ -65,8 +65,8 @@ fieldset.usa-fieldset legend {
 }
 
 /* Calculator results styles */
-section.result-section {
-  margin: 8px 0;
+#results-section-title {
+  margin-top: 1.5em;
 }
 
 .pass-green {
