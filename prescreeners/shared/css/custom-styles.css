@@ -121,7 +121,7 @@ fieldset.usa-fieldset legend {
 
 /* Footer styles */
 
-footer {
+footer#snap-calculator-footer {
   color: white;
   background-color: #1B1349;
   text-align: center;
@@ -129,10 +129,10 @@ footer {
   padding: 16px;
 }
 
-footer a {
+footer#snap-calculator-footer a {
   color: white;
 }
 
-footer div {
+footer#snap-calculator-footer div {
   margin: 16px 0;
 }
