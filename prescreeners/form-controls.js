@@ -498,7 +498,7 @@
     const select_elem = DOM_MANIPULATORS.getElem(select_field_id);
 
     if (select_elem) {
-        select_elem.addEventListener('change', (event) => {
+        select_elem.addEventListener('change', () => {
             DOM_MANIPULATORS['clearClientErrorOnSelect'](select_field_id);
         });
     }
@@ -513,7 +513,7 @@
 
         if (radio_elems) {
             for (const radio_elem of radio_elems) {
-                radio_elem.addEventListener('change', (event) => {
+                radio_elem.addEventListener('change', () => {
                     DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
                 });
             }
