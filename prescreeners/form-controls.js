@@ -167,14 +167,14 @@
             if (jsonData['monthly_job_income'] === '') {
                 errors.push({
                     name: 'monthly_job_income',
-                    message: 'Enter a monthly household pre-tax income from jobs or self-employment',
+                    message: 'Enter monthly household pre-tax income from jobs or self-employment',
                 });
             }
 
             if (jsonData['monthly_non_job_income'] === '') {
                 errors.push({
                     name: 'monthly_non_job_income',
-                    message: 'Enter any monthly household income from other sources',
+                    message: 'Enter monthly household income from other sources',
                 });
             }
 
@@ -195,7 +195,7 @@
             if (jsonData['all_citizens_question'] === undefined) {
                 errors.push({
                     name: 'all_citizens_question',
-                    message: 'Select "yes" or "no" if everyone on the application a U.S. citizen',
+                    message: 'Select "yes" or "no" if everyone on the application is a U.S. citizen',
                 });
             }
 
