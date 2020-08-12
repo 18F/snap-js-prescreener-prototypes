@@ -56,6 +56,10 @@
                 const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
                 errorElem.innerHTML = DOM_MANIPULATORS['toggleNumberFieldErrorHTML'](numberFieldValid);
             }
+        },
+        clearClientErrorOnSelect: (error_elem_id) => {
+            const error_elem = DOM_MANIPULATORS.getElem(`${error_elem_id}_error_elem`);
+            error_elem.innerHTML = '';
         }
     };
 
@@ -486,6 +490,30 @@
         if (number_elem) {
             number_elem.addEventListener('input', (event) => {
                 DOM_MANIPULATORS['validateNumberField'](`${field_id}_error_elem`)(event);
+            });
+        }
+    }
+
+    const select_field_id = 'household_size';
+    const select_elem = DOM_MANIPULATORS.getElem(select_field_id);
+
+    if (select_elem) {
+        select_elem.addEventListener('change', (event) => {
+            DOM_MANIPULATORS['clearClientErrorOnSelect'](select_field_id);
+        });
+    }
+
+    const radio_field_ids = [
+        'household_includes_elderly_or_disabled',
+        'all_citizens_question',
+    ];
+
+    for (const radio_field_id of radio_field_ids) {
+        const radio_elem = document.getElementsByName(radio_field_id);
+
+        if (radio_elem) {
+            radio_elem.addEventListener('change', (event) => {
+                DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
             });
         }
     }
