@@ -115,8 +115,8 @@
         'hideIncomeExplanationButton': DOM_MANIPULATORS['hideElem']('show-income-explanation'),
         'showIncomeExplanation': DOM_MANIPULATORS['showElem']('income-explanation'),
         'hideIncomeExplanation': DOM_MANIPULATORS['hideElem']('income-explanation'),
-        'hideErrors': DOM_MANIPULATORS['hideElem']('errors'),
-        'showErrors': DOM_MANIPULATORS['showElem']('errors'),
+        'hideServerErrorMessages': DOM_MANIPULATORS['hideElem']('server-error-messages'),
+        'showServerErrorMessages': DOM_MANIPULATORS['showElem']('server-error-messages'),
         'hideResults': DOM_MANIPULATORS['hideElem']('results'),
         'showResults': DOM_MANIPULATORS['showElem']('results'),
         'numberFieldValid': (event) => {
@@ -265,7 +265,7 @@
                 const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
                 DOM_MANIPULATORS.getElem('errors').innerHTML = errorsHTML;
 
-                FORM_CONTROLS['showErrors']();
+                FORM_CONTROLS['showServerErrorMessages']();
                 return;
             }
 
@@ -278,7 +278,7 @@
             DOM_MANIPULATORS.getElem('income-explanation').innerHTML = incomeExplanationHTML;
 
             FORM_CONTROLS['showResults']();
-            FORM_CONTROLS['hideErrors']();
+            FORM_CONTROLS['hideServerErrorMessages']();
             FORM_CONTROLS['showExplanationButton']();
             FORM_CONTROLS['hideResultExplanation']();
             FORM_CONTROLS['hideIncomeExplanationButton']();
