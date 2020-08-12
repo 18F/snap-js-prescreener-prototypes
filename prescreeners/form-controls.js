@@ -37,15 +37,15 @@
         'getElem': (elemId) => {
             return document.getElementById(elemId);
         },
-        'toggleErrorStateHTML': (isValid) => {
+        'toggleNumberFieldErrorHTML': (isValid) => {
             if (isValid) return '';
-
+            return DOM_MANIPULATORS['fieldErrorHTML']('Please enter a number.');
+        },
+        fieldErrorHTML: (message) => {
             return (
                 `<div class="usa-alert usa-alert--error usa-alert--slim">
                     <div class="usa-alert__body" role="alert" aria-live="assertive">
-                        <em class="usa-alert__text">
-                            Please enter a number.
-                        </em>
+                        <em class="usa-alert__text">${message}</em>
                     </div>
                 </div>`
             );
@@ -54,7 +54,7 @@
             return (event) => {
                 const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
                 const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
-                errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
+                errorElem.innerHTML = DOM_MANIPULATORS['toggleNumberFieldErrorHTML'](numberFieldValid);
             }
         }
     };
@@ -209,7 +209,15 @@
             }
         },
         clearClientErrorMessages: () => {
+            const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
+            errorsHeader.innerHTML = '';
 
+            for (const error of errors) {
+                const error_name = error['name'];
+                const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
+
+                if (error_field_elem) { error_field_elem.innerHTML = ''; }
+            }
         },
         showClientErrorMessages: (errors) => {
             const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
@@ -223,6 +231,18 @@
             errorsHeaderHTML += `</ul>`;
 
             errorsHeader.innerHTML = errorsHeaderHTML;
+
+            for (const error of errors) {
+                const error_name = error['name'];
+                const error_message = error['message'];
+                const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
+
+                if (error_field_elem) {
+                    const error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message);
+                    error_field_elem.innerHTML = error_message_alert;
+                }
+            }
+
             errorsHeader.scrollIntoView();
         },
         'sendData': (jsonData) => {

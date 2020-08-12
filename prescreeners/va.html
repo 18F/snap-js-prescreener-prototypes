@@ -35,6 +35,8 @@
             <div class="label-sub-text">
               Your household is the people you live with and buy food with. Include children 21 or younger, parents, and spouses if they live with you.
             </div>
+
+            <div id="household_size_error_elem"></div>
             <select class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
               <option value="1">Just me</option>
@@ -61,6 +63,8 @@
                   *required
                 </span>
               </legend>
+
+              <div id="household_includes_elderly_or_disabled_error_elem"></div>
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__household_includes_elderly_or_disabled_true"
@@ -99,6 +103,7 @@
                 Immigrants <strong>can</strong> be eligible for SNAP, depending on their immigration status.
               </div>
 
+              <div id="all_citizens_question_error_elem"></div>
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__all_citizens_question_true"
