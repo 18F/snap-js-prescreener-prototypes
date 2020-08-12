@@ -145,7 +145,7 @@
                         let checked = document.querySelector(`input[name="${elem.name}"]:checked`);
                         (checked)
                             ? jsonData[elem.name] = checked.value
-                            : null;
+                            : jsonData[elem.name] = undefined;
                         break;
                     }
                     case 'text':
@@ -156,6 +156,50 @@
 
             // Validate:
             const errors = [];
+
+            if (jsonData['household_size'] === '') {
+                errors.push({
+                    name: 'household_size',
+                    message: 'Select a household size',
+                });
+            }
+
+            if (jsonData['monthly_job_income'] === '') {
+                errors.push({
+                    name: 'monthly_job_income',
+                    message: 'Enter a monthly household pre-tax income from jobs or self-employment',
+                });
+            }
+
+            if (jsonData['monthly_non_job_income'] === '') {
+                errors.push({
+                    name: 'monthly_non_job_income',
+                    message: 'Enter any monthly household income from other sources',
+                });
+            }
+
+            if (jsonData['resources'] === '') {
+                errors.push({
+                    name: 'resources',
+                    message: 'Enter total resources amount',
+                });
+            }
+
+            if (jsonData['household_includes_elderly_or_disabled'] === undefined) {
+                errors.push({
+                    name: 'household_includes_elderly_or_disabled',
+                    message: 'Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled',
+                });
+            }
+
+            if (jsonData['all_citizens_question'] === undefined) {
+                errors.push({
+                    name: 'all_citizens_question',
+                    message: 'Select "yes" or "no" if everyone on the application a U.S. citizen',
+                });
+            }
+
+            console.log('errors', errors);
 
             if (errors.length === 0) {
             // if valid, send data, wipe error messages:
