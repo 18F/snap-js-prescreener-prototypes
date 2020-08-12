@@ -223,7 +223,7 @@
             const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
             let errorsHeaderHTML = '';
 
-            errorsHeaderHTML += `<div class="error-total">${errors.length} errors</div>`;
+            errorsHeaderHTML += `<div class="error-total" role="alert" aria-live="assertive">${errors.length} errors</div>`;
             errorsHeaderHTML += `<ul class="usa-list">`;
             for (const error of errors) {
                 errorsHeaderHTML += (`<li>${error['message']}</li>`);
