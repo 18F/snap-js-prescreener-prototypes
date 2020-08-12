@@ -199,15 +199,31 @@
                 });
             }
 
-            console.log('errors', errors);
-
             if (errors.length === 0) {
-            // if valid, send data, wipe error messages:
+                // If valid, send data to API library:
                 FORM_SUBMIT_FUNCS['sendData'](jsonData);
+                FORM_SUBMIT_FUNCS['clearClientErrorMessages']();
             } else {
-            // if invalid, display messages:
-
+                // If invalid, display messages:
+                FORM_SUBMIT_FUNCS['showClientErrorMessages'](errors);
             }
+        },
+        clearClientErrorMessages: () => {
+
+        },
+        showClientErrorMessages: (errors) => {
+            const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
+            let errorsHeaderHTML = '';
+
+            errorsHeaderHTML += `<div class="error-total">${errors.length} errors</div>`;
+            errorsHeaderHTML += `<ul class="usa-list">`;
+            for (const error of errors) {
+                errorsHeaderHTML += (`<li>${error['message']}</li>`);
+            }
+            errorsHeaderHTML += `</ul>`;
+
+            errorsHeader.innerHTML = errorsHeaderHTML;
+            errorsHeader.scrollIntoView();
         },
         'sendData': (jsonData) => {
             // Send state_or_territory and emergency allotment config to API
