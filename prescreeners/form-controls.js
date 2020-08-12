@@ -130,8 +130,8 @@
 
     // Handles form submission and rendering results.
     const FORM_SUBMIT_FUNCS = {
-        'sendData': () => {
-            // Form fields that are present for all states:
+        'onSubmit': () => {
+            // Pull input data from the form:
             const form = DOM_MANIPULATORS.getElem('prescreener-form');
             const elements = form.elements;
             const jsonData = {};
@@ -154,10 +154,23 @@
                 }
             }
 
-            // Send state_or_territory and emergency allotment config to API:
-            const formSettings = document.getElementById('prescreener-form');
-            jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
-            jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
+            // Validate:
+            const errors = [];
+
+            if (errors.length === 0) {
+            // if valid, send data, wipe error messages:
+                FORM_SUBMIT_FUNCS['sendData'](jsonData);
+            } else {
+            // if invalid, display messages:
+
+            }
+        },
+        'sendData': (jsonData) => {
+            // Send state_or_territory and emergency allotment config to API
+            // in addition to user input data:
+            const form = DOM_MANIPULATORS.getElem('prescreener-form');
+            jsonData['state_or_territory'] = form.dataset.stateOrTerritory;
+            jsonData['use_emergency_allotment'] = form.dataset.useEmergencyAllotment;
 
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
 
@@ -340,7 +353,7 @@
     // Set up form submit function.
     DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        FORM_SUBMIT_FUNCS['sendData']();
+        FORM_SUBMIT_FUNCS['onSubmit']();
     });
 
     // Set up toggle of citizenship infobox in response to citizenship question.
