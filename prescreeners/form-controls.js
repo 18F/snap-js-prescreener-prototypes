@@ -509,12 +509,14 @@
     ];
 
     for (const radio_field_id of radio_field_ids) {
-        const radio_elem = document.getElementsByName(radio_field_id);
+        const radio_elems = document.getElementsByName(radio_field_id);
 
-        if (radio_elem) {
-            radio_elem.addEventListener('change', (event) => {
-                DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
-            });
+        if (radio_elems) {
+            for (const radio_elem of radio_elems) {
+                radio_elem.addEventListener('change', (event) => {
+                    DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
+                });
+            }
         }
     }
 })()
