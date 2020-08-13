@@ -1,1 +1,497 @@
-!function(e){var n={};function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}t.m=e,t.c=n,t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:o})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(t.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var r in e)t.d(o,r,function(n){return e[n]}.bind(null,r));return o},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="",t(t.s=0)}([function(e,n){function t(e,n){var t;if("undefined"==typeof Symbol||null==e[Symbol.iterator]){if(Array.isArray(e)||(t=function(e,n){if(!e)return;if("string"==typeof e)return o(e,n);var t=Object.prototype.toString.call(e).slice(8,-1);"Object"===t&&e.constructor&&(t=e.constructor.name);if("Map"===t||"Set"===t)return Array.from(e);if("Arguments"===t||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t))return o(e,n)}(e))||n&&e&&"number"==typeof e.length){t&&(e=t);var r=0,a=function(){};return{s:a,n:function(){return r>=e.length?{done:!0}:{done:!1,value:e[r++]}},e:function(e){throw e},f:a}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var i,l=!0,s=!1;return{s:function(){t=e[Symbol.iterator]()},n:function(){var e=t.next();return l=e.done,e},e:function(e){s=!0,i=e},f:function(){try{l||null==t.return||t.return()}finally{if(s)throw i}}}}function o(e,n){(null==n||n>e.length)&&(n=e.length);for(var t=0,o=new Array(n);t<n;t++)o[t]=e[t];return o}!function(){var e={showElem:function(e){return function(){var n=document.getElementById(e);n&&n.classList.contains("hidden")&&n.classList.remove("hidden")}},hideElem:function(e){return function(){var n=document.getElementById(e);n&&(n.classList.contains("hidden")||n.classList.add("hidden"))}},getElem:function(e){return document.getElementById(e)},toggleErrorStateHTML:function(e){return e?"":'<div class="usa-alert usa-alert--error usa-alert--slim">\n                    <div class="usa-alert__body" role="alert" aria-live="assertive">\n                        <em class="usa-alert__text">\n                            Please enter a number.\n                        </em>\n                    </div>\n                </div>'},validateNumberField:function(n){return function(t){var r=o.numberFieldValid(t);e.getElem(n).innerHTML=e.toggleErrorStateHTML(r)}}},n={VA:{apply:[{url:"https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml",description:"Apply online using CommonHelp. (You may have to create an account to apply.)"},{url:"https://www.dss.virginia.gov/localagency/index.cgi",description:"Apply at a local Social Services office near you."}],other_resources:[{url:"https://www.foodpantries.org/st/virginia",description:"Foodpantries.org"},{url:"https://www.feedingamerica.org/find-your-local-foodbank",description:"Feeding America"}]},IL:{apply:[{url:"https://abe.illinois.gov/abe/access/",description:"Apply online using ABE."}],other_resources:[{url:"https://www.dhs.state.il.us/page.aspx?item=31245",description:"Food Connections"}]}},o={showCitizenshipInfobox:e.showElem("citizenship_info_box"),hideCitizenshipInfobox:e.hideElem("citizenship_info_box"),showMedicalExpensesForElderlyOrDisabled:e.showElem("medical_expenses_for_elderly_or_disabled_question"),hideMedicalExpensesForElderlyOrDisabled:e.hideElem("medical_expenses_for_elderly_or_disabled_question"),showExplanationButton:e.showElem("show-explanation"),hideExplanationButton:e.hideElem("show-explanation"),showResultExplanation:e.showElem("result-explanation"),hideResultExplanation:e.hideElem("result-explanation"),showIncomeExplanationButton:e.showElem("show-income-explanation"),hideIncomeExplanationButton:e.hideElem("show-income-explanation"),showIncomeExplanation:e.showElem("income-explanation"),hideIncomeExplanation:e.hideElem("income-explanation"),hideErrors:e.hideElem("errors"),showErrors:e.showElem("errors"),hideResults:e.hideElem("results"),showResults:e.showElem("results"),numberFieldValid:function(e){var n=e.target.value;return""===n||!isNaN(parseInt(n))}},r={sendData:function(){var n,o={},a=t(e.getElem("prescreener-form").elements);try{for(a.s();!(n=a.n()).done;){var i=n.value;switch(i.type){case"select-one":o[i.id]=i.value;break;case"radio":var l=document.querySelector('input[name="'.concat(i.name,'"]:checked'));l&&(o[i.name]=l.value);break;case"text":o[i.id]=i.value}}}catch(e){a.e(e)}finally{a.f()}var s=document.getElementById("prescreener-form");o.state_or_territory=s.dataset.stateOrTerritory,o.use_emergency_allotment=s.dataset.useEmergencyAllotment;var c=new SnapAPI.SnapEstimateEntrypoint(o).calculate();r.responseToHTML(c)},responseToHTML:function(n){if("OK"!==n.status){o.hideResults(),o.hideExplanationButton(),o.hideResultExplanation();var t=r.responseErrorsToHTML(n.errors);return e.getElem("errors").innerHTML=t,void o.showErrors()}var a=r.responseResultToHTML(n),i=r.responseExplanationToHTML(n.eligibility_factors),l=r.responseIncomeExplanationToHTML(n.eligibility_factors);e.getElem("results").innerHTML=a,e.getElem("result-explanation").innerHTML=i,e.getElem("income-explanation").innerHTML=l,o.showResults(),o.hideErrors(),o.showExplanationButton(),o.hideResultExplanation(),o.hideIncomeExplanationButton(),o.hideIncomeExplanation(),e.getElem("results").scrollIntoView()},responseErrorsToHTML:function(e){var n,o="<h1>Errors:</h1>",r=t(e);try{for(r.s();!(n=r.n()).done;){var a=n.value;o+="<li>".concat(a,"</li>")}}catch(e){r.e(e)}finally{r.f()}return o},optionsHTML:function(e,n){var o,r="<p>".concat(n,'\n                            <ul class="usa-link">'),a=t(e);try{for(a.s();!(o=a.n()).done;){var i=o.value;r+='<li>\n                        <a class="usa-link" href="'.concat(i.url,'" rel="noopener noreferrer">\n                            ').concat(i.description,"\n                        </a>\n                    </li>")}}catch(e){a.e(e)}finally{a.f()}return r+="</ul></p>"},responseResultToHTML:function(e){var t='<h2 id="results-section-title">Results:</h2>',o=e.estimated_eligibility,a=e.estimated_monthly_benefit,i=e.emergency_allotment_estimated_benefit,l=document.getElementById("prescreener-form").dataset.stateOrTerritory,s=n[l];if(!o)return t+="<p>You <strong>might not</strong> be eligible for SNAP benefits.</p>\n                    <p>This result is only an estimate based on your inputs, not an official application or decision. <strong>You can still apply for SNAP benefits</strong>.</p>",t+=r.optionsHTML(s.apply,"Ways to apply:"),t+=r.optionsHTML(s.other_resources,"Other resources for food assistance:");if(t+="<p>You may be <b>eligible</b> for SNAP benefits.</p>",i&&a!==i){var c=i-a;t+="<p>If you apply and are approved, your benefit may be $".concat(a," per month.</p><p>Due to the current pandemic, you could receive an additional $").concat(c," per month. (This additional amount is temporary.)</p>")}else t+="<p>If you apply and are approved, your benefit may be $".concat(a," per month.</p>");return t+=r.optionsHTML(s.apply,"Ways to apply:")},responseExplanationToHTML:function(e){var n="";e.sort((function(e,n){return e.sort_order-n.sort_order})),n+='<a class="usa-link explanation-link clicked">\n                    Why did I get this result?\n                </a>\n                <h2>SNAP requirements</h2>\n                <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>';var o,r=t(e.filter((function(e){return"test"===e.type})));try{for(r.s();!(o=r.n()).done;){var a=o.value,i=a.name,l=a.result?"Pass":"Fail",s=a.result?"pass-green":"fail-red";n+="<h3>".concat(i,': <span class="').concat(s,'">').concat(l,"</span></h3>");var c,u=t(a.explanation);try{for(u.s();!(c=u.n()).done;){var d=c.value;n+="<p>".concat(d,"</p>")}}catch(e){u.e(e)}finally{u.f()}}}catch(e){r.e(e)}finally{r.f()}var p=e.filter((function(e){return"amount"===e.type}))[0];n+="<h2>".concat(p.name,"</h2>");var f,m=t(p.explanation);try{for(m.s();!(f=m.n()).done;){var h=f.value;n+="<p>".concat(h,"</p>")}}catch(e){m.e(e)}finally{m.f()}return n},responseIncomeExplanationToHTML:function(e){var n='<a class="usa-link explanation-link clicked">How are gross and net income calculated?</a>';e.sort((function(e,n){return e.sort_order-n.sort_order}));var o,r=t(e.filter((function(e){return"income"===e.type})));try{for(r.s();!(o=r.n()).done;){var a=o.value,i=a.name,l=a.explanation;n+="<h3>".concat(i,"</h3>");var s,c=t(l);try{for(c.s();!(s=c.n()).done;){var u=s.value;n+="<p>".concat(u,"</p>")}}catch(e){c.e(e)}finally{c.f()}}}catch(e){r.e(e)}finally{r.f()}return n}};e.getElem("prescreener-form").addEventListener("submit",(function(e){e.preventDefault(),r.sendData()})),e.getElem("input__all_citizens_question_true").addEventListener("change",(function(){o.hideCitizenshipInfobox()})),e.getElem("input__all_citizens_question_false").addEventListener("change",(function(){o.showCitizenshipInfobox()})),e.getElem("input__household_includes_elderly_or_disabled_true").addEventListener("change",(function(){o.showMedicalExpensesForElderlyOrDisabled()})),e.getElem("input__household_includes_elderly_or_disabled_false").addEventListener("change",(function(){o.hideMedicalExpensesForElderlyOrDisabled()})),e.getElem("show-explanation").addEventListener("click",(function(){o.showResultExplanation(),o.hideExplanationButton(),o.showIncomeExplanationButton()})),e.getElem("show-income-explanation").addEventListener("click",(function(){o.showIncomeExplanation(),o.hideIncomeExplanationButton()}));for(var a=function(){var n=l[i],t=e.getElem(n);t&&t.addEventListener("input",(function(t){e.validateNumberField("".concat(n,"_error_elem"))(t)}))},i=0,l=["monthly_job_income","monthly_non_job_income","resources","dependent_care_costs","medical_expenses_for_elderly_or_disabled","court_ordered_child_support_payments","rent_or_mortgage","homeowners_insurance_and_taxes","utility_costs"];i<l.length;i++)a()}()}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+// This is the JS that powers the benefit calculator.
+// Its responsibilities includes:
+//     * Front-end validation for the calculator form
+//     * Sending user input to the SnapAPI library
+//     * Rendering results, including explanations
+// The JS is organized into four main objects:
+//     * DOM_MANIPULATORS: Functions for maniuplating the DOM: show/hide, error states
+//     * STATE_OPTIONS: Data on next steps for applying for SNAP or seeking food assistance, which vary by state
+//     * FORM_CONTROLS: A layer of abstraction over DOM_MANIPULATORS; DOM manipulation funcs + specific form elements
+//     * FORM_SUBMIT_FUNCS: Functions for handling form submission, results and error state rendering
+// This file is written in ES6 and compiled down to more universally browser-compatible JS with `npm run build`.
+(function () {
+  // Shortcuts for manipulating the DOM. A micromicro framework, if you will.
+  var DOM_MANIPULATORS = {
+    'showElem': function showElem(elem_id) {
+      return function () {
+        var elem = document.getElementById(elem_id);
+
+        if (elem) {
+          if (elem.classList.contains('hidden')) {
+            elem.classList.remove('hidden');
+          }
+        }
+      };
+    },
+    'hideElem': function hideElem(elem_id) {
+      return function () {
+        var elem = document.getElementById(elem_id);
+
+        if (elem) {
+          if (!elem.classList.contains('hidden')) {
+            elem.classList.add('hidden');
+          }
+        }
+      };
+    },
+    'getElem': function getElem(elemId) {
+      return document.getElementById(elemId);
+    },
+    'toggleErrorStateHTML': function toggleErrorStateHTML(isValid) {
+      if (isValid) return '';
+      return "<div class=\"usa-alert usa-alert--error usa-alert--slim\">\n                    <div class=\"usa-alert__body\" role=\"alert\" aria-live=\"assertive\">\n                        <em class=\"usa-alert__text\">\n                            Please enter a number.\n                        </em>\n                    </div>\n                </div>";
+    },
+    'validateNumberField': function validateNumberField(errorElemId) {
+      return function (event) {
+        var numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
+        var errorElem = DOM_MANIPULATORS.getElem(errorElemId);
+        errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
+      };
+    }
+  };
+  var STATE_OPTIONS = {
+    // For each state, an array of Object-shaped options.
+    // `apply` options include URLs and descriptions of how a household can apply.
+    // `other_resources` options include URLs and descriptions of non-SNAP food resources.
+    'VA': {
+      'apply': [{
+        'url': 'https://commonhelp.dss.virginia.gov/CASWeb/faces/loginCAS.xhtml',
+        'description': 'Apply online using CommonHelp. (You may have to create an account to apply.)'
+      }, {
+        'url': 'https://www.dss.virginia.gov/localagency/index.cgi',
+        'description': 'Apply at a local Social Services office near you.'
+      }],
+      'other_resources': [{
+        'url': 'https://www.foodpantries.org/st/virginia',
+        'description': 'Foodpantries.org'
+      }, {
+        'url': 'https://www.feedingamerica.org/find-your-local-foodbank',
+        'description': 'Feeding America'
+      }]
+    },
+    'IL': {
+      'apply': [{
+        'url': 'https://abe.illinois.gov/abe/access/',
+        'description': 'Apply online using ABE.'
+      }],
+      'other_resources': [{
+        'url': 'https://www.dhs.state.il.us/page.aspx?item=31245',
+        'description': 'Food Connections'
+      }]
+    }
+  }; // Shortcuts for showing/hiding specific elements on the page.
+
+  var FORM_CONTROLS = {
+    'showCitizenshipInfobox': DOM_MANIPULATORS['showElem']('citizenship_info_box'),
+    'hideCitizenshipInfobox': DOM_MANIPULATORS['hideElem']('citizenship_info_box'),
+    'showMedicalExpensesForElderlyOrDisabled': DOM_MANIPULATORS['showElem']('medical_expenses_for_elderly_or_disabled_question'),
+    'hideMedicalExpensesForElderlyOrDisabled': DOM_MANIPULATORS['hideElem']('medical_expenses_for_elderly_or_disabled_question'),
+    'showExplanationButton': DOM_MANIPULATORS['showElem']('show-explanation'),
+    'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
+    'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
+    'hideResultExplanation': DOM_MANIPULATORS['hideElem']('result-explanation'),
+    'showIncomeExplanationButton': DOM_MANIPULATORS['showElem']('show-income-explanation'),
+    'hideIncomeExplanationButton': DOM_MANIPULATORS['hideElem']('show-income-explanation'),
+    'showIncomeExplanation': DOM_MANIPULATORS['showElem']('income-explanation'),
+    'hideIncomeExplanation': DOM_MANIPULATORS['hideElem']('income-explanation'),
+    'hideErrors': DOM_MANIPULATORS['hideElem']('errors'),
+    'showErrors': DOM_MANIPULATORS['showElem']('errors'),
+    'hideResults': DOM_MANIPULATORS['hideElem']('results'),
+    'showResults': DOM_MANIPULATORS['showElem']('results'),
+    'numberFieldValid': function numberFieldValid(event) {
+      var value = event.target.value;
+      if (value === '') return true; // Fields can be blank
+
+      return !isNaN(parseInt(value));
+    }
+  }; // Handles form submission and rendering results.
+
+  var FORM_SUBMIT_FUNCS = {
+    'sendData': function sendData() {
+      // Form fields that are present for all states:
+      var form = DOM_MANIPULATORS.getElem('prescreener-form');
+      var elements = form.elements;
+      var jsonData = {};
+
+      var _iterator = _createForOfIteratorHelper(elements),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var elem = _step.value;
+
+          switch (elem.type) {
+            case 'select-one':
+              jsonData[elem.id] = elem.value;
+              break;
+
+            case 'radio':
+              {
+                var checked = document.querySelector("input[name=\"".concat(elem.name, "\"]:checked"));
+                checked ? jsonData[elem.name] = checked.value : null;
+                break;
+              }
+
+            case 'text':
+              jsonData[elem.id] = elem.value;
+              break;
+          }
+        } // Send state_or_territory and emergency allotment config to API:
+
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var formSettings = document.getElementById('prescreener-form');
+      jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
+      jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
+      var response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
+      FORM_SUBMIT_FUNCS['responseToHTML'](response);
+    },
+    responseToHTML: function responseToHTML(response) {
+      if (response.status !== 'OK') {
+        FORM_CONTROLS['hideResults']();
+        FORM_CONTROLS['hideExplanationButton']();
+        FORM_CONTROLS['hideResultExplanation']();
+        var errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
+        DOM_MANIPULATORS.getElem('errors').innerHTML = errorsHTML;
+        FORM_CONTROLS['showErrors']();
+        return;
+      }
+
+      var resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
+      var explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
+      var incomeExplanationHTML = FORM_SUBMIT_FUNCS['responseIncomeExplanationToHTML'](response.eligibility_factors);
+      DOM_MANIPULATORS.getElem('results').innerHTML = resultHTML;
+      DOM_MANIPULATORS.getElem('result-explanation').innerHTML = explanationHTML;
+      DOM_MANIPULATORS.getElem('income-explanation').innerHTML = incomeExplanationHTML;
+      FORM_CONTROLS['showResults']();
+      FORM_CONTROLS['hideErrors']();
+      FORM_CONTROLS['showExplanationButton']();
+      FORM_CONTROLS['hideResultExplanation']();
+      FORM_CONTROLS['hideIncomeExplanationButton']();
+      FORM_CONTROLS['hideIncomeExplanation'](); // Scroll to bring the results into view:
+
+      DOM_MANIPULATORS.getElem('results').scrollIntoView();
+    },
+    'responseErrorsToHTML': function responseErrorsToHTML(errors) {
+      var html = "<h1>Errors:</h1>";
+
+      var _iterator2 = _createForOfIteratorHelper(errors),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var error = _step2.value;
+          html += "<li>".concat(error, "</li>");
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return html;
+    },
+    'optionsHTML': function optionsHTML(options_array, options_title) {
+      var html = "<p>".concat(options_title, "\n                            <ul class=\"usa-link\">");
+
+      var _iterator3 = _createForOfIteratorHelper(options_array),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var option = _step3.value;
+          html += "<li>\n                        <a class=\"usa-link\" href=\"".concat(option.url, "\" rel=\"noopener noreferrer\">\n                            ").concat(option.description, "\n                        </a>\n                    </li>");
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      html += "</ul></p>";
+      return html;
+    },
+    'responseResultToHTML': function responseResultToHTML(response) {
+      var html = '<h2 id="results-section-title">Results:</h2>';
+      var is_eligible = response.estimated_eligibility;
+      var estimated_monthly_benefit = response.estimated_monthly_benefit;
+      var emergency_allotment_estimated_benefit = response.emergency_allotment_estimated_benefit;
+      var formSettings = document.getElementById('prescreener-form');
+      var stateAbbr = formSettings.dataset.stateOrTerritory;
+      var nextStepOptions = STATE_OPTIONS[stateAbbr]; // SNAP JS API estimates household is ineligible:
+
+      if (!is_eligible) {
+        html += "<p>You <strong>might not</strong> be eligible for SNAP benefits.</p>\n                    <p>This result is only an estimate based on your inputs, not an official application or decision. <strong>You can still apply for SNAP benefits</strong>.</p>";
+        html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
+        html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['other_resources'], 'Other resources for food assistance:');
+        return html;
+      } // SNAP JS API estimates household is eligible:
+
+
+      html += '<p>You may be <b>eligible</b> for SNAP benefits.</p>'; // If emergency allotments are active, and estimated benefit is less than EA amount:
+
+      if (emergency_allotment_estimated_benefit && estimated_monthly_benefit !== emergency_allotment_estimated_benefit) {
+        var additional_amount = emergency_allotment_estimated_benefit - estimated_monthly_benefit;
+        html += "<p>If you apply and are approved, your benefit may be $".concat(estimated_monthly_benefit, " per month.</p><p>Due to the current pandemic, you could receive an additional $").concat(additional_amount, " per month. (This additional amount is temporary.)</p>"); // If no emergency allotments, or EA is the same as regular benefit amount:
+      } else {
+        html += "<p>If you apply and are approved, your benefit may be $".concat(estimated_monthly_benefit, " per month.</p>");
+      }
+
+      html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
+      return html;
+    },
+    'responseExplanationToHTML': function responseExplanationToHTML(eligibility_factors) {
+      var html = '';
+      eligibility_factors.sort(function (a, b) {
+        return a.sort_order - b.sort_order;
+      });
+      var eligibility_tests = eligibility_factors.filter(function (factor) {
+        return factor.type === 'test';
+      });
+      html += "<a class=\"usa-link explanation-link clicked\">\n                    Why did I get this result?\n                </a>\n                <h2>SNAP requirements</h2>\n                <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>";
+
+      var _iterator4 = _createForOfIteratorHelper(eligibility_tests),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var eligibility_test = _step4.value;
+          var name = eligibility_test.name;
+          var result_in_words = eligibility_test.result ? 'Pass' : 'Fail';
+          var result_span_class = eligibility_test.result ? 'pass-green' : 'fail-red';
+          html += "<h3>".concat(name, ": <span class=\"").concat(result_span_class, "\">").concat(result_in_words, "</span></h3>");
+
+          var _iterator6 = _createForOfIteratorHelper(eligibility_test.explanation),
+              _step6;
+
+          try {
+            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+              var explanation_graph = _step6.value;
+              html += "<p>".concat(explanation_graph, "</p>");
+            }
+          } catch (err) {
+            _iterator6.e(err);
+          } finally {
+            _iterator6.f();
+          }
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      var eligibility_amount = eligibility_factors.filter(function (factor) {
+        return factor.type === 'amount';
+      })[0];
+      html += "<h2>".concat(eligibility_amount.name, "</h2>");
+
+      var _iterator5 = _createForOfIteratorHelper(eligibility_amount.explanation),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var _explanation_graph = _step5.value;
+          html += "<p>".concat(_explanation_graph, "</p>");
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      return html;
+    },
+    'responseIncomeExplanationToHTML': function responseIncomeExplanationToHTML(eligibility_factors) {
+      var html = "<a class=\"usa-link explanation-link clicked\">How are gross and net income calculated?</a>";
+      eligibility_factors.sort(function (a, b) {
+        return a.sort_order - b.sort_order;
+      });
+      var income_factors = eligibility_factors.filter(function (factor) {
+        return factor.type === 'income';
+      });
+
+      var _iterator7 = _createForOfIteratorHelper(income_factors),
+          _step7;
+
+      try {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var income_factor = _step7.value;
+          var name = income_factor.name;
+          var explanation_graphs = income_factor.explanation;
+          html += "<h3>".concat(name, "</h3>");
+
+          var _iterator8 = _createForOfIteratorHelper(explanation_graphs),
+              _step8;
+
+          try {
+            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+              var explanation_graph = _step8.value;
+              html += "<p>".concat(explanation_graph, "</p>");
+            }
+          } catch (err) {
+            _iterator8.e(err);
+          } finally {
+            _iterator8.f();
+          }
+        }
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+
+      return html;
+    }
+  }; // Set up form submit function.
+
+  DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    FORM_SUBMIT_FUNCS['sendData']();
+  }); // Set up toggle of citizenship infobox in response to citizenship question.
+
+  DOM_MANIPULATORS.getElem('input__all_citizens_question_true').addEventListener('change', function () {
+    FORM_CONTROLS['hideCitizenshipInfobox']();
+  });
+  DOM_MANIPULATORS.getElem('input__all_citizens_question_false').addEventListener('change', function () {
+    FORM_CONTROLS['showCitizenshipInfobox']();
+  }); // Set up toggle of medical expenses question in response to elderly or disabled question result.
+
+  DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_true').addEventListener('change', function () {
+    FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
+  });
+  DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_false').addEventListener('change', function () {
+    FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
+  }); // Set up show explanation button.
+
+  DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', function () {
+    FORM_CONTROLS['showResultExplanation']();
+    FORM_CONTROLS['hideExplanationButton']();
+    FORM_CONTROLS['showIncomeExplanationButton']();
+  }); // Set up show income explanation button.
+
+  DOM_MANIPULATORS.getElem('show-income-explanation').addEventListener('click', function () {
+    FORM_CONTROLS['showIncomeExplanation']();
+    FORM_CONTROLS['hideIncomeExplanationButton']();
+  }); // Set up validation for number fields.
+
+  var number_field_ids = ['monthly_job_income', 'monthly_non_job_income', 'resources', 'dependent_care_costs', 'medical_expenses_for_elderly_or_disabled', 'court_ordered_child_support_payments', 'rent_or_mortgage', 'homeowners_insurance_and_taxes', 'utility_costs'];
+
+  var _loop = function _loop() {
+    var field_id = _number_field_ids[_i];
+    var number_elem = DOM_MANIPULATORS.getElem(field_id);
+
+    if (number_elem) {
+      number_elem.addEventListener('input', function (event) {
+        DOM_MANIPULATORS['validateNumberField']("".concat(field_id, "_error_elem"))(event);
+      });
+    }
+  };
+
+  for (var _i = 0, _number_field_ids = number_field_ids; _i < _number_field_ids.length; _i++) {
+    _loop();
+  }
+})();
+
+/***/ })
+/******/ ]);
