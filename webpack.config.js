@@ -6,9 +6,6 @@ module.exports = {
     filename: 'form-controls.bundle.js',
     path: path.resolve(__dirname, 'prescreeners/shared/js'),
   },
-  optimization: {
-    minimize: false
-  },
   module: {
     rules: [
       {
