@@ -39,12 +39,16 @@
         },
         'toggleNumberFieldErrorHTML': (isValid) => {
             if (isValid) return '';
-            return DOM_MANIPULATORS['fieldErrorHTML']('Please enter a number.');
+            return DOM_MANIPULATORS['fieldErrorHTML'](
+                'Please enter a number.',
+                'alert',
+                'assertive'
+            );
         },
-        fieldErrorHTML: (message) => {
+        fieldErrorHTML: (message, role, aria_live_level) => {
             return (
                 `<div class="usa-alert usa-alert--error usa-alert--slim">
-                    <div class="usa-alert__body" role="alert" aria-live="assertive">
+                    <div class="usa-alert__body" role="${role}" aria-live="${aria_live_level}">
                         <em class="usa-alert__text">${message}</em>
                     </div>
                 </div>`
@@ -234,13 +238,13 @@
                 const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
 
                 if (error_field_elem) {
-                    const error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message);
+                    const error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
                     error_field_elem.innerHTML = error_message_alert;
                 }
             }
             // ... and set overall error list afterwards, so that VoiceOver will
             // read it out immediately due to its role="alert" attribute.
-            errorsHeaderHTML += `<div class="error-total" role="alert" aria-live="assertive">${errors.length} errors</div>`;
+            errorsHeaderHTML += `<div class="error-total">${errors.length} errors</div>`;
             errorsHeaderHTML += `<ul class="usa-list">`;
             for (const error of errors) {
                 errorsHeaderHTML += (`<li>${error['message']}</li>`);
