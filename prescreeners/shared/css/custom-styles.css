@@ -31,7 +31,7 @@
 }
 
 #errors, #errors-header {
-  color: red;
+  color: #D63E04;
 }
 
 #errors-header .error-total {
