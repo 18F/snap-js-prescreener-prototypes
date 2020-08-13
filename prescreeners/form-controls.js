@@ -227,15 +227,7 @@
             const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
             let errorsHeaderHTML = '';
 
-            errorsHeaderHTML += `<div class="error-total" role="alert" aria-live="assertive">${errors.length} errors</div>`;
-            errorsHeaderHTML += `<ul class="usa-list">`;
-            for (const error of errors) {
-                errorsHeaderHTML += (`<li>${error['message']}</li>`);
-            }
-            errorsHeaderHTML += `</ul>`;
-
-            errorsHeader.innerHTML = errorsHeaderHTML;
-
+            // Set per-field client side errors first ...
             for (const error of errors) {
                 const error_name = error['name'];
                 const error_message = error['message'];
@@ -246,7 +238,16 @@
                     error_field_elem.innerHTML = error_message_alert;
                 }
             }
+            // ... and set overall error list afterwards, so that VoiceOver will
+            // read it out immediately due to its role="alert" attribute.
+            errorsHeaderHTML += `<div class="error-total" role="alert" aria-live="assertive">${errors.length} errors</div>`;
+            errorsHeaderHTML += `<ul class="usa-list">`;
+            for (const error of errors) {
+                errorsHeaderHTML += (`<li>${error['message']}</li>`);
+            }
+            errorsHeaderHTML += `</ul>`;
 
+            errorsHeader.innerHTML = errorsHeaderHTML;
             errorsHeader.scrollIntoView();
         },
         'sendData': (jsonData) => {
