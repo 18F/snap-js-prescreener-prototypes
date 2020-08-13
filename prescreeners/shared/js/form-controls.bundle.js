@@ -203,8 +203,8 @@
       var elements = form.elements;
       var jsonData = {};
 
-      for (var _i = 0; _i < elements.length; _i++) {
-        var elem = elements[_i];
+      for (var i = 0; i < elements.length; i++) {
+        var elem = elements[i];
 
         switch (elem.type) {
           case 'select-one':
@@ -260,8 +260,8 @@
     'responseErrorsToHTML': function responseErrorsToHTML(errors) {
       var html = "<h1>Errors:</h1>";
 
-      for (var _i2 = 0; _i2 < errors.length; _i2++) {
-        var error = errors[_i2];
+      for (var i = 0; i < errors.length; i++) {
+        var error = errors[i];
         html += "<li>".concat(error, "</li>");
       }
 
@@ -270,8 +270,8 @@
     'optionsHTML': function optionsHTML(options_array, options_title) {
       var html = "<p>".concat(options_title, "\n                            <ul class=\"usa-link\">");
 
-      for (var _i3 = 0; _i3 < options_array.length; _i3++) {
-        var option = options_array[_i3];
+      for (var i = 0; i < options_array.length; i++) {
+        var option = options_array[i];
         html += "<li>\n                        <a class=\"usa-link\" href=\"".concat(option.url, "\" rel=\"noopener noreferrer\">\n                            ").concat(option.description, "\n                        </a>\n                    </li>");
       }
 
@@ -336,8 +336,8 @@
       })[0];
       html += "<h2>".concat(eligibility_amount.name, "</h2>");
 
-      for (var i = 0; i < eligibility_amount.explanation.length; i++) {
-        var _explanation_graph = eligibility_amount.explanation[i];
+      for (var _i = 0; _i < eligibility_amount.explanation.length; _i++) {
+        var _explanation_graph = eligibility_amount.explanation[_i];
         html += "<p>".concat(_explanation_graph, "</p>");
       }
 
@@ -400,7 +400,7 @@
 
   var number_field_ids = ['monthly_job_income', 'monthly_non_job_income', 'resources', 'dependent_care_costs', 'medical_expenses_for_elderly_or_disabled', 'court_ordered_child_support_payments', 'rent_or_mortgage', 'homeowners_insurance_and_taxes', 'utility_costs'];
 
-  var _loop = function _loop() {
+  var _loop = function _loop(i) {
     var field_id = number_field_ids[i];
     var number_elem = DOM_MANIPULATORS.getElem(field_id);
 
@@ -412,7 +412,7 @@
   };
 
   for (var i = 0; i < number_field_ids.length; i++) {
-    _loop();
+    _loop(i);
   }
 })();
 

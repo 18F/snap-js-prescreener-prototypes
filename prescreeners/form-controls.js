@@ -289,7 +289,7 @@
                 <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
             );
 
-            for (var i = 0; i < eligibility_tests.length; i++) {
+            for (let i = 0; i < eligibility_tests.length; i++) {
                 let eligibility_test = eligibility_tests[i];
 
                 const name = eligibility_test.name;
@@ -316,7 +316,7 @@
 
             html += `<h2>${eligibility_amount.name}</h2>`;
 
-            for (var i = 0; i < eligibility_amount.explanation.length; i++) {
+            for (let i = 0; i < eligibility_amount.explanation.length; i++) {
                 let explanation_graph = eligibility_amount.explanation[i];
                 html += `<p>${explanation_graph}</p>`;
             }
@@ -334,7 +334,7 @@
                 return factor.type === 'income';
             });
 
-            for (var i = 0; i < income_factors.length; i++) {
+            for (let i = 0; i < income_factors.length; i++) {
                 let income_factor = income_factors[i];
                 const name = income_factor.name;
                 const explanation_graphs = income_factor.explanation;
@@ -401,7 +401,7 @@
         'utility_costs',
     ];
 
-    for (var i = 0; i < number_field_ids.length; i++) {
+    for (let i = 0; i < number_field_ids.length; i++) {
         let field_id = number_field_ids[i];
         const number_elem = DOM_MANIPULATORS.getElem(field_id);
 
