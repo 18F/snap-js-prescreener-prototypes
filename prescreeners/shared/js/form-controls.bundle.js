@@ -88,12 +88,6 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 // This is the JS that powers the benefit calculator.
 // Its responsibilities includes:
 //     * Front-end validation for the calculator form
@@ -209,36 +203,27 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var elements = form.elements;
       var jsonData = {};
 
-      var _iterator = _createForOfIteratorHelper(elements),
-          _step;
+      for (var _i = 0; _i < elements.length; _i++) {
+        var elem = elements[_i];
 
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var elem = _step.value;
+        switch (elem.type) {
+          case 'select-one':
+            jsonData[elem.id] = elem.value;
+            break;
 
-          switch (elem.type) {
-            case 'select-one':
-              jsonData[elem.id] = elem.value;
+          case 'radio':
+            {
+              var checked = document.querySelector("input[name=\"".concat(elem.name, "\"]:checked"));
+              checked ? jsonData[elem.name] = checked.value : null;
               break;
+            }
 
-            case 'radio':
-              {
-                var checked = document.querySelector("input[name=\"".concat(elem.name, "\"]:checked"));
-                checked ? jsonData[elem.name] = checked.value : null;
-                break;
-              }
+          case 'text':
+            jsonData[elem.id] = elem.value;
+            break;
+        }
+      } // Send state_or_territory and emergency allotment config to API:
 
-            case 'text':
-              jsonData[elem.id] = elem.value;
-              break;
-          }
-        } // Send state_or_territory and emergency allotment config to API:
-
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
 
       var formSettings = document.getElementById('prescreener-form');
       jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
@@ -275,18 +260,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     'responseErrorsToHTML': function responseErrorsToHTML(errors) {
       var html = "<h1>Errors:</h1>";
 
-      var _iterator2 = _createForOfIteratorHelper(errors),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var error = _step2.value;
-          html += "<li>".concat(error, "</li>");
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
+      for (var _i2 = 0; _i2 < errors.length; _i2++) {
+        var error = errors[_i2];
+        html += "<li>".concat(error, "</li>");
       }
 
       return html;
@@ -294,18 +270,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     'optionsHTML': function optionsHTML(options_array, options_title) {
       var html = "<p>".concat(options_title, "\n                            <ul class=\"usa-link\">");
 
-      var _iterator3 = _createForOfIteratorHelper(options_array),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var option = _step3.value;
-          html += "<li>\n                        <a class=\"usa-link\" href=\"".concat(option.url, "\" rel=\"noopener noreferrer\">\n                            ").concat(option.description, "\n                        </a>\n                    </li>");
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
+      for (var _i3 = 0; _i3 < options_array.length; _i3++) {
+        var option = options_array[_i3];
+        html += "<li>\n                        <a class=\"usa-link\" href=\"".concat(option.url, "\" rel=\"noopener noreferrer\">\n                            ").concat(option.description, "\n                        </a>\n                    </li>");
       }
 
       html += "</ul></p>";
@@ -350,35 +317,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
       html += "<a class=\"usa-link explanation-link clicked\">\n                    Why did I get this result?\n                </a>\n                <h2>SNAP requirements</h2>\n                <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>";
 
-      var _iterator4 = _createForOfIteratorHelper(eligibility_tests),
-          _step4;
+      for (var i = 0; i < eligibility_tests.length; i++) {
+        var eligibility_test = eligibility_tests[i];
+        var name = eligibility_test.name;
+        var result_in_words = eligibility_test.result ? 'Pass' : 'Fail';
+        var result_span_class = eligibility_test.result ? 'pass-green' : 'fail-red';
+        html += "<h3>".concat(name, ": <span class=\"").concat(result_span_class, "\">").concat(result_in_words, "</span></h3>");
+        var explanation = eligibility_test.explanation;
 
-      try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var eligibility_test = _step4.value;
-          var name = eligibility_test.name;
-          var result_in_words = eligibility_test.result ? 'Pass' : 'Fail';
-          var result_span_class = eligibility_test.result ? 'pass-green' : 'fail-red';
-          html += "<h3>".concat(name, ": <span class=\"").concat(result_span_class, "\">").concat(result_in_words, "</span></h3>");
-
-          var _iterator6 = _createForOfIteratorHelper(eligibility_test.explanation),
-              _step6;
-
-          try {
-            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-              var explanation_graph = _step6.value;
-              html += "<p>".concat(explanation_graph, "</p>");
-            }
-          } catch (err) {
-            _iterator6.e(err);
-          } finally {
-            _iterator6.f();
-          }
+        for (var k = 0; k < explanation.length; k++) {
+          var explanation_graph = explanation[i];
+          html += "<p>".concat(explanation_graph, "</p>");
         }
-      } catch (err) {
-        _iterator4.e(err);
-      } finally {
-        _iterator4.f();
       }
 
       var eligibility_amount = eligibility_factors.filter(function (factor) {
@@ -386,18 +336,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       })[0];
       html += "<h2>".concat(eligibility_amount.name, "</h2>");
 
-      var _iterator5 = _createForOfIteratorHelper(eligibility_amount.explanation),
-          _step5;
-
-      try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var _explanation_graph = _step5.value;
-          html += "<p>".concat(_explanation_graph, "</p>");
-        }
-      } catch (err) {
-        _iterator5.e(err);
-      } finally {
-        _iterator5.f();
+      for (var i = 0; i < eligibility_amount.explanation.length; i++) {
+        var _explanation_graph = eligibility_amount.explanation[i];
+        html += "<p>".concat(_explanation_graph, "</p>");
       }
 
       return html;
@@ -411,34 +352,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return factor.type === 'income';
       });
 
-      var _iterator7 = _createForOfIteratorHelper(income_factors),
-          _step7;
+      for (var i = 0; i < income_factors.length; i++) {
+        var income_factor = income_factors[i];
+        var name = income_factor.name;
+        var explanation_graphs = income_factor.explanation;
+        html += "<h3>".concat(name, "</h3>");
 
-      try {
-        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-          var income_factor = _step7.value;
-          var name = income_factor.name;
-          var explanation_graphs = income_factor.explanation;
-          html += "<h3>".concat(name, "</h3>");
-
-          var _iterator8 = _createForOfIteratorHelper(explanation_graphs),
-              _step8;
-
-          try {
-            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-              var explanation_graph = _step8.value;
-              html += "<p>".concat(explanation_graph, "</p>");
-            }
-          } catch (err) {
-            _iterator8.e(err);
-          } finally {
-            _iterator8.f();
-          }
+        for (var k = 0; k < explanation_graphs.length; k++) {
+          var explanation_graph = explanation_graphs[i];
+          html += "<p>".concat(explanation_graph, "</p>");
         }
-      } catch (err) {
-        _iterator7.e(err);
-      } finally {
-        _iterator7.f();
       }
 
       return html;
@@ -478,7 +401,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   var number_field_ids = ['monthly_job_income', 'monthly_non_job_income', 'resources', 'dependent_care_costs', 'medical_expenses_for_elderly_or_disabled', 'court_ordered_child_support_payments', 'rent_or_mortgage', 'homeowners_insurance_and_taxes', 'utility_costs'];
 
   var _loop = function _loop() {
-    var field_id = _number_field_ids[_i];
+    var field_id = number_field_ids[i];
     var number_elem = DOM_MANIPULATORS.getElem(field_id);
 
     if (number_elem) {
@@ -488,7 +411,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   };
 
-  for (var _i = 0, _number_field_ids = number_field_ids; _i < _number_field_ids.length; _i++) {
+  for (var i = 0; i < number_field_ids.length; i++) {
     _loop();
   }
 })();
