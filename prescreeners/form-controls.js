@@ -305,7 +305,7 @@
                 let explanation = eligibility_test.explanation;
 
                 for (var k = 0; k < explanation.length; k++) {
-                    let explanation_graph = explanation[i];
+                    let explanation_graph = explanation[k];
                     html += `<p>${explanation_graph}</p>`;
                 }
             }
@@ -342,7 +342,7 @@
                 html += `<h3>${name}</h3>`;
 
                 for (var k = 0; k < explanation_graphs.length; k++) {
-                    let explanation_graph = explanation_graphs[i];
+                    let explanation_graph = explanation_graphs[k];
                     html += `<p>${explanation_graph}</p>`;
                 }
             }
