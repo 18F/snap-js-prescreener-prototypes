@@ -253,6 +253,7 @@
 
             errorsHeader.innerHTML = errorsHeaderHTML;
             errorsHeader.scrollIntoView();
+            DOM_MANIPULATORS.getElem('household_size').focus();
         },
         'sendData': (jsonData) => {
             // Send state_or_territory and emergency allotment config to API
