@@ -4,6 +4,7 @@
   "description": "Prototype SNAP eligibility pre-screeners",
   "private": "true",
   "dependencies": {
+    "eslint-plugin-compat": "^3.8.0",
     "puppeteer": "^4.0.0"
   },
   "devDependencies": {
@@ -27,6 +28,10 @@
     "test": "mocha ./test/ --timeout 8000",
     "lint": "npx eslint prescreeners/form-controls.js"
   },
+  "browserslist": [
+    "> 0.25%",
+    "ie 11"
+  ],
   "author": "Alex Soble for 18F",
   "license": "ISC"
 }

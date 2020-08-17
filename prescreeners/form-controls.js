@@ -154,7 +154,9 @@
             const elements = form.elements;
             const jsonData = {};
 
-            for (const elem of elements) {
+            for (let i = 0; i < elements.length; i++) {
+                let elem = elements[i];
+
                 switch(elem.type) {
                     case 'select-one':
                         jsonData[elem.id] = elem.value;
@@ -311,7 +313,9 @@
         'responseErrorsToHTML': (errors) => {
             let html = `<h1>Errors:</h1>`;
 
-            for (const error of errors) {
+            for (let i = 0; i < errors.length; i++) {
+                let error = errors[i];
+
                 html += (`<li>${error}</li>`);
             }
 
@@ -321,7 +325,9 @@
             let html = `<p>${options_title}
                             <ul class="usa-link">`;
 
-            for (const option of options_array) {
+            for (let i = 0; i < options_array.length; i++) {
+                let option = options_array[i];
+
                 html += (
                     `<li>
                         <a class="usa-link" href="${option.url}" rel="noopener noreferrer">
@@ -397,7 +403,9 @@
                 <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
             );
 
-            for (const eligibility_test of eligibility_tests) {
+            for (let i = 0; i < eligibility_tests.length; i++) {
+                let eligibility_test = eligibility_tests[i];
+
                 const name = eligibility_test.name;
                 const result_in_words = (eligibility_test.result)
                     ? 'Pass'
@@ -408,7 +416,10 @@
 
                 html += `<h3>${name}: <span class="${result_span_class}">${result_in_words}</span></h3>`;
 
-                for (const explanation_graph of eligibility_test.explanation) {
+                let explanation = eligibility_test.explanation;
+
+                for (var k = 0; k < explanation.length; k++) {
+                    let explanation_graph = explanation[k];
                     html += `<p>${explanation_graph}</p>`;
                 }
             }
@@ -419,7 +430,8 @@
 
             html += `<h2>${eligibility_amount.name}</h2>`;
 
-            for (const explanation_graph of eligibility_amount.explanation) {
+            for (let i = 0; i < eligibility_amount.explanation.length; i++) {
+                let explanation_graph = eligibility_amount.explanation[i];
                 html += `<p>${explanation_graph}</p>`;
             }
 
@@ -436,13 +448,15 @@
                 return factor.type === 'income';
             });
 
-            for (const income_factor of income_factors) {
+            for (let i = 0; i < income_factors.length; i++) {
+                let income_factor = income_factors[i];
                 const name = income_factor.name;
                 const explanation_graphs = income_factor.explanation;
 
                 html += `<h3>${name}</h3>`;
 
-                for (const explanation_graph of explanation_graphs) {
+                for (var k = 0; k < explanation_graphs.length; k++) {
+                    let explanation_graph = explanation_graphs[k];
                     html += `<p>${explanation_graph}</p>`;
                 }
             }
@@ -501,7 +515,8 @@
         'utility_costs',
     ];
 
-    for (const field_id of number_field_ids) {
+    for (let i = 0; i < number_field_ids.length; i++) {
+        let field_id = number_field_ids[i];
         const number_elem = DOM_MANIPULATORS.getElem(field_id);
 
         if (number_elem) {
