@@ -540,4 +540,23 @@ Select a household size`;
         const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
         assert.containIgnoreSpaces(formInnerText, 'Select a household size');
     });
+
+    it('shows error messages when some fields are submitted', async () => {
+        await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
+        await page.type('#monthly_non_job_income', '1000');
+        await page.type('#resources', '1000');
+        await page.click('#prescreener-form-submit');
+
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = ` 3 ERRORS
+Select a household size
+Enter monthly household pre-tax income from jobs or self-employment
+Select "yes" or "no" if everyone on the application is a U.S. citizen`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
+        assert.containIgnoreSpaces(formInnerText, 'Select a household size');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household pre-tax income from jobs or self-employment');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if everyone on the application is a U.S. citizen');
+    });
 });
