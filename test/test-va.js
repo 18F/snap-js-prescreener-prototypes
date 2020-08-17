@@ -480,4 +480,26 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
+
+    it('shows error messages when no data is submitted', async () => {
+        await page.click('#prescreener-form-submit');
+
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = `6 ERRORS
+Select a household size
+Enter monthly household pre-tax income from jobs or self-employment
+Enter monthly household income from other sources
+Enter total resources amount
+Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled
+Select "yes" or "no" if everyone on the application is a U.S. citizen`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
+        assert.containIgnoreSpaces(formInnerText, 'Select a household size');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if everyone on the application is a U.S. citizen');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household pre-tax income from jobs or self-employment');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household income from other sources');
+        assert.containIgnoreSpaces(formInnerText, 'Enter total resources amount');
+    });
 });
