@@ -524,6 +524,20 @@ Select "yes" or "no" if everyone on the application is a U.S. citizen`;
         assert.containIgnoreSpaces(formInnerText, 'Enter total resources amount');
     });
 
+    it('shows error messages when all fields but household size is submitted', async () => {
+        await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
+        await page.click('label[for="input__all_citizens_question_true"]');
+        await page.type('#monthly_job_income', '1000');
+        await page.type('#monthly_non_job_income', '1000');
+        await page.type('#resources', '1000');
+        await page.click('#prescreener-form-submit');
 
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = `1 ERRORS
+Select a household size`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
+        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
+        assert.containIgnoreSpaces(formInnerText, 'Select a household size');
+    });
 });
