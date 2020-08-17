@@ -37,14 +37,6 @@
         'getElem': (elemId) => {
             return document.getElementById(elemId);
         },
-        'toggleNumberFieldErrorHTML': (isValid) => {
-            if (isValid) return '';
-            return DOM_MANIPULATORS['fieldErrorHTML'](
-                'Please enter a number.',
-                'alert',
-                'assertive'
-            );
-        },
         fieldErrorHTML: (message, role, aria_live_level) => {
             return (
                 `<div class="usa-alert usa-alert--error usa-alert--slim">
@@ -54,18 +46,34 @@
                 </div>`
             );
         },
-        'validateNumberField': (errorElemId) => {
+        'validateNumberField': (elem_id) => {
             return (event) => {
-                const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
-                const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
-                errorElem.innerHTML = DOM_MANIPULATORS['toggleNumberFieldErrorHTML'](numberFieldValid);
+                const number_field_valid = FORM_CONTROLS['numberFieldValid'](event);
+                const input_elem = document.getElementById(elem_id);
+                const error_elem = document.getElementById(`${elem_id}_error_elem`);
+
+                if (number_field_valid) {
+                    error_elem.innerHTML = '';
+                    input_elem.setAttribute('aria-invalid', 'false');
+                } else {
+                    error_elem.innerHTML = DOM_MANIPULATORS['fieldErrorHTML'](
+                        'Please enter a number.',
+                        'alert',
+                        'assertive'
+                    );
+                    input_elem.setAttribute('aria-invalid', 'true');
+                }
             }
         },
         clearClientErrorOnSelect: (error_elem_id) => {
             const error_field_elem = DOM_MANIPULATORS.getElem(`${error_elem_id}_error_elem`);
-            error_field_elem.innerHTML = '';
+            if (error_field_elem) { error_field_elem.innerHTML = ''; }
+
+            // Note that radio button inputs have a different HTML syntax
+            // and will not have an error_input_elem; for more see:
+            // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
             const error_input_elem = DOM_MANIPULATORS.getElem(error_elem_id);
-            error_input_elem.setAttribute('aria-invalid', 'false');
+            if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'false'); }
         }
     };
 
@@ -221,19 +229,6 @@
         clearClientErrorMessages: () => {
             const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
             errorsHeader.innerHTML = '';
-
-            for (const error of errors) {
-                const error_name = error['name'];
-                const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
-                const error_input_elem = DOM_MANIPULATORS.getElem(error_name);
-
-                if (error_field_elem) { error_field_elem.innerHTML = ''; }
-
-                // Note that radio button inputs have a different HTML syntax
-                // and will not have an error_input_elem; for more see:
-                // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
-                if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'false'); }
-            }
         },
         showClientErrorMessages: (errors) => {
             const errors_header = DOM_MANIPULATORS.getElem('errors-header');
@@ -249,7 +244,6 @@
                 if (error_field_elem) {
                     const error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
                     error_field_elem.innerHTML = error_message_alert;
-                    error_input_elem.setAttribute('aria-invalid', 'true');
                 }
 
                 // Note that radio button inputs have a different HTML syntax
@@ -512,7 +506,7 @@
 
         if (number_elem) {
             number_elem.addEventListener('input', (event) => {
-                DOM_MANIPULATORS['validateNumberField'](`${field_id}_error_elem`)(event);
+                DOM_MANIPULATORS['validateNumberField'](field_id)(event);
             });
         }
     }
