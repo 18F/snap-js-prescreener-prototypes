@@ -62,8 +62,10 @@
             }
         },
         clearClientErrorOnSelect: (error_elem_id) => {
-            const error_elem = DOM_MANIPULATORS.getElem(`${error_elem_id}_error_elem`);
-            error_elem.innerHTML = '';
+            const error_field_elem = DOM_MANIPULATORS.getElem(`${error_elem_id}_error_elem`);
+            error_field_elem.innerHTML = '';
+            const error_input_elem = DOM_MANIPULATORS.getElem(error_elem_id);
+            error_input_elem.setAttribute('aria-invalid', 'false');
         }
     };
 
@@ -223,37 +225,52 @@
             for (const error of errors) {
                 const error_name = error['name'];
                 const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
+                const error_input_elem = DOM_MANIPULATORS.getElem(error_name);
 
                 if (error_field_elem) { error_field_elem.innerHTML = ''; }
+
+                // Note that radio button inputs have a different HTML syntax
+                // and will not have an error_input_elem; for more see:
+                // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
+                if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'false'); }
             }
         },
         showClientErrorMessages: (errors) => {
-            const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
-            let errorsHeaderHTML = '';
+            const errors_header = DOM_MANIPULATORS.getElem('errors-header');
+            let errors_header_html = '';
 
             // Set per-field client side errors first ...
             for (const error of errors) {
                 const error_name = error['name'];
                 const error_message = error['message'];
                 const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
+                const error_input_elem = DOM_MANIPULATORS.getElem(error_name);
 
                 if (error_field_elem) {
                     const error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
                     error_field_elem.innerHTML = error_message_alert;
+                    error_input_elem.setAttribute('aria-invalid', 'true');
                 }
+
+                // Note that radio button inputs have a different HTML syntax
+                // and will not have an error_input_elem; for more see:
+                // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
+                if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'true'); }
             }
             // ... and set overall error list afterwards, so that VoiceOver will
             // read it out immediately due to its role="alert" attribute.
-            errorsHeaderHTML += `<div class="error-total">${errors.length} errors</div>`;
-            errorsHeaderHTML += `<ul class="usa-list">`;
+            errors_header_html += `<div class="error-total">${errors.length} errors</div>`;
+            errors_header_html += `<ul class="usa-list">`;
             for (const error of errors) {
-                errorsHeaderHTML += (`<li>${error['message']}</li>`);
+                errors_header_html += (`<li>${error['message']}</li>`);
             }
-            errorsHeaderHTML += `</ul>`;
+            errors_header_html += `</ul>`;
 
-            errorsHeader.innerHTML = errorsHeaderHTML;
-            errorsHeader.scrollIntoView();
-            DOM_MANIPULATORS.getElem('household_size').focus();
+            errors_header.innerHTML = errors_header_html;
+            errors_header.scrollIntoView();
+
+            const first_error_elem = document.querySelector('[aria-invalid="true"]')[0];
+            if (first_error_elem) { first_error_elem.focus(); }
         },
         'sendData': (jsonData) => {
             // Send state_or_territory and emergency allotment config to API
