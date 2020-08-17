@@ -286,7 +286,7 @@
                 FORM_CONTROLS['hideResultExplanation']();
 
                 const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
-                DOM_MANIPULATORS.getElem('errors').innerHTML = errorsHTML;
+                DOM_MANIPULATORS.getElem('server-error-messages').innerHTML = errorsHTML;
 
                 FORM_CONTROLS['showServerErrorMessages']();
                 return;
