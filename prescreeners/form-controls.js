@@ -48,7 +48,7 @@
         },
         'validateNumberField': (elem_id) => {
             return (event) => {
-                const number_field_valid = FORM_CONTROLS['numberFieldValid'](event);
+                const number_field_valid = FORM_CONTROLS['numberFieldValid'](event.target.value);
                 const input_elem = document.getElementById(elem_id);
                 const error_elem = document.getElementById(`${elem_id}_error_elem`);
 
@@ -137,9 +137,7 @@
         'showServerErrorMessages': DOM_MANIPULATORS['showElem']('server-error-messages'),
         'hideResults': DOM_MANIPULATORS['hideElem']('results'),
         'showResults': DOM_MANIPULATORS['showElem']('results'),
-        'numberFieldValid': (event) => {
-            const value = event.target.value;
-
+        'numberFieldValid': (value) => {
             if (value === '') return true; // Fields can be blank
 
             return !isNaN(parseInt(value));
@@ -217,6 +215,33 @@
                     name: 'all_citizens_question',
                     message: 'Select "yes" or "no" if everyone on the application is a U.S. citizen',
                 });
+            }
+
+            // Validation for number fields:
+            const number_field_ids = [
+                'monthly_job_income',
+                'monthly_non_job_income',
+                'resources',
+                'dependent_care_costs',
+                'medical_expenses_for_elderly_or_disabled',
+                'court_ordered_child_support_payments',
+                'rent_or_mortgage',
+                'homeowners_insurance_and_taxes',
+                'utility_costs',
+            ];
+
+            for (let i = 0; i < number_field_ids.length; i++) {
+                let field_id = number_field_ids[i];
+                const number_elem = document.getElementById(field_id);
+
+                if (number_elem) {
+                    if (!FORM_CONTROLS['numberFieldValid'](number_elem.value)) {
+                        errors.push({
+                            name: field_id,
+                            message: `Please enter a number for ${field_id}`,
+                        });
+                    }
+                }
             }
 
             if (errors.length === 0) {
