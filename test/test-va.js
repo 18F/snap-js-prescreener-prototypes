@@ -533,7 +533,7 @@ Select "yes" or "no" if everyone on the application is a U.S. citizen`;
         await page.click('#prescreener-form-submit');
 
         const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
-        const expectedInnerText = `1 ERRORS
+        const expectedInnerText = `1 ERROR
 Select a household size`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 

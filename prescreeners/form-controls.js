@@ -253,7 +253,7 @@
             }
             // ... and set overall error list afterwards, so that VoiceOver will
             // read it out immediately due to its role="alert" attribute.
-            errors_header_html += `<div class="error-total">${errors.length} errors</div>`;
+            errors_header_html += `<div class="error-total">${errors.length} ${errors.length === 1 ? 'error' : 'errors'}</div>`;
             errors_header_html += `<ul class="usa-list">`;
             for (const error of errors) {
                 errors_header_html += (`<li>${error['message']}</li>`);
