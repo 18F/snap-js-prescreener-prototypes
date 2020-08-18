@@ -241,7 +241,11 @@
                 }
             }
 
-            FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+            // Only auto-update the error message state if the user
+            // has already attempted to submit and received error messages.
+            if (window.hasShownErrors) {
+                FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+            }
 
             return {
                 'errors': errors,
@@ -256,6 +260,11 @@
             if (errors.length === 0) {
                 // If valid, send data to API library:
                 FORM_SUBMIT_FUNCS['sendData'](jsonData);
+            } else {
+                window.hasShownErrors = true;
+                FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+                const errors_header = document.getElementById('errors-header');
+                errors_header.scrollIntoView();
             }
         },
         updateClientErrorMessages: (errors) => {
@@ -297,7 +306,6 @@
             errors_header_html += `</ul>`;
 
             errors_header.innerHTML = errors_header_html;
-            errors_header.scrollIntoView();
 
             const first_error_elem = document.querySelector('[aria-invalid="true"]')[0];
             if (first_error_elem) { first_error_elem.focus(); }
