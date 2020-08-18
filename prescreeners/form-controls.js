@@ -146,7 +146,7 @@
 
     // Handles form submission and rendering results.
     const FORM_SUBMIT_FUNCS = {
-        'onSubmit': () => {
+        'checkForm': () => {
             // Pull input data from the form:
             const form = DOM_MANIPULATORS.getElem('prescreener-form');
             const elements = form.elements;
@@ -244,22 +244,31 @@
                 }
             }
 
+            FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+
+            return {
+                'errors': errors,
+                'jsonData': jsonData,
+            }
+        },
+        'onSubmit': () => {
+            const checkFormResults = FORM_SUBMIT_FUNCS['checkForm']();
+            const errors = checkFormResults['errors'];
+            const jsonData = checkFormResults['jsonData'];
+
             if (errors.length === 0) {
                 // If valid, send data to API library:
                 FORM_SUBMIT_FUNCS['sendData'](jsonData);
-                FORM_SUBMIT_FUNCS['clearClientErrorMessages']();
-            } else {
-                // If invalid, display messages:
-                FORM_SUBMIT_FUNCS['showClientErrorMessages'](errors);
             }
         },
-        clearClientErrorMessages: () => {
-            const errorsHeader = DOM_MANIPULATORS.getElem('errors-header');
-            errorsHeader.innerHTML = '';
-        },
-        showClientErrorMessages: (errors) => {
-            const errors_header = DOM_MANIPULATORS.getElem('errors-header');
+        updateClientErrorMessages: (errors) => {
+            const errors_header = document.getElementById('errors-header');
             let errors_header_html = '';
+
+            if (errors.length === 0) {
+                errors_header.innerHTML = errors_header_html;
+                return;
+            }
 
             // Set per-field client side errors first ...
             for (let i = 0; i < errors.length; i++) {
@@ -550,6 +559,7 @@
         if (number_elem) {
             number_elem.addEventListener('input', (event) => {
                 DOM_MANIPULATORS['validateNumberField'](field_id)(event);
+                FORM_SUBMIT_FUNCS['checkForm']();
             });
         }
     }
@@ -560,6 +570,7 @@
     if (select_elem) {
         select_elem.addEventListener('change', () => {
             DOM_MANIPULATORS['clearClientErrorOnSelect'](select_field_id);
+            FORM_SUBMIT_FUNCS['checkForm']();
         });
     }
 
@@ -577,6 +588,7 @@
                 let radio_elem = radio_elems[k];
                 radio_elem.addEventListener('change', () => {
                     DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
+                    FORM_SUBMIT_FUNCS['checkForm']();
                 });
             }
         }
