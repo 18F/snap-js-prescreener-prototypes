@@ -559,7 +559,7 @@ Please enter a number for monthly_non_job_income`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
-    it('removes error messages when complete data is submitted', async () => {
+    it('removes error messages when complete data is entered', async () => {
         await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
         await page.click('label[for="input__all_citizens_question_true"]');
         await page.type('#monthly_job_income', '1000');
@@ -573,18 +573,9 @@ Select a household size`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
 
         await page.select('#household_size', '3');
-        await page.click('#prescreener-form-submit');
 
         innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
         expectedInnerText = '';
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
-
-        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
-        assert.notInclude(formInnerText, 'Select a household size');
-        assert.notInclude(formInnerText, 'Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled');
-        assert.notInclude(formInnerText, 'Select "yes" or "no" if everyone on the application is a U.S. citizen');
-        assert.notInclude(formInnerText, 'Enter monthly household pre-tax income from jobs or self-employment');
-        assert.notInclude(formInnerText, 'Enter monthly household income from other sources');
-        assert.notInclude(formInnerText, 'Enter total resources amount');
     });
 });
