@@ -262,14 +262,15 @@
             let errors_header_html = '';
 
             // Set per-field client side errors first ...
-            for (const error of errors) {
-                const error_name = error['name'];
-                const error_message = error['message'];
-                const error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
-                const error_input_elem = DOM_MANIPULATORS.getElem(error_name);
+            for (let i = 0; i < errors.length; i++) {
+                let error = errors[i];
+                let error_name = error['name'];
+                let error_message = error['message'];
+                let error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
+                let error_input_elem = DOM_MANIPULATORS.getElem(error_name);
 
                 if (error_field_elem) {
-                    const error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
+                    let error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
                     error_field_elem.innerHTML = error_message_alert;
                 }
 
@@ -278,11 +279,13 @@
                 // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
                 if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'true'); }
             }
+
             // ... and set overall error list afterwards, so that VoiceOver will
             // read it out immediately due to its role="alert" attribute.
             errors_header_html += `<div class="error-total">${errors.length} ${errors.length === 1 ? 'error' : 'errors'}</div>`;
             errors_header_html += `<ul class="usa-list">`;
-            for (const error of errors) {
+            for (let i = 0; i < errors.length; i++) {
+                let error = errors[i];
                 errors_header_html += (`<li>${error['message']}</li>`);
             }
             errors_header_html += `</ul>`;
@@ -565,11 +568,13 @@
         'all_citizens_question',
     ];
 
-    for (const radio_field_id of radio_field_ids) {
-        const radio_elems = document.getElementsByName(radio_field_id);
+    for (let i = 0; i < radio_field_ids.length; i++) {
+        let radio_field_id = radio_field_ids[i];
+        let radio_elems = document.getElementsByName(radio_field_id);
 
         if (radio_elems) {
-            for (const radio_elem of radio_elems) {
+            for (let k = 0; k < radio_elems.length; k++) {
+                let radio_elem = radio_elems[k];
                 radio_elem.addEventListener('change', () => {
                     DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
                 });
