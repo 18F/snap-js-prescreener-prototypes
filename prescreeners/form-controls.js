@@ -34,9 +34,6 @@
                 }
             }
         },
-        'getElem': (elemId) => {
-            return document.getElementById(elemId);
-        },
         fieldErrorHTML: (message, role, aria_live_level) => {
             return (
                 `<div class="usa-alert usa-alert--error usa-alert--slim">
@@ -66,13 +63,13 @@
             }
         },
         clearClientErrorOnSelect: (error_elem_id) => {
-            const error_field_elem = DOM_MANIPULATORS.getElem(`${error_elem_id}_error_elem`);
+            const error_field_elem = document.getElementById(`${error_elem_id}_error_elem`);
             if (error_field_elem) { error_field_elem.innerHTML = ''; }
 
             // Note that radio button inputs have a different HTML syntax
             // and will not have an error_input_elem; for more see:
             // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
-            const error_input_elem = DOM_MANIPULATORS.getElem(error_elem_id);
+            const error_input_elem = document.getElementById(error_elem_id);
             if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'false'); }
         }
     };
@@ -148,7 +145,7 @@
     const FORM_SUBMIT_FUNCS = {
         'checkForm': () => {
             // Pull input data from the form:
-            const form = DOM_MANIPULATORS.getElem('prescreener-form');
+            const form = document.getElementById('prescreener-form');
             const elements = form.elements;
             const jsonData = {};
 
@@ -275,8 +272,8 @@
                 let error = errors[i];
                 let error_name = error['name'];
                 let error_message = error['message'];
-                let error_field_elem = DOM_MANIPULATORS.getElem(`${error_name}_error_elem`);
-                let error_input_elem = DOM_MANIPULATORS.getElem(error_name);
+                let error_field_elem = document.getElementById(`${error_name}_error_elem`);
+                let error_input_elem = document.getElementById(error_name);
 
                 if (error_field_elem) {
                     let error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
@@ -308,7 +305,7 @@
         'sendData': (jsonData) => {
             // Send state_or_territory and emergency allotment config to API
             // in addition to user input data:
-            const form = DOM_MANIPULATORS.getElem('prescreener-form');
+            const form = document.getElementById('prescreener-form');
             jsonData['state_or_territory'] = form.dataset.stateOrTerritory;
             jsonData['use_emergency_allotment'] = form.dataset.useEmergencyAllotment;
 
@@ -323,7 +320,7 @@
                 FORM_CONTROLS['hideResultExplanation']();
 
                 const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
-                DOM_MANIPULATORS.getElem('server-error-messages').innerHTML = errorsHTML;
+                document.getElementById('server-error-messages').innerHTML = errorsHTML;
 
                 FORM_CONTROLS['showServerErrorMessages']();
                 return;
@@ -333,9 +330,9 @@
             const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
             const incomeExplanationHTML = FORM_SUBMIT_FUNCS['responseIncomeExplanationToHTML'](response.eligibility_factors);
 
-            DOM_MANIPULATORS.getElem('results').innerHTML = resultHTML;
-            DOM_MANIPULATORS.getElem('result-explanation').innerHTML = explanationHTML;
-            DOM_MANIPULATORS.getElem('income-explanation').innerHTML = incomeExplanationHTML;
+            document.getElementById('results').innerHTML = resultHTML;
+            document.getElementById('result-explanation').innerHTML = explanationHTML;
+            document.getElementById('income-explanation').innerHTML = incomeExplanationHTML;
 
             FORM_CONTROLS['showResults']();
             FORM_CONTROLS['hideServerErrorMessages']();
@@ -345,7 +342,7 @@
             FORM_CONTROLS['hideIncomeExplanation']();
 
             // Scroll to bring the results into view:
-            DOM_MANIPULATORS.getElem('results').scrollIntoView();
+            document.getElementById('results').scrollIntoView();
         },
         'responseErrorsToHTML': (errors) => {
             let html = `<h1>Errors:</h1>`;
@@ -503,38 +500,38 @@
     };
 
     // Set up form submit function.
-    DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', (event) => {
+    document.getElementById('prescreener-form').addEventListener('submit', (event) => {
         event.preventDefault();
         FORM_SUBMIT_FUNCS['onSubmit']();
     });
 
     // Set up toggle of citizenship infobox in response to citizenship question.
-    DOM_MANIPULATORS.getElem('input__all_citizens_question_true').addEventListener('change', () => {
+    document.getElementById('input__all_citizens_question_true').addEventListener('change', () => {
         FORM_CONTROLS['hideCitizenshipInfobox']();
     });
 
-    DOM_MANIPULATORS.getElem('input__all_citizens_question_false').addEventListener('change', () => {
+    document.getElementById('input__all_citizens_question_false').addEventListener('change', () => {
         FORM_CONTROLS['showCitizenshipInfobox']();
     });
 
     // Set up toggle of medical expenses question in response to elderly or disabled question result.
-    DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_true').addEventListener('change', () => {
+    document.getElementById('input__household_includes_elderly_or_disabled_true').addEventListener('change', () => {
         FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
     });
 
-    DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_false').addEventListener('change', () => {
+    document.getElementById('input__household_includes_elderly_or_disabled_false').addEventListener('change', () => {
         FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
     });
 
     // Set up show explanation button.
-    DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', () => {
+    document.getElementById('show-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showResultExplanation']();
         FORM_CONTROLS['hideExplanationButton']();
         FORM_CONTROLS['showIncomeExplanationButton']();
     });
 
     // Set up show income explanation button.
-    DOM_MANIPULATORS.getElem('show-income-explanation').addEventListener('click', () => {
+    document.getElementById('show-income-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showIncomeExplanation']();
         FORM_CONTROLS['hideIncomeExplanationButton']();
     });
@@ -554,7 +551,7 @@
 
     for (let i = 0; i < number_field_ids.length; i++) {
         let field_id = number_field_ids[i];
-        const number_elem = DOM_MANIPULATORS.getElem(field_id);
+        const number_elem = document.getElementById(field_id);
 
         if (number_elem) {
             number_elem.addEventListener('input', (event) => {
@@ -565,7 +562,7 @@
     }
 
     const select_field_id = 'household_size';
-    const select_elem = DOM_MANIPULATORS.getElem(select_field_id);
+    const select_elem = document.getElementById(select_field_id);
 
     if (select_elem) {
         select_elem.addEventListener('change', () => {
