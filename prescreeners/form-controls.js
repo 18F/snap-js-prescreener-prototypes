@@ -263,8 +263,12 @@
             } else {
                 window.hasShownErrors = true;
                 FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+
                 const errors_header = document.getElementById('errors-header');
                 errors_header.scrollIntoView();
+
+                const first_error_elem = document.querySelector('[aria-invalid="true"]');
+                if (first_error_elem) { first_error_elem.focus(); }
             }
         },
         updateClientErrorMessages: (errors) => {
@@ -306,9 +310,6 @@
             errors_header_html += `</ul>`;
 
             errors_header.innerHTML = errors_header_html;
-
-            const first_error_elem = document.querySelector('[aria-invalid="true"]')[0];
-            if (first_error_elem) { first_error_elem.focus(); }
         },
         'sendData': (jsonData) => {
             // Send state_or_territory and emergency allotment config to API
