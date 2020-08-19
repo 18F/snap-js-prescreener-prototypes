@@ -555,7 +555,7 @@ Select "yes" or "no" if everyone on the application is a U.S. citizen`;
 
         const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
         const expectedInnerText = `1 ERROR
-Please enter a number for monthly_non_job_income`;
+Please enter a number.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
 
