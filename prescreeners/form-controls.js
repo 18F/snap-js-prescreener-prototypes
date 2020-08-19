@@ -239,7 +239,7 @@
                     if (!FORM_CONTROLS['numberFieldValid'](number_elem.value)) {
                         errors.push({
                             name: field_id,
-                            message: `Please enter a number for ${field_id}`,
+                            message: `Please enter a number.`,
                         });
                     }
                 }
