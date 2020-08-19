@@ -66,11 +66,15 @@
             const error_field_elem = document.getElementById(`${error_elem_id}_error_elem`);
             if (error_field_elem) { error_field_elem.innerHTML = ''; }
 
-            // Note that radio button inputs have a different HTML syntax
-            // and will not have an error_input_elem; for more see:
-            // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
-            const error_input_elem = document.getElementById(error_elem_id);
-            if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'false'); }
+            let error_input_elem_by_id = document.getElementById(error_elem_id); // Non-radio buttons
+            let error_input_elem_by_name = document.getElementsByName(error_elem_id)[0]; // Radio buttons
+
+            if (error_input_elem_by_id) {
+                error_input_elem_by_id.setAttribute('aria-invalid', 'false');
+            }
+            if (error_input_elem_by_name) {
+                error_input_elem_by_name.setAttribute('aria-invalid', 'false');
+            }
         }
     };
 
@@ -286,17 +290,20 @@
                 let error_name = error['name'];
                 let error_message = error['message'];
                 let error_field_elem = document.getElementById(`${error_name}_error_elem`);
-                let error_input_elem = document.getElementById(error_name);
+                let error_input_elem_by_id = document.getElementById(error_name); // Non-radio buttons
+                let error_input_elem_by_name = document.getElementsByName(error_name)[0]; // Radio buttons
 
                 if (error_field_elem) {
                     let error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
                     error_field_elem.innerHTML = error_message_alert;
                 }
 
-                // Note that radio button inputs have a different HTML syntax
-                // and will not have an error_input_elem; for more see:
-                // https://blog.tenon.io/accessible-validation-of-checkbox-and-radiobutton-groups
-                if (error_input_elem) { error_input_elem.setAttribute('aria-invalid', 'true'); }
+                if (error_input_elem_by_id) {
+                    error_input_elem_by_id.setAttribute('aria-invalid', 'true');
+                }
+                if (error_input_elem_by_name) {
+                    error_input_elem_by_name.setAttribute('aria-invalid', 'true');
+                }
             }
 
             // ... and set overall error list afterwards, so that VoiceOver will
