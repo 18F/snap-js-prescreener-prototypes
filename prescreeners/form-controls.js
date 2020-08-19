@@ -34,27 +34,46 @@
                 }
             }
         },
-        'getElem': (elemId) => {
-            return document.getElementById(elemId);
-        },
-        'toggleErrorStateHTML': (isValid) => {
-            if (isValid) return '';
-
+        fieldErrorHTML: (message, role, aria_live_level) => {
             return (
                 `<div class="usa-alert usa-alert--error usa-alert--slim">
-                    <div class="usa-alert__body" role="alert" aria-live="assertive">
-                        <em class="usa-alert__text">
-                            Please enter a number.
-                        </em>
+                    <div class="usa-alert__body" role="${role}" aria-live="${aria_live_level}">
+                        <em class="usa-alert__text">${message}</em>
                     </div>
                 </div>`
             );
         },
-        'validateNumberField': (errorElemId) => {
+        'validateNumberField': (elem_id) => {
             return (event) => {
-                const numberFieldValid = FORM_CONTROLS['numberFieldValid'](event);
-                const errorElem = DOM_MANIPULATORS.getElem(errorElemId);
-                errorElem.innerHTML = DOM_MANIPULATORS['toggleErrorStateHTML'](numberFieldValid);
+                const number_field_valid = FORM_CONTROLS['numberFieldValid'](event.target.value);
+                const input_elem = document.getElementById(elem_id);
+                const error_elem = document.getElementById(`${elem_id}_error_elem`);
+
+                if (number_field_valid) {
+                    error_elem.innerHTML = '';
+                    input_elem.setAttribute('aria-invalid', 'false');
+                } else {
+                    error_elem.innerHTML = DOM_MANIPULATORS['fieldErrorHTML'](
+                        'Please enter a number.',
+                        'alert',
+                        'assertive'
+                    );
+                    input_elem.setAttribute('aria-invalid', 'true');
+                }
+            }
+        },
+        clearClientErrorOnSelect: (error_elem_id) => {
+            const error_field_elem = document.getElementById(`${error_elem_id}_error_elem`);
+            if (error_field_elem) { error_field_elem.innerHTML = ''; }
+
+            let error_input_elem_by_id = document.getElementById(error_elem_id); // Non-radio buttons
+            let error_input_elem_by_name = document.getElementsByName(error_elem_id)[0]; // Radio buttons
+
+            if (error_input_elem_by_id) {
+                error_input_elem_by_id.setAttribute('aria-invalid', 'false');
+            }
+            if (error_input_elem_by_name) {
+                error_input_elem_by_name.setAttribute('aria-invalid', 'false');
             }
         }
     };
@@ -115,13 +134,11 @@
         'hideIncomeExplanationButton': DOM_MANIPULATORS['hideElem']('show-income-explanation'),
         'showIncomeExplanation': DOM_MANIPULATORS['showElem']('income-explanation'),
         'hideIncomeExplanation': DOM_MANIPULATORS['hideElem']('income-explanation'),
-        'hideErrors': DOM_MANIPULATORS['hideElem']('errors'),
-        'showErrors': DOM_MANIPULATORS['showElem']('errors'),
+        'hideServerErrorMessages': DOM_MANIPULATORS['hideElem']('server-error-messages'),
+        'showServerErrorMessages': DOM_MANIPULATORS['showElem']('server-error-messages'),
         'hideResults': DOM_MANIPULATORS['hideElem']('results'),
         'showResults': DOM_MANIPULATORS['showElem']('results'),
-        'numberFieldValid': (event) => {
-            const value = event.target.value;
-
+        'numberFieldValid': (value) => {
             if (value === '') return true; // Fields can be blank
 
             return !isNaN(parseInt(value));
@@ -130,9 +147,9 @@
 
     // Handles form submission and rendering results.
     const FORM_SUBMIT_FUNCS = {
-        'sendData': () => {
-            // Form fields that are present for all states:
-            const form = DOM_MANIPULATORS.getElem('prescreener-form');
+        'checkForm': () => {
+            // Pull input data from the form:
+            const form = document.getElementById('prescreener-form');
             const elements = form.elements;
             const jsonData = {};
 
@@ -147,7 +164,7 @@
                         let checked = document.querySelector(`input[name="${elem.name}"]:checked`);
                         (checked)
                             ? jsonData[elem.name] = checked.value
-                            : null;
+                            : jsonData[elem.name] = undefined;
                         break;
                     }
                     case 'text':
@@ -156,10 +173,157 @@
                 }
             }
 
-            // Send state_or_territory and emergency allotment config to API:
-            const formSettings = document.getElementById('prescreener-form');
-            jsonData['state_or_territory'] = formSettings.dataset.stateOrTerritory;
-            jsonData['use_emergency_allotment'] = formSettings.dataset.useEmergencyAllotment;
+            // Validate:
+            const errors = [];
+
+            if (jsonData['household_size'] === '') {
+                errors.push({
+                    name: 'household_size',
+                    message: 'Select a household size',
+                });
+            }
+
+            if (jsonData['monthly_job_income'] === '') {
+                errors.push({
+                    name: 'monthly_job_income',
+                    message: 'Enter monthly household pre-tax income from jobs or self-employment',
+                });
+            }
+
+            if (jsonData['monthly_non_job_income'] === '') {
+                errors.push({
+                    name: 'monthly_non_job_income',
+                    message: 'Enter monthly household income from other sources',
+                });
+            }
+
+            if (jsonData['resources'] === '') {
+                errors.push({
+                    name: 'resources',
+                    message: 'Enter total resources amount',
+                });
+            }
+
+            if (jsonData['household_includes_elderly_or_disabled'] === undefined) {
+                errors.push({
+                    name: 'household_includes_elderly_or_disabled',
+                    message: 'Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled',
+                });
+            }
+
+            if (jsonData['all_citizens_question'] === undefined) {
+                errors.push({
+                    name: 'all_citizens_question',
+                    message: 'Select "yes" or "no" if everyone on the application is a U.S. citizen',
+                });
+            }
+
+            // Validation for number fields:
+            const number_field_ids = [
+                'monthly_job_income',
+                'monthly_non_job_income',
+                'resources',
+                'dependent_care_costs',
+                'medical_expenses_for_elderly_or_disabled',
+                'court_ordered_child_support_payments',
+                'rent_or_mortgage',
+                'homeowners_insurance_and_taxes',
+                'utility_costs',
+            ];
+
+            for (let i = 0; i < number_field_ids.length; i++) {
+                let field_id = number_field_ids[i];
+                const number_elem = document.getElementById(field_id);
+
+                if (number_elem) {
+                    if (!FORM_CONTROLS['numberFieldValid'](number_elem.value)) {
+                        errors.push({
+                            name: field_id,
+                            message: `Please enter a number.`,
+                        });
+                    }
+                }
+            }
+
+            // Only auto-update the error message state if the user
+            // has already attempted to submit and received error messages.
+            if (window.hasShownErrors) {
+                FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+            }
+
+            return {
+                'errors': errors,
+                'jsonData': jsonData,
+            }
+        },
+        'onSubmit': () => {
+            const checkFormResults = FORM_SUBMIT_FUNCS['checkForm']();
+            const errors = checkFormResults['errors'];
+            const jsonData = checkFormResults['jsonData'];
+
+            if (errors.length === 0) {
+                // If valid, send data to API library:
+                FORM_SUBMIT_FUNCS['sendData'](jsonData);
+            } else {
+                window.hasShownErrors = true;
+                FORM_SUBMIT_FUNCS['updateClientErrorMessages'](errors);
+
+                const errors_header = document.getElementById('errors-header');
+                errors_header.scrollIntoView();
+
+                const first_error_elem = document.querySelector('[aria-invalid="true"]');
+                if (first_error_elem) { first_error_elem.focus(); }
+            }
+        },
+        updateClientErrorMessages: (errors) => {
+            const errors_header = document.getElementById('errors-header');
+            let errors_header_html = '';
+
+            if (errors.length === 0) {
+                errors_header.innerHTML = errors_header_html;
+                return;
+            }
+
+            // Set per-field client side errors first ...
+            for (let i = 0; i < errors.length; i++) {
+                let error = errors[i];
+                let error_name = error['name'];
+                let error_message = error['message'];
+                let error_field_elem = document.getElementById(`${error_name}_error_elem`);
+                let error_input_elem_by_id = document.getElementById(error_name); // Non-radio buttons
+                let error_input_elem_by_name = document.getElementsByName(error_name)[0]; // Radio buttons
+
+                if (error_field_elem) {
+                    let error_message_alert = DOM_MANIPULATORS['fieldErrorHTML'](error_message, '', 'off');
+                    error_field_elem.innerHTML = error_message_alert;
+                }
+
+                if (error_input_elem_by_id) {
+                    error_input_elem_by_id.setAttribute('aria-invalid', 'true');
+                }
+                if (error_input_elem_by_name) {
+                    error_input_elem_by_name.setAttribute('aria-invalid', 'true');
+                }
+            }
+
+            // ... and set overall error list afterwards, so that VoiceOver will
+            // read it out immediately due to its role="alert" attribute.
+            errors_header_html += `<div class="error-total">${errors.length} ${errors.length === 1 ? 'error' : 'errors'}</div>`;
+            errors_header_html += `<ul class="usa-list">`;
+            for (let i = 0; i < errors.length; i++) {
+                let error = errors[i];
+                errors_header_html += (`<li>${error['message']}</li>`);
+            }
+            errors_header_html += `</ul>`;
+
+            errors_header.innerHTML = errors_header_html;
+        },
+        'sendData': (jsonData) => {
+            // Send state_or_territory and emergency allotment config to API
+            // in addition to user input data:
+            const form = document.getElementById('prescreener-form');
+            jsonData['state_or_territory'] = form.dataset.stateOrTerritory;
+            jsonData['use_emergency_allotment'] = form.dataset.useEmergencyAllotment;
 
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
 
@@ -172,9 +336,9 @@
                 FORM_CONTROLS['hideResultExplanation']();
 
                 const errorsHTML = FORM_SUBMIT_FUNCS['responseErrorsToHTML'](response.errors);
-                DOM_MANIPULATORS.getElem('errors').innerHTML = errorsHTML;
+                document.getElementById('server-error-messages').innerHTML = errorsHTML;
 
-                FORM_CONTROLS['showErrors']();
+                FORM_CONTROLS['showServerErrorMessages']();
                 return;
             }
 
@@ -182,19 +346,19 @@
             const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
             const incomeExplanationHTML = FORM_SUBMIT_FUNCS['responseIncomeExplanationToHTML'](response.eligibility_factors);
 
-            DOM_MANIPULATORS.getElem('results').innerHTML = resultHTML;
-            DOM_MANIPULATORS.getElem('result-explanation').innerHTML = explanationHTML;
-            DOM_MANIPULATORS.getElem('income-explanation').innerHTML = incomeExplanationHTML;
+            document.getElementById('results').innerHTML = resultHTML;
+            document.getElementById('result-explanation').innerHTML = explanationHTML;
+            document.getElementById('income-explanation').innerHTML = incomeExplanationHTML;
 
             FORM_CONTROLS['showResults']();
-            FORM_CONTROLS['hideErrors']();
+            FORM_CONTROLS['hideServerErrorMessages']();
             FORM_CONTROLS['showExplanationButton']();
             FORM_CONTROLS['hideResultExplanation']();
             FORM_CONTROLS['hideIncomeExplanationButton']();
             FORM_CONTROLS['hideIncomeExplanation']();
 
             // Scroll to bring the results into view:
-            DOM_MANIPULATORS.getElem('results').scrollIntoView();
+            document.getElementById('results').scrollIntoView();
         },
         'responseErrorsToHTML': (errors) => {
             let html = `<h1>Errors:</h1>`;
@@ -352,38 +516,38 @@
     };
 
     // Set up form submit function.
-    DOM_MANIPULATORS.getElem('prescreener-form').addEventListener('submit', (event) => {
+    document.getElementById('prescreener-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        FORM_SUBMIT_FUNCS['sendData']();
+        FORM_SUBMIT_FUNCS['onSubmit']();
     });
 
     // Set up toggle of citizenship infobox in response to citizenship question.
-    DOM_MANIPULATORS.getElem('input__all_citizens_question_true').addEventListener('change', () => {
+    document.getElementById('input__all_citizens_question_true').addEventListener('change', () => {
         FORM_CONTROLS['hideCitizenshipInfobox']();
     });
 
-    DOM_MANIPULATORS.getElem('input__all_citizens_question_false').addEventListener('change', () => {
+    document.getElementById('input__all_citizens_question_false').addEventListener('change', () => {
         FORM_CONTROLS['showCitizenshipInfobox']();
     });
 
     // Set up toggle of medical expenses question in response to elderly or disabled question result.
-    DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_true').addEventListener('change', () => {
+    document.getElementById('input__household_includes_elderly_or_disabled_true').addEventListener('change', () => {
         FORM_CONTROLS['showMedicalExpensesForElderlyOrDisabled']();
     });
 
-    DOM_MANIPULATORS.getElem('input__household_includes_elderly_or_disabled_false').addEventListener('change', () => {
+    document.getElementById('input__household_includes_elderly_or_disabled_false').addEventListener('change', () => {
         FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
     });
 
     // Set up show explanation button.
-    DOM_MANIPULATORS.getElem('show-explanation').addEventListener('click', () => {
+    document.getElementById('show-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showResultExplanation']();
         FORM_CONTROLS['hideExplanationButton']();
         FORM_CONTROLS['showIncomeExplanationButton']();
     });
 
     // Set up show income explanation button.
-    DOM_MANIPULATORS.getElem('show-income-explanation').addEventListener('click', () => {
+    document.getElementById('show-income-explanation').addEventListener('click', () => {
         FORM_CONTROLS['showIncomeExplanation']();
         FORM_CONTROLS['hideIncomeExplanationButton']();
     });
@@ -403,12 +567,43 @@
 
     for (let i = 0; i < number_field_ids.length; i++) {
         let field_id = number_field_ids[i];
-        const number_elem = DOM_MANIPULATORS.getElem(field_id);
+        const number_elem = document.getElementById(field_id);
 
         if (number_elem) {
             number_elem.addEventListener('input', (event) => {
-                DOM_MANIPULATORS['validateNumberField'](`${field_id}_error_elem`)(event);
+                DOM_MANIPULATORS['validateNumberField'](field_id)(event);
+                FORM_SUBMIT_FUNCS['checkForm']();
             });
+        }
+    }
+
+    const select_field_id = 'household_size';
+    const select_elem = document.getElementById(select_field_id);
+
+    if (select_elem) {
+        select_elem.addEventListener('change', () => {
+            DOM_MANIPULATORS['clearClientErrorOnSelect'](select_field_id);
+            FORM_SUBMIT_FUNCS['checkForm']();
+        });
+    }
+
+    const radio_field_ids = [
+        'household_includes_elderly_or_disabled',
+        'all_citizens_question',
+    ];
+
+    for (let i = 0; i < radio_field_ids.length; i++) {
+        let radio_field_id = radio_field_ids[i];
+        let radio_elems = document.getElementsByName(radio_field_id);
+
+        if (radio_elems) {
+            for (let k = 0; k < radio_elems.length; k++) {
+                let radio_elem = radio_elems[k];
+                radio_elem.addEventListener('change', () => {
+                    DOM_MANIPULATORS['clearClientErrorOnSelect'](radio_field_id);
+                    FORM_SUBMIT_FUNCS['checkForm']();
+                });
+            }
         }
     }
 })()

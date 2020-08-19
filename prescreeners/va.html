@@ -20,6 +20,8 @@
       <div class="grid-row" >
         <div class="tablet:grid-col"></div>
         <div class="tablet:grid-col calculator">
+          <div id="errors-header" class="usa-prose" aria-live="assertive" role="alert">
+          </div>
           <form id="prescreener-form"
                 class="usa-form"
                 data-state-or-territory="VA"
@@ -29,11 +31,13 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="household_size_error_elem"></div>
             </label>
             <div class="label-sub-text">
               Your household is the people you live with and buy food with. Include children 21 or younger, parents, and spouses if they live with you.
             </div>
-            <select required class="usa-select" id="household_size" name="household_size">
+
+            <select class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
               <option value="1">Just me</option>
               <option value="2">2 people</option>
@@ -58,14 +62,15 @@
                 <span class="field-required">
                   *required
                 </span>
+                <div id="household_includes_elderly_or_disabled_error_elem"></div>
               </legend>
+
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__household_includes_elderly_or_disabled_true"
                        type="radio"
                        name="household_includes_elderly_or_disabled"
-                       value="true"
-                       required>
+                       value="true">
                 <label id="label__household_includes_elderly_or_disabled_true"
                        class="usa-radio__label"
                        for="input__household_includes_elderly_or_disabled_true">
@@ -77,8 +82,7 @@
                        id="input__household_includes_elderly_or_disabled_false"
                        type="radio"
                        name="household_includes_elderly_or_disabled"
-                       value="false"
-                       required>
+                       value="false">
                 <label id="label__household_includes_elderly_or_disabled_false"
                        class="usa-radio__label"
                        for="input__household_includes_elderly_or_disabled_false">
@@ -93,6 +97,7 @@
                 <span class="field-required">
                   *required
                 </span>
+                <div id="all_citizens_question_error_elem"></div>
               </legend>
 
               <div class="label-sub-text">
@@ -104,8 +109,7 @@
                        id="input__all_citizens_question_true"
                        type="radio"
                        name="all_citizens_question"
-                       value="true"
-                       required>
+                       value="true">
                 <label id="label__all_citizens_question_true"
                        class="usa-radio__label"
                        for="input__all_citizens_question_true">
@@ -117,8 +121,7 @@
                        id="input__all_citizens_question_false"
                        type="radio"
                        name="all_citizens_question"
-                       value="false"
-                       required>
+                       value="false">
                 <label id="label__all_citizens_question_false"
                        class="usa-radio__label"
                        for="input__all_citizens_question_false">
@@ -141,15 +144,14 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="monthly_job_income_error_elem"></div>
             </label>
 
-            <div id="monthly_job_income_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="monthly_job_income"
                      name="monthly_job_income"
-                     class="usa-input"
-                     required />
+                     class="usa-input" />
             </div>
 
             <label class="usa-label" for="monthly_non_job_income">
@@ -157,18 +159,17 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="monthly_non_job_income_error_elem"></div>
             </label>
             <div class="label-sub-text">
               This includes Social Security, disability, Child Support, Worker's Comp, Unemployment, Pension Income, or other sources of income.
             </div>
 
-            <div id="monthly_non_job_income_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="monthly_non_job_income"
                      name="monthly_non_job_income"
-                     class="usa-input"
-                     required />
+                     class="usa-input" />
             </div>
 
             <label class="usa-label" for="resources">
@@ -176,27 +177,26 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="resources_error_elem"></div>
             </label>
             <div class="label-sub-text">
               This means countable resources, like funds in bank accounts. A home is not counted as a resource.
             </div>
 
-            <div id="resources_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="resources"
                      name="resources"
-                     class="usa-input"
-                     required />
+                     class="usa-input" />
             </div>
 
             <label class="usa-label" for="dependent_care_costs">
               Dependent care costs
+              <div id="dependent_care_costs_error_elem"></div>
             </label>
             <div class="label-sub-text">
               This includes the costs of daycare, babysitters, or other child care; fees for before-school and after-school care; costs for special needs care.
             </div>
-            <div id="dependent_care_costs_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="dependent_care_costs"
@@ -207,9 +207,9 @@
             <div id="medical_expenses_for_elderly_or_disabled_question" class="hidden">
               <label class="usa-label" for="medical_expenses_for_elderly_or_disabled">
                 Monthly out of pocket medical expenses for household members who are age 60 or older or disabled
+                <div id="medical_expenses_for_elderly_or_disabled_error_elem"></div>
               </label>
 
-              <div id="medical_expenses_for_elderly_or_disabled_error_elem"></div>
               <div class="currency_field_wrapper">
                 <div class="dollar_sign">$</div>
                 <input id="medical_expenses_for_elderly_or_disabled"
@@ -220,9 +220,9 @@
 
             <label class="usa-label" for="court_ordered_child_support_payments">
               Monthly court-ordered child support payments
+              <div id="court_ordered_child_support_payments_error_elem"></div>
             </label>
 
-            <div id="court_ordered_child_support_payments_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="court_ordered_child_support_payments"
@@ -232,9 +232,9 @@
 
             <label class="usa-label" for="rent_or_mortgage">
               Monthly rent or mortgage amount
+              <div id="rent_or_mortgage_error_elem"></div>
             </label>
 
-            <div id="rent_or_mortgage_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="rent_or_mortgage"
@@ -244,9 +244,9 @@
 
             <label class="usa-label" for="homeowners_insurance_and_taxes">
               Monthly homeowners insurance and taxes
+              <div id="homeowners_insurance_and_taxes_error_elem"></div>
             </label>
 
-            <div id="homeowners_insurance_and_taxes_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="homeowners_insurance_and_taxes"
@@ -288,7 +288,7 @@
                    type="submit"
                    value="Submit">
           </form>
-          <section id="errors"></section>
+          <section id="server-error-messages"></section>
           <section id="results" class="usa-prose result-section" role="alert">
           </section>
           <a id="show-explanation" class="usa-link explanation-link hidden">

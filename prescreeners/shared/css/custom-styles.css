@@ -30,8 +30,17 @@
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
 }
 
-#errors {
-  color: red;
+#errors, #errors-header {
+  color: #D63E04;
+}
+
+#errors-header .error-total {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#errors-header li {
+  font-style: italic;
 }
 
 #household-size-label {

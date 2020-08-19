@@ -480,4 +480,102 @@ describe('VA SNAP prescreener', () => {
             Apply at a local Social Services office near you.`;
         assert.equalIgnoreSpaces(innerText, expectedInnerText);
     });
+
+    it('shows error messages when no data is submitted', async () => {
+        await page.click('#prescreener-form-submit');
+
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = `6 ERRORS
+Select a household size
+Enter monthly household pre-tax income from jobs or self-employment
+Enter monthly household income from other sources
+Enter total resources amount
+Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled
+Select "yes" or "no" if everyone on the application is a U.S. citizen`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
+        assert.containIgnoreSpaces(formInnerText, 'Select a household size');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if everyone on the application is a U.S. citizen');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household pre-tax income from jobs or self-employment');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household income from other sources');
+        assert.containIgnoreSpaces(formInnerText, 'Enter total resources amount');
+    });
+
+    it('shows error messages when some fields are submitted', async () => {
+        await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
+        await page.type('#monthly_non_job_income', '1000');
+        await page.type('#resources', '1000');
+        await page.click('#prescreener-form-submit');
+
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = ` 3 ERRORS
+Select a household size
+Enter monthly household pre-tax income from jobs or self-employment
+Select "yes" or "no" if everyone on the application is a U.S. citizen`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
+        assert.containIgnoreSpaces(formInnerText, 'Select a household size');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household pre-tax income from jobs or self-employment');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if everyone on the application is a U.S. citizen');
+    });
+
+    it('shows error messages when only household size is submitted', async () => {
+        await page.select('#household_size', '3');
+        await page.click('#prescreener-form-submit');
+
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = `5 ERRORS
+Enter monthly household pre-tax income from jobs or self-employment
+Enter monthly household income from other sources
+Enter total resources amount
+Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled
+Select "yes" or "no" if everyone on the application is a U.S. citizen`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        const formInnerText = await page.evaluate(() => document.querySelector('#prescreener-form').innerText);
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if your household includes someone who is 60 or older, or someone who is disabled');
+        assert.containIgnoreSpaces(formInnerText, 'Select "yes" or "no" if everyone on the application is a U.S. citizen');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household pre-tax income from jobs or self-employment');
+        assert.containIgnoreSpaces(formInnerText, 'Enter monthly household income from other sources');
+        assert.containIgnoreSpaces(formInnerText, 'Enter total resources amount');
+    });
+
+    it('shows error messages when a non-numerical value is submitted for a numerical field', async () => {
+        await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
+        await page.click('label[for="input__all_citizens_question_true"]');
+        await page.type('#monthly_job_income', '1000');
+        await page.type('#monthly_non_job_income', 'ONE THOUSAND');
+        await page.type('#resources', '1000');
+        await page.click('#prescreener-form-submit');
+        await page.select('#household_size', '3');
+        await page.click('#prescreener-form-submit');
+
+        const innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        const expectedInnerText = `1 ERROR
+Please enter a number.`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+    });
+
+    it('removes error messages when complete data is entered', async () => {
+        await page.click('label[for="input__household_includes_elderly_or_disabled_true"]');
+        await page.click('label[for="input__all_citizens_question_true"]');
+        await page.type('#monthly_job_income', '1000');
+        await page.type('#monthly_non_job_income', '1000');
+        await page.type('#resources', '1000');
+        await page.click('#prescreener-form-submit');
+
+        let innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        let expectedInnerText = `1 ERROR
+Select a household size`;
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+
+        await page.select('#household_size', '3');
+
+        innerText = await page.evaluate(() => document.querySelector('#errors-header').innerText);
+        expectedInnerText = '';
+        assert.equalIgnoreSpaces(innerText, expectedInnerText);
+    });
 });
