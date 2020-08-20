@@ -126,18 +126,10 @@
         'hideCitizenshipInfobox': DOM_MANIPULATORS['hideElem']('citizenship_info_box'),
         'showMedicalExpensesForElderlyOrDisabled': DOM_MANIPULATORS['showElem']('medical_expenses_for_elderly_or_disabled_question'),
         'hideMedicalExpensesForElderlyOrDisabled': DOM_MANIPULATORS['hideElem']('medical_expenses_for_elderly_or_disabled_question'),
-        'showExplanationButton': DOM_MANIPULATORS['showElem']('show-explanation'),
-        'hideExplanationButton': DOM_MANIPULATORS['hideElem']('show-explanation'),
-        'showResultExplanation': DOM_MANIPULATORS['showElem']('result-explanation'),
-        'hideResultExplanation': DOM_MANIPULATORS['hideElem']('result-explanation'),
-        'showIncomeExplanationButton': DOM_MANIPULATORS['showElem']('show-income-explanation'),
-        'hideIncomeExplanationButton': DOM_MANIPULATORS['hideElem']('show-income-explanation'),
-        'showIncomeExplanation': DOM_MANIPULATORS['showElem']('income-explanation'),
-        'hideIncomeExplanation': DOM_MANIPULATORS['hideElem']('income-explanation'),
         'hideServerErrorMessages': DOM_MANIPULATORS['hideElem']('server-error-messages'),
         'showServerErrorMessages': DOM_MANIPULATORS['showElem']('server-error-messages'),
-        'hideResults': DOM_MANIPULATORS['hideElem']('results'),
-        'showResults': DOM_MANIPULATORS['showElem']('results'),
+        'hideResults': DOM_MANIPULATORS['hideElem']('results-section'),
+        'showResults': DOM_MANIPULATORS['showElem']('results-section'),
         'numberFieldValid': (value) => {
             if (value === '') return true; // Fields can be blank
 
@@ -342,20 +334,17 @@
                 return;
             }
 
-            const resultHTML = FORM_SUBMIT_FUNCS['responseResultToHTML'](response);
-            const explanationHTML = FORM_SUBMIT_FUNCS['responseExplanationToHTML'](response.eligibility_factors);
-            const incomeExplanationHTML = FORM_SUBMIT_FUNCS['responseIncomeExplanationToHTML'](response.eligibility_factors);
-
+            const resultHTML = FORM_SUBMIT_FUNCS['resultToHTML'](response);
             document.getElementById('results').innerHTML = resultHTML;
-            document.getElementById('result-explanation').innerHTML = explanationHTML;
-            document.getElementById('income-explanation').innerHTML = incomeExplanationHTML;
+
+            const eligibilityExplanationHTML = FORM_SUBMIT_FUNCS['eligibilityExplanationToHTML'](response.eligibility_factors);
+            document.getElementById('why-did-i-get-this-result').innerHTML = eligibilityExplanationHTML;
+
+            const incomeExplanationHTML = FORM_SUBMIT_FUNCS['incomeExplanationToHTML'](response.eligibility_factors);
+            document.getElementById('how-are-gross-and-net-income-calculated').innerHTML = incomeExplanationHTML;
 
             FORM_CONTROLS['showResults']();
             FORM_CONTROLS['hideServerErrorMessages']();
-            FORM_CONTROLS['showExplanationButton']();
-            FORM_CONTROLS['hideResultExplanation']();
-            FORM_CONTROLS['hideIncomeExplanationButton']();
-            FORM_CONTROLS['hideIncomeExplanation']();
 
             // Scroll to bring the results into view:
             document.getElementById('results').scrollIntoView();
@@ -390,7 +379,7 @@
             html += `</ul></p>`;
             return html;
         },
-        'responseResultToHTML': (response) => {
+        'resultToHTML': (response) => {
             let html = '<h2 id="results-section-title">Results:</h2>';
 
             const is_eligible = response.estimated_eligibility;
@@ -431,10 +420,9 @@
             }
 
             html += FORM_SUBMIT_FUNCS['optionsHTML'](nextStepOptions['apply'], 'Ways to apply:');
-
             return html;
         },
-        'responseExplanationToHTML': (eligibility_factors) => {
+        'eligibilityExplanationToHTML': (eligibility_factors) => {
             let html = '';
 
             eligibility_factors.sort((a, b) => {
@@ -444,14 +432,6 @@
             const eligibility_tests = eligibility_factors.filter((factor) => {
                 return factor.type === 'test';
             });
-
-            html += (
-                `<a class="usa-link explanation-link clicked">
-                    Why did I get this result?
-                </a>
-                <h2>SNAP requirements</h2>
-                <p>To be eligible for SNAP benefits, a household needs to meet three requirements:</p>`
-            );
 
             for (let i = 0; i < eligibility_tests.length; i++) {
                 let eligibility_test = eligibility_tests[i];
@@ -487,8 +467,8 @@
 
             return html;
         },
-        'responseIncomeExplanationToHTML': (eligibility_factors) => {
-            let html = `<a class="usa-link explanation-link clicked">How are gross and net income calculated?</a>`;
+        'incomeExplanationToHTML': (eligibility_factors) => {
+            let html = '';
 
             eligibility_factors.sort((a, b) => {
                 return a.sort_order - b.sort_order;
@@ -537,19 +517,6 @@
 
     document.getElementById('input__household_includes_elderly_or_disabled_false').addEventListener('change', () => {
         FORM_CONTROLS['hideMedicalExpensesForElderlyOrDisabled']();
-    });
-
-    // Set up show explanation button.
-    document.getElementById('show-explanation').addEventListener('click', () => {
-        FORM_CONTROLS['showResultExplanation']();
-        FORM_CONTROLS['hideExplanationButton']();
-        FORM_CONTROLS['showIncomeExplanationButton']();
-    });
-
-    // Set up show income explanation button.
-    document.getElementById('show-income-explanation').addEventListener('click', () => {
-        FORM_CONTROLS['showIncomeExplanation']();
-        FORM_CONTROLS['hideIncomeExplanationButton']();
     });
 
     // Set up validation for number fields.
