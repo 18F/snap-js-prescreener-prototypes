@@ -15,11 +15,12 @@
       <div>This site does not store any personal information.</div>
     </div>
     <div id="main" class="grid-container">
-      <h1 class="title">Virginians, could you be eligible for help with your food budget?</h1>
-      <p class="subtitle">Find out if you may be eligible for SNAP and an estimated amount of benefits you could receive.</p>
-      <div class="grid-row" >
-        <div class="tablet:grid-col"></div>
-        <div class="tablet:grid-col calculator">
+      <div class="grid-row">
+        <div class="desktop:grid-col-8 desktop:grid-offset-2">
+          <h1 class="title">Virginians, could you be eligible for help with your food budget?</h1>
+          <p class="subtitle">Find out if you may be eligible for SNAP and an estimated amount of benefits you could receive.</p>
+        </div>
+        <div class="desktop:grid-col-6 desktop:grid-offset-3 calculator">
           <div id="errors-header" class="usa-prose" aria-live="assertive" role="alert">
           </div>
           <form id="prescreener-form"
@@ -130,9 +131,8 @@
               </div>
             </fieldset>
 
-            <div id="citizenship_info_box" class="usa-alert usa-alert--info hidden">
+            <div id="citizenship_info_box" class="usa-alert usa-alert--info usa-alert--slim hidden">
               <div class="usa-alert__body">
-                <h3 class="usa-alert__heading">Information for immigrant households</h3>
                 <p class="usa-alert__text">
                   Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.
                   Call for more info: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.</p><!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
@@ -317,7 +317,6 @@
             </div>
           </section>
         </div>
-        <div class="tablet:grid-col"></div>
       </div>
     </div>
     <footer id="snap-calculator-footer">
