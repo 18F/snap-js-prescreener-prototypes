@@ -47,6 +47,16 @@
   margin-top: 8px;
 }
 
+/* Larger than default form */
+#prescreener-form.usa-form {
+  max-width: none;
+}
+
+/* Keep input fields the same max width */
+#prescreener-form.usa-form .usa-input, #prescreener-form.usa-form .usa-select {
+  max-width: 20rem;
+}
+
 fieldset.usa-fieldset:not(:first-child) {
   margin-top: 1.5rem;
 }

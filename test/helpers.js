@@ -74,21 +74,11 @@ const fillOutForm = async (steps) => {
 }
 
 const clickForExplanation = async () => {
-    await page.click('#show-explanation');
-
-    await page.waitForSelector('#result-explanation', {
-        'visible': true,
-        'timeout': 4000
-    });
+    await page.click('#why-did-i-get-this-result-button');
 }
 
 const clickForIncomeExplanation = async () => {
-    await page.click('#show-income-explanation');
-
-    await page.waitForSelector('#income-explanation', {
-        'visible': true,
-        'timeout': 4000
-    });
+    await page.click('#how-are-gross-and-net-income-calculated-button');
 }
 
 exports.clickForIncomeExplanation = clickForIncomeExplanation;

@@ -15,11 +15,12 @@
       <div>This site does not store any personal information.</div>
     </div>
     <div id="main" class="grid-container">
-      <h1 class="title">Virginians, could you be eligible for help with your food budget?</h1>
-      <p class="subtitle">Find out if you may be eligible for SNAP and an estimated amount of benefits you could receive.</p>
-      <div class="grid-row" >
-        <div class="tablet:grid-col"></div>
-        <div class="tablet:grid-col calculator">
+      <div class="grid-row">
+        <div class="desktop:grid-col-8 desktop:grid-offset-2">
+          <h1 class="title">Virginians, could you be eligible for help with your food budget?</h1>
+          <p class="subtitle">Find out if you may be eligible for SNAP and an estimated amount of benefits you could receive.</p>
+        </div>
+        <div class="desktop:grid-col-6 desktop:grid-offset-3 calculator">
           <div id="errors-header" class="usa-prose" aria-live="assertive" role="alert">
           </div>
           <form id="prescreener-form"
@@ -130,9 +131,8 @@
               </div>
             </fieldset>
 
-            <div id="citizenship_info_box" class="usa-alert usa-alert--info hidden">
+            <div id="citizenship_info_box" class="usa-alert usa-alert--info usa-alert--slim hidden">
               <div class="usa-alert__body">
-                <h3 class="usa-alert__heading">Information for immigrant households</h3>
                 <p class="usa-alert__text">
                   Your household may be eligible for SNAP, depending on your immigration status and the immigration status of your household members.
                   Call for more info: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.</p><!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
@@ -289,27 +289,41 @@
                    value="Submit">
           </form>
           <section id="server-error-messages"></section>
-          <section id="results" class="usa-prose result-section" role="alert">
-          </section>
-          <a id="show-explanation" class="usa-link explanation-link hidden">
-            Why did I get this result?
-          </a>
-          <section id="result-explanation" class="usa-prose result-section hidden">
-          </section>
-          <br/>
-          <a id="show-income-explanation" class="usa-link explanation-link hidden">
-            How are gross and net income calculated?
-          </a>
-          <section id="income-explanation" class="usa-prose result-section hidden">
+          <section id="results-section" class="usa-prose result-section hidden" role="alert">
+            <div id="results"></div>
+            <div class="usa-accordion">
+              <h2 class="usa-accordion__heading">
+                <button id="why-did-i-get-this-result-button"
+                  class="usa-accordion__button"
+                  aria-expanded="false"
+                  aria-controls="a1">
+                  Why did I get this result?
+                </button>
+              </h2>
+              <div id="a1" class="usa-accordion__content usa-prose">
+                <p id="why-did-i-get-this-result"></p>
+              </div>
+              <h2 class="usa-accordion__heading">
+                <button id="how-are-gross-and-net-income-calculated-button"
+                  class="usa-accordion__button"
+                  aria-expanded="false"
+                  aria-controls="a2">
+                  How are gross and net income calculated?
+                </button>
+              </h2>
+              <div id="a2" class="usa-accordion__content usa-prose">
+                <p id="how-are-gross-and-net-income-calculated"></p>
+              </div>
+            </div>
           </section>
         </div>
-        <div class="tablet:grid-col"></div>
       </div>
     </div>
     <footer id="snap-calculator-footer">
       Questions about your result? Confused about anything on this form? Reach out: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.<!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
     </footer>
   </body>
+  <script type="text/javascript" src="shared/css/uswds-2.4.0/js/uswds.min.js"></script>
   <script type="text/javascript" src="shared/js/api.js"></script>
   <script type="text/javascript" src="shared/js/form-controls.bundle.js"></script>
 </html>

@@ -31,12 +31,12 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="household_size_error_elem"></div>
             </label>
             <div class="label-sub-text">
               Your household is the people you live with and buy food with. Include children 21 or younger, parents, and spouses if they live with you.
             </div>
 
-            <div id="household_size_error_elem"></div>
             <select class="usa-select" id="household_size" name="household_size">
               <option value>- Select -</option>
               <option value="1">Just me</option>
@@ -62,9 +62,9 @@
                 <span class="field-required">
                   *required
                 </span>
+                <div id="household_includes_elderly_or_disabled_error_elem"></div>
               </legend>
 
-              <div id="household_includes_elderly_or_disabled_error_elem"></div>
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__household_includes_elderly_or_disabled_true"
@@ -97,13 +97,13 @@
                 <span class="field-required">
                   *required
                 </span>
+                <div id="all_citizens_question_error_elem"></div>
               </legend>
 
               <div class="label-sub-text">
                 Immigrants <strong>can</strong> be eligible for SNAP, depending on their immigration status.
               </div>
 
-              <div id="all_citizens_question_error_elem"></div>
               <div class="usa-radio">
                 <input class="usa-radio__input"
                        id="input__all_citizens_question_true"
@@ -144,9 +144,9 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="monthly_job_income_error_elem"></div>
             </label>
 
-            <div id="monthly_job_income_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="monthly_job_income"
@@ -159,12 +159,12 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="monthly_non_job_income_error_elem"></div>
             </label>
             <div class="label-sub-text">
               This includes Social Security, disability, Child Support, Worker's Comp, Unemployment, Pension Income, or other sources of income.
             </div>
 
-            <div id="monthly_non_job_income_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="monthly_non_job_income"
@@ -177,12 +177,12 @@
               <span class="field-required">
                 *required
               </span>
+              <div id="resources_error_elem"></div>
             </label>
             <div class="label-sub-text">
               This means countable resources, like funds in bank accounts. A home is not counted as a resource.
             </div>
 
-            <div id="resources_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="resources"
@@ -192,11 +192,11 @@
 
             <label class="usa-label" for="dependent_care_costs">
               Dependent care costs
+              <div id="dependent_care_costs_error_elem"></div>
             </label>
             <div class="label-sub-text">
               This includes the costs of daycare, babysitters, or other child care; fees for before-school and after-school care; costs for special needs care.
             </div>
-            <div id="dependent_care_costs_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="dependent_care_costs"
@@ -207,9 +207,9 @@
             <div id="medical_expenses_for_elderly_or_disabled_question" class="hidden">
               <label class="usa-label" for="medical_expenses_for_elderly_or_disabled">
                 Monthly out of pocket medical expenses for household members who are age 60 or older or disabled
+                <div id="medical_expenses_for_elderly_or_disabled_error_elem"></div>
               </label>
 
-              <div id="medical_expenses_for_elderly_or_disabled_error_elem"></div>
               <div class="currency_field_wrapper">
                 <div class="dollar_sign">$</div>
                 <input id="medical_expenses_for_elderly_or_disabled"
@@ -220,9 +220,9 @@
 
             <label class="usa-label" for="court_ordered_child_support_payments">
               Monthly court-ordered child support payments
+              <div id="court_ordered_child_support_payments_error_elem"></div>
             </label>
 
-            <div id="court_ordered_child_support_payments_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="court_ordered_child_support_payments"
@@ -232,9 +232,9 @@
 
             <label class="usa-label" for="rent_or_mortgage">
               Monthly rent or mortgage amount
+              <div id="rent_or_mortgage_error_elem"></div>
             </label>
 
-            <div id="rent_or_mortgage_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="rent_or_mortgage"
@@ -244,9 +244,9 @@
 
             <label class="usa-label" for="homeowners_insurance_and_taxes">
               Monthly homeowners insurance and taxes
+              <div id="homeowners_insurance_and_taxes_error_elem"></div>
             </label>
 
-            <div id="homeowners_insurance_and_taxes_error_elem"></div>
             <div class="currency_field_wrapper">
               <div class="dollar_sign">$</div>
               <input id="homeowners_insurance_and_taxes"
@@ -288,18 +288,32 @@
                    value="Submit">
           </form>
           <section id="server-error-messages"></section>
-          <section id="results" class="usa-prose result-section" role="alert">
-          </section>
-          <a id="show-explanation" class="usa-link explanation-link hidden">
-            Why did I get this result?
-          </a>
-          <section id="result-explanation" class="usa-prose result-section hidden">
-          </section>
-          <br/>
-          <a id="show-income-explanation" class="usa-link explanation-link hidden">
-            How are gross and net income calculated?
-          </a>
-          <section id="income-explanation" class="usa-prose result-section hidden">
+          <section id="results-section" class="usa-prose result-section hidden" role="alert">
+            <div id="results"></div>
+            <div class="usa-accordion">
+              <h2 class="usa-accordion__heading">
+                <button id="why-did-i-get-this-result-button"
+                  class="usa-accordion__button"
+                  aria-expanded="false"
+                  aria-controls="a1">
+                  Why did I get this result?
+                </button>
+              </h2>
+              <div id="a1" class="usa-accordion__content usa-prose">
+                <p id="why-did-i-get-this-result"></p>
+              </div>
+              <h2 class="usa-accordion__heading">
+                <button id="how-are-gross-and-net-income-calculated-button"
+                  class="usa-accordion__button"
+                  aria-expanded="false"
+                  aria-controls="a2">
+                  How are gross and net income calculated?
+                </button>
+              </h2>
+              <div id="a2" class="usa-accordion__content usa-prose">
+                <p id="how-are-gross-and-net-income-calculated"></p>
+              </div>
+            </div>
           </section>
         </div>
         <div class="tablet:grid-col"></div>
@@ -309,6 +323,7 @@
       Questions about your result? Confused about anything on this form? Reach out: <a href="tel:{{HOTLINE NUMBER}}">{{HOTLINE NUMBER}}</a>.<!-- FOR A PROD SITE: Replace {{HOTLINE NUMBER}} with a real SNAP assistance hotline number users can call. -->
     </footer>
   </body>
+  <script type="text/javascript" src="shared/css/uswds-2.4.0/js/uswds.min.js"></script>
   <script type="text/javascript" src="shared/js/api.js"></script>
   <script type="text/javascript" src="shared/js/form-controls.bundle.js"></script>
 </html>
