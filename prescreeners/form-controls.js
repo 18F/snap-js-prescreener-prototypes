@@ -316,6 +316,7 @@
             const form = document.getElementById('prescreener-form');
             jsonData['state_or_territory'] = form.dataset.stateOrTerritory;
             jsonData['use_emergency_allotment'] = form.dataset.useEmergencyAllotment;
+            jsonData['target_year'] = 2021;
 
             const response = new SnapAPI.SnapEstimateEntrypoint(jsonData).calculate();
 
