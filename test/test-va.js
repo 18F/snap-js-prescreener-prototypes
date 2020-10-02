@@ -133,7 +133,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $165 per month.
+            If you apply and are approved, your benefit may be $184 per month.
             Due to the current pandemic, you could receive an additional $190 per month. (This additional amount is temporary.)
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
@@ -167,7 +167,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $355 per month.
+            If you apply and are approved, your benefit may be $374 per month.
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
             Apply at a local Social Services office near you.`;
@@ -200,7 +200,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $280 per month.
+            If you apply and are approved, your benefit may be $299 per month.
             Due to the current pandemic, you could receive an additional $75 per month. (This additional amount is temporary.)
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
@@ -338,7 +338,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $58 per month.
+            If you apply and are approved, your benefit may be $68 per month.
             Due to the current pandemic, you could receive an additional $136 per month. (This additional amount is temporary.)
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
@@ -376,7 +376,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $355 per month.
+            If you apply and are approved, your benefit may be $374 per month.
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
             Apply at a local Social Services office near you. `;
@@ -413,7 +413,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $278 per month.
+            If you apply and are approved, your benefit may be $297 per month.
             Due to the current pandemic, you could receive an additional $77 per month. (This additional amount is temporary.)
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
@@ -438,7 +438,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $187 per month.
+            If you apply and are approved, your benefit may be $206 per month.
             Due to the current pandemic, you could receive an additional $168 per month. (This additional amount is temporary.)
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
@@ -462,7 +462,7 @@ describe('VA SNAP prescreener', () => {
         const innerText = await page.evaluate(() => document.querySelector('#results').innerText);
         const expectedInnerText = `Results:
             You may be eligible for SNAP benefits.
-            If you apply and are approved, your benefit may be $97 per month.
+            If you apply and are approved, your benefit may be $116 per month.
             Due to the current pandemic, you could receive an additional $258 per month. (This additional amount is temporary.)
             Ways to apply:
             Apply online using CommonHelp. (You may have to create an account to apply.)
